@@ -1,0 +1,128 @@
+
+\iffalse
+\section{Adversarial classification}
+
+
+Adversarial classification aims at enhancing classifiers to achieve robustness in presence of adversarial examples, as usually encountered in many security applications. The pioneering work of \cite{adversarialClassification2004} framed most later approaches to AC 
+within the standard game theoretic paradigm, in spite of the unrealistic common knowledge assumptions about shared beliefs and preferences required, actually even questioned by those authors. After reviewing them, and analysing  their assumptions, we have presented two formal probabilistic approaches for AC based on ARA that mitigate 
+such strong common knowledge assumptions.
+They are general in the sense that application-specific assumptions are kept to a minimum. 
+%
+We have presented the framework in two different forms: in Section \ref{sec:ac_acra}, learning about the adversary is performed in the
+operational phase, for generative classifiers. In Section \ref{sec:scalable}, adversarial aspects are incorporated in the training phase. Depending on the particular application, one of the frameworks could be preferred over the other. The first one allows us to make real time inference about the adversary, as it explicitly models his decision making process in operation time; its adaptability is better as it does not need to be retrained every time we need to modify the adversary model. However, this comes at a high computational cost, and the harsh restriction of being only applicable to generative models. In applications in which there is a computational bottleneck, the second approach may be preferable, with possible changes in the adversary's behaviour incorporated via retraining.
+This tension between the need to robustify algorithms against attacks (training phase, Section  \ref{sec:scalable}) and the fast adaptivity of attackers against defences (operational phase, Section \ref{sec:ac_acra}) is well exemplified in the phishing detection domain as discussed in \cite{rakesh}.
+
+
+% We have presented variants of ACRA to deal with both generative and discriminative classifiers, and also an extension of it suitable for computationally demanding problems.
+
+
+
+
+
+%Also, we have provided empirical evidence supporting the robustness of the ACRA framework to imprecisions in the assumptions made about the adversary. In particular, ACRA has been shown to be more robust than its common knowledge, purely game theoretic counterpart. Finally, we have presented computational enhancements that have significantly improved ACRA performance, allowing us to solve large problems and use it in operational settings.
+
+Our framework may be extended in several ways. First, we could adapt the proposed approach to situations in which there is repeated play of the AC game, introducing the possibility of learning the adversarial utilities and probabilities in a Bayesian way. Learning over opponent types has been explored with success in reinforcement learning scenarios, \cite{gallego2019opponent}. This could be extended to the classification setting. Besides exploratory ones, attacks over the training data \cite{biggio2012poisoning} may be relevant in certain contexts. 
+%In addition, we have just considered the case in which the attacker performs intentional attacks. % In some problems, there could be also random attacks. The proposed framework could be easily adapted to take those into account as well as to the case in which there are several attackers. 
+In addition, the extension to the case of attacks to innocent instances (not just integrity violation ones) seems feasible using the scalable framework. % but requires some work in our original one.
+We have restricted our attention to deterministic attacks, that is, $a^*(x,y_1)$ will always lead to $x'$; extending our framework to deal with stochastic attacks would entail modelling $p(x' \vert a^*, x, y_1)$. 
+%Through this paper, we focused on the binary classification task. An initial extension to multi-class problems is shown in \cite{gallego2020protecting}, but further attention to this setting would be helpful.
+
+% First of all, in our examples we have used NB as the basic classifier in the preprocessing phase. We could use other generative classifiers, such as variational autoencoders, or even a mixture of them. It would be very interesting to extend the framework to use it with discriminative classifiers, specifically based on neural networks.
+
+
+%Finally, our work could be extended to the case of attacks to innocent instances (not just integrity violation ones). In this case, when computing $p_C(x'|-)$ in \eqref{pis} we must proceed similarly as we did when computing $p_C(x'|+)$: we consider all possible originating instances $x$ leading to $x'$, and sum them weighting each of them with their $p_C(a_{x \rightarrow x'}| x, -)$, the probability of the attacker choosing the attack linking each of them with $x'$, given that they are innocent. This would just involve replacing $p_C(x'|-)$ by $\sum_{x \in \mathcal{X}'} p_C(a_{x \rightarrow x'}| x, -)p_C(x|-)$ in \eqref{pis}. Finally, as computing both $p_C(a_{x \rightarrow x'}| x, -)$ and $p_C(a_{x \rightarrow x'}| x, +)$ demands strategic thinking, we need to consider the attacker's problem as we did in Section \ref{subsec:theAdversaryProblem}, but this time allowing the attacker to modify also innocent instances.
+
+%We have concentrated on binary classification problems, but the extension to multi-label classification is relevant. This would entail including the summands corresponding to each class in $\eqref{pis}$ and building an appropriate attacker model depending on his particular interests: for instance, he could be interested on making the classifier mislabel any instance or in making her classify instances within a particular group of classes. It is clear that the presence of an adversary would invalidate the one-vs-one and one-vs-rest approaches to multiclass classification, as this procedure could be easily exploited. This would affect the choice of the base classifier within the ACRA approach.
+
+
+%We have illustrated the approach in a spam detection task, but other areas like malware or fraud detection, or image classification are truly important.
+Additional work should be undertaken concerning the
+algorithmic aspects.  In our approach  we go through a simulation stage to forecast attacks and an optimisation stage to determine optimal classification. The whole process might be performed through a single stage, possibly based on augmented probability simulation \cite{ekin2019augmented}.
+
+We have also shown how the robustification procedure from Section \ref{sec:scalable} can be an efficient way to protect large-scale models, such as those trained using first-order methods. It is well-known that Bayesian marginalisation improves generalisation capabilities of flexible models since the ensemble helps in better exploring the posterior parameter space \cite{wilson2020bayesian}. Our experiments suggest 
+that this holds also in the domain of adversarial robustness. Thus, bridging the gap between large scale Bayesian methods and Game Theory, as  done in the ARA framework, suggests a powerful way to develop principled defences. To this end, strategies to more efficiently explore the highly complex, multimodal posterior distributions of neural models constitute another line of further work.
+
+Lastly, several application areas could benefit highly from
+protecting their underlying ML models. Spam detectors have been
+the running example in this article. Malware and phishing detection are two
+crucial cybersecurity problems in which the data distribution of computer programs is constantly changing, driven by attacker's interests in evading detectors. Finally, the machine learning algorithms underlying 
+autonomous driving systems need to be robustified from perturbations to their visual processing models and this could be performed through our 
+approaches.
+
+
+
+\section{Adversarial aspects in Reinforcement Learning}\label{sec:final}
+%\section{CONCLUSIONS AND FURTHER WORK}
+
+%\subsection{A discussion for TMDPs}
+
+We have introduced TMDPs, a reformulation of MDPs to 
+ support decision makers who confront opponents that interfere 
+with the reward generating process in RL settings.
+They have potential applications in security, cybersecurity and 
+competitive marketing, to name but a few.
+TMDPs aim at providing one-sided prescriptive support to a RL agent, maximizing her expected utility, taking into account potential negative actions adopted by an adversary. % Some theoretical results have been provided. In particular, we prove that
+  The proposed learning rule is a contraction mapping and we may use RL convergence results, while gaining advantage from 
+%In addition, the proposed framework is suitable for
+  opponent modelling within $Q$-learning. Indeed, we have proposed a scheme to model adversarial behavior based on level-$k$ reasoning
+and extended it by using type-based reasoning to account for uncertainty about the opponent's level. Finally, we have sketched how the framework could be extended to deep learning settings and to the multiple opponents case. Key features of our proposal are its generality
+(it is model agnostic as it is compatible with tabular $Q$-learning or any function approximator for the $Q$-values) and its robustness, since it also offers 
+protection against adversarial behaviours that are not exactly as described by the DM's opponent model. These significant benefits come at a reasonable cost, since the increase in complexity (both in time and space) is linear compared to unprotected, baseline vanilla $Q$-learners.
+
+Empirical evidence is provided via extensive experiments, with encouraging results. In security settings, we see that by explicitly modelling a finite set of adversaries via the opponent averaging scheme, a supported DM can take advantage of her actual opponent, even when he is not explicitly modelled through a component from the finite mixture. This highlights the ability of our framework to generalize between different kinds of opponents. As a take home lesson, we find that a level-2 $Q$-learner may effectively deal with a wide class of adversaries. However, maintaining a mixture of different adversaries is necessary if we consider a level-3 DM. As a rule of thumb, the supported DM may start at a low level in the hierarchy, and switch to a level-up temporarily, to check if the obtained rewards are higher. Otherwise, she would  continue on the initial, lower level.  %In addition, the
+%proposed Algorithm \ref{alg:l2ur} can be generalized to account for the use of function approximators instead of tabular $Q$-learning, as done in the experiments in Section \ref{sec:cg}. We have also shown details of the modified algorithm in this last batch of experiments. 
+Indeed, the proposed scheme is
+model agnostic, so we expect it to be usable in both shallow and deep multi-agent RL settings, such as the ones pioneered by \cite{mnih2015human}. This is a desirable key property of our framework, which implies that it can be adopted in a wide array of relevant settings and configurations.
+
+Several lines of work are possible for further research. First of all, in the experiments, we have just considered DMs up to level-3,
+though the extension to higher order adversaries is relevant. %In recent years $Q$-learning has benefited from advances from the deep learning community, with breakthroughs such as the
+%\emph{deep $Q$-network} (DQN) which achieved super-human performance in control
+%tasks such as the Atari games \cite{mnih2015human}, or as inner blocks inside
+%systems that play Go \cite{silver2017mastering}. Integrating these advances into
+%the TMDP setting is another possible research path.as presented here. 
+In addition, rather than trying to learn opponent $Q$-values, we could
+use policy gradient methods \cite{baxter2000direct} to expand our proposal.
+It also might be interesting to explore similar expansions to semi-MDPs, 
+in order to perform hierarchical RL or allow for time-dependent rewards 
+and transitions between states.
+
+
+
+
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \subsection{A discussion for data sharing games}
+
+Regarding the data sharing games, it can be useful to recall that a defining trend in modern society is the abundance 
+of data which opens up new opportunities, challenges
+and threats. In the upcoming years, social progress will be essentially conditioned by the capacity of society to gather, analyze and understand data, as this will 
+facilitate better and more informed decisions. 
+Thus, to guarantee social progress,  efficient mechanisms
+for data sharing are key. Obviously, such mechanisms
+should not only facilitate the data sharing process, 
+but must also guarantee the protection of the citizen's personal
+information. As a consequence, the problem of data sharing not only
+has importance from a socioeconomic perspective, but also from the
+legislative point of view. This is well described in numerous recent legislative pieces from the 
+EU, e.g.\ \cite{europe1}, as well as in the concept of flourishing 
+in a data-enabled society \cite{allea}. 
+
+%is of paramount importance in current socioeconomic and legislative issues. 
+
+We have studied the problem of data sharing
+from a dynamic game theoretic perspective with two agents.
+%. Two agents intervene in the data sharing game: the dominant data owner and the data providers (citizens). Each agent can either cooperate or defect. In the DDO's case, cooperation entails purchasing just the citizen's data that might be purchased and respecting her personal information; while defection entails not paying for the citizen's data. On the  other hand, the citizen will cooperate if she sells data and demands protection, and she will defect when selling wrong/noisy data. 
+Within our setting,  mutual cooperation emerges as the strategy 
+leading to the best social outcome, and it must be promoted somehow. We
+have proposed modelling the confrontation between dominant data owners and citizens using two versions of the iterated prisoner dilemma via  
+multi agent reinforcement learning: the decentralized case, in which both agents interact freely, and the centralized case, in which the interaction is regulated by an external agent/institution. In the first case, we have shown that there are strategies with which mutual cooperation is possible, and that a forgiving policy by the DDO can be beneficial in terms of social utility. In the centralized case, regulating the interaction between citizens and DDOs via an external agent could foster mutual cooperation through taxes and incentives.
+
+ Besides fostering cooperation,  the data sharing game may be seen as
+  an instance of a two sided market \cite{rochet2006two}. Therefore,
+  the creation of intermediary platforms that facilitate the connection between dominant data owners and citizens to enable data sharing
+  would be key to guarantee social progress. 
+  
+ \fi

@@ -1,0 +1,251 @@
+\section{Fokker-Planck approximation (VIS-FP)}\label{app:fp}
+  
+  The Fokker-Planck equation is a PDE that describes the temporal evolution of the density of a random variable under a (stochastic) gradient flow \cite{pavliotis2014stochastic}. For a given SDE
+$$
+dz = \mu(z,t)dt + \sigma(z,t)dB_t,
+$$
+the corresponding Fokker-Planck equation is
+$$
+\frac{\partial}{\partial t} q_t(z) = -\frac{\partial}{\partial z}\left[ \mu(z,t)q_t(z)\right] + \frac{\partial^2}{\partial z^2} \left[ \frac{\sigma^2(z,t)}{2} q_t(z) \right].
+$$
+We are interested in converting the SGLD dynamics to a deterministic gradient flow. %(that is, we want to convert a SDE into an ODE such that both gradient flows have the same Fokker-Planck equation). 
+
+\begin{Proposition}
+The SGLD dynamics, given by the SDE
+$$
+dz = \nabla \log p(z)dt + \sqrt{2}dB_t,
+$$
+have an equivalent deterministic flow, written as the ODE
+$$
+dz = (\nabla \log p(z) - \nabla \log q_t (z))dt.
+$$
+\end{Proposition}
+\begin{proof}
+Let us write the Fokker-Planck equation for the respective flows. For the Langevin SDE, it is 
+$$
+\frac{\partial}{\partial t} q_t(z) = - \frac{\partial}{\partial z} \bigg[ \nabla \log p(z) q_t(z) \bigg] + \frac{\partial^2}{\partial z^2} \bigg[ q_t(z) \bigg].
+$$
+On the other hand, the Fokker-Planck equation for the deterministic gradient flow is given by
+$$
+\frac{\partial}{\partial t} q_t(z) = - \frac{\partial}{\partial z} \bigg[ \nabla \log p(z) q_t(z)\bigg] + \frac{\partial}{\partial z} \bigg[ \nabla \log q_t(z) q_t(z)\bigg].
+$$
+The result immediately follows since $ \frac{\partial}{\partial z} \left[ \nabla \log q_t(z) q_t(z)\right] = \frac{\partial^2}{\partial z^2} \left[ q_t(z) \right]$.
+\end{proof}
+
+Given that both flows are equivalent, we restrict our attention to the deterministic one. Its discretization  leads to iterations of the form
+\begin{equation}\label{eq:deterministic_flow}
+z_{t} = z_{t-1} + \eta (\nabla \log p(z_{t-1}) - \nabla \log q_{t-1} (z_{t-1})).
+\end{equation}
+In order to tackle the last term, we make the following particle approximation. Using a variational formulation, we have 
+\begin{align*}
+    - \nabla \log q(z) = \nabla \left( - \frac{\delta}{\delta q} \mathbb{E}_q \left[ \log q\right] \right).
+\end{align*}
+Then, we smooth the true density $q$ convolving it with a kernel $K$, typically the rbf one, $K(z, z') = \exp \lbrace - \gamma \| z - z' \|^2 \rbrace$, where $\gamma$ is the bandwidth hyperparameter, leading to
+\begin{align*}
+    \nabla \left( - \frac{\delta}{\delta q} \mathbb{E}_q \left[ \log q\right] \right) &\approx
+     \nabla \left( - \frac{\delta}{\delta q} \mathbb{E}_q \left[ \log (q\ast K )\right] \right) \\
+     &= \nabla \log (q \ast K) - \nabla \left( \frac{q}{(q \ast K)} \ast K \right).
+\end{align*}
+If we consider a mixture of Dirac deltas, $q(z) = \frac{1}{M} \sum_{m=1}^M \delta(z - z_m)$, then the approximation is given 
+by
+$$
+- \nabla \log q(z) \approx - \frac{\sum_k \nabla_{z_m} K(z_m, z_n)}{\sum_n K(z_m, z_n)}
+- \sum_l \frac{\nabla_{z_m} K(z_m, z_l)}{\sum_n K(z_n, z_l)},
+$$
+which can be plugged into Equation (\ref{eq:deterministic_flow}). Finally, observe that 
+it is possible to backpropagate through such equation, i.e., the gradients of $K$ can be explicitly computed.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Experiment details}\label{sec:detail}
+
+
+\subsection{State-space models}\label{app:ss}
+
+\paragraph{Initial experiments}\label{app:hmm}
+For the HMM, both the observation and transition probabilities are Categorical distributions, taking values in the domain $\lbrace 0, 1, 2, 3, 4 \rbrace$.
+
+The equations of the DLM are 
+\begin{align*}
+    z_{t+1} &\sim \mathcal{N}(0.5z_t + 1.0,\sigma_{tr}) \\
+    x_{t} &\sim \mathcal{N}(3.0z_t + 0.5, \sigma_{em}).
+\end{align*}
+with $z_0  = 0.0$.
+
+%\subsubsection{Prediction task in a HMM}
+
+\paragraph{Prediction task in a DLM}
+The DLM model comprises a linear trend component plus a seasonal block of period 12. The trend is specified as
+\begin{align*}
+x_t &= z_{level,t} + \epsilon_t \qquad \epsilon_t \sim \mathcal{N}(0, \sigma_{obs}) \\
+z_{level,t} &= z_{level,t-1} + z_{slope,t-1} + \epsilon'_t \qquad \epsilon'_t \sim \mathcal{N}(0, \sigma_{level}) \\
+z_{slope,t} &= z_{slope,t-1} + \epsilon''_t \qquad \epsilon''_t \sim \mathcal{N}(0, \sigma_{slope}).
+\end{align*}
+With respect to the seasonal component,
+%the main idea is to \emph{cycle the state}: suppose $\theta_t \in \mathbb{R}^p$, with $p$ being the seasonal period. Then, at each timestep, the model focuses on the first component of the state vector:
+% $$( \underuparrow{\alpha_1}, \alpha_2, \ldots, \alpha_{p}) \xrightarrow{\text{next period}} ( \underuparrow{\alpha_2}, \alpha_3, \ldots, \alpha_{p}, \alpha_{1}).$$
+%Thus,
+we specify it through
+\begin{align*}
+x_t &= F z_t + v_t \qquad v_t \sim \mathcal{N}(0, \sigma_{obs})\\
+z_t &= G z_{t-1} + w_t \qquad w_t \sim \mathcal{N}(0, \sigma_{seas})
+\end{align*}
+where $F$ is a $12-$dimensional vector
+$( 1,0,\ldots, 0,0)$ 
+and $G$ is the $12\times 12$ matrix 
+\begin{equation*}
+G = \begin{bmatrix}
+0 & 0 & \ldots & 0 & 1 \\
+1 &	0 & & 0 & 0 \\
+0 & 1 & & 0 & 0 \\
+ & & \ddots & & \\
+ 0 & 0 & & 1 & 0
+\end{bmatrix}.
+\end{equation*}
+\\
+Further details are in \cite{westharrison}.
+% OLDE...
+\iffalse
+\subsubsection{Model details} The definition of the HMM and the DLM can be found in Figures \ref{fig:hmm} and \ref{fig:dlm}, respectively.
+
+\begin{figure}[!htp]
+\centering
+\RecustomVerbatimEnvironment{Verbatim}{BVerbatim}{}
+\inputminted[fontsize=\scriptsize]{python}{./hmm.tex}
+\caption{Model architecture for the HMM.}
+\label{fig:hmm}
+\end{figure}
+
+\begin{figure}[!htp]
+\centering
+\RecustomVerbatimEnvironment{Verbatim}{BVerbatim}{}
+\inputminted[fontsize=\scriptsize]{python}{./dlm.tex}
+\caption{Model architecture for the DLM.}
+\label{fig:dlm}
+\end{figure}
+\fi
+
+\subsection{VAE}
+
+\paragraph{Model details}
+\begin{figure}[!htp]
+\centering
+\RecustomVerbatimEnvironment{Verbatim}{BVerbatim}{}
+\inputminted[fontsize=\scriptsize]{python}{./arch_vae.tex}
+\caption{Model architecture for the VAE.}
+\label{fig:arch_vae}
+\end{figure}
+%The VAE model is implemented with PyTorch \cite{paszke2017automatic}.
+The prior distribution $p(z)$ for the latent variables $z \in \mathbb{R}^{10}$ is a standard factorized Gaussian. The decoder distribution $p_\theta(x|z)$ and the encoder distribution (initial variational approximation) $q_{0,\phi}(z|x)$ are parameterized by two feed-forward neural networks 
+detailed in Figure \ref{fig:arch_vae}.
+
+\paragraph{Hyperparameter settings}
+The optimizer Adam is used in all experiments, with 
+learning rate $\lambda=0.001$. We also set $\eta = 0.001$. We train for 15 epochs (fMNIST) and 20 epochs (MNIST), to achieve performance 
+similar to the VAE in \cite{pmlr-v89-titsias19a}. For the VIS-5-10 setting, we train only for 10 epochs, to allow for a fair computational comparison in terms of similar computing times.
+
+\subsection{cVAE}
+
+%\subsubsection{Probabilistic graphical model}
+
+
+
+\paragraph{Model details}
+\begin{figure}[!htp]
+\centering
+\RecustomVerbatimEnvironment{Verbatim}{BVerbatim}{}
+\inputminted[fontsize=\scriptsize]{python}{./arch.tex}
+\caption{Model architecture for the cVAE.}
+\label{fig:arch}
+\end{figure}
+%The cVAE model is implemented with PyTorch \cite{paszke2017automatic}.
+The prior distribution $p(z)$ for the latent variables $z \in \mathbb{R}^{10}$ is a standard factorized Gaussian. The decoder distribution $p_\theta(x|y,z)$ and the encoder distribution (initial variational approximation) $q_{0,\phi}(z|x,y)$ are parameterized by two feed-forward neural networks whose details can be checked in Figure \ref{fig:arch}.
+The integral (\ref{eq:mc_cvae}) is approximated with 1 MC sample from the variational approximation in all experimental settings, {\bf since it allowed us for fast inference times while already offering better results.}
+\paragraph{Hyperparameter settings}
+The optimizer Adam is used in all experiments, with  learning rate $\lambda=0.01$. We set the initial $\eta = 5\cdot 10^{-5}$.
+
+
+
+
+\iffalse
+\section{Additional experiments}
+
+We now repeat the experiments but with also tuning \texttt{lr\_inn}.
+
+Note this is not worth it in the DLM/HMM case since it goes from 2 params to 3 params (adds a lot of overhead), whereas in the VAE case the overhead is negligible.
+
+
+
+\begin{table}[!ht]
+\centering
+\caption{Test log-likelihood on binarized MNIST and fMNIST.}\label{tbl:iwhvae}
+\begin{tabular}{lcc}
+\cline{1-3}
+\textbf{Method}   & \textbf{MNIST}                             & \textbf{fMNIST}   \\ \cline{1-3}
+\multicolumn{3}{c}{\small Results from \cite{pmlr-v89-titsias19a}}       \\
+    UIVI          & $-94.09$ &  $-110.72$ \\
+    SIVI          & $-97.77$ &  $-121.53$ \\
+    VAE          & $-98.29$ &  $-126.73$ \\
+    \cline{1-3}
+    %VIS-10-20 (this paper)     & --- & $\bm{-106.90}$  \\
+    VIS-5-10 (this paper)     & $\bm{-65.55 \pm 0.18}$ & $\bm{-89.97 \pm 0.57}$  \\
+    %VIS-0-20 (this paper)    & --- & $-121.11$  \\
+    VIS-0-10 (this paper)     & $-98.13 \pm 0.13$ & $-121.39 \pm 0.49$  \\
+    %VAE + RealNVP     & --- & ---  \\
+    %VAE + IAF         & --- & --- \\
+    VAE (VIS-0-0)              & $-100.92 \pm 0.09$ & $-125.68 \pm 0.50$ \\
+\end{tabular}
+\end{table}
+
+Add full table with results from main and also training losses?
+\fi
+
+\iffalse
+\section{Further work}
+
+\subsection{Gradient estimation}
+
+Instead of the Delta approximation, we may use the dual formulation of the KL divergence as done in \url{https://arxiv.org/abs/1908.11527}. We have 
+$$
+KL(q(z|x) | p(z)) = \max_{\nu} \mathbb{E}_{q(z|x)} \nu_{\psi}(x,z) -  \mathbb{E}_{p(z)} \exp (\nu_{\psi}(x,z)).
+$$
+
+With this approach, we need to use an additional neural network (it is like the discriminator used in AVB).
+
+
+\subsection{Exploring the bi-level formulation}
+
+Recall the manuscript notes where we can use different divergences at each level.
+Also, if we use a parameterized divergence at the inner loop (like the $\alpha$-divergence) we could optimize wrt $\alpha$ using the gradient from the outer loss.
+
+\subsection{Structure for next paper}
+
+\begin{enumerate}
+    \item General framework as a bi-level optimization with two divergences (potentially parameterized): highlight the transition from points to distributions (follow the paper of \texttt{higher})
+    \item Concrete examples:
+    \begin{enumerate}
+        \item VIS for tuning sampler parameters: KL, KL.
+        \item Tuning $\alpha$: KL, $\alpha$.
+        \item Some with OPVI: try to related with parameterized f-divergence.
+        \item Try to think an application: for example better VI for the neural Kalman filter.
+    \end{enumerate}
+    \item Gradient estimation techniques (maybe this should be particularized for each setting):
+    \begin{enumerate}
+        \item Delta approximation
+        \item Discriminator network
+        \item Dual formulation
+    \end{enumerate}
+\end{enumerate}
+
+
+$$
+\alpha^* = \mbox{argmin}_{\alpha} l_o(\alpha, \beta^*)
+$$
+st
+$$
+\beta^* = \mbox{argmin}_{\beta} l_i(\alpha, \beta).
+$$
+
+The inner problem could be one of these \url{https://papers.nips.cc/paper/6208-renyi-divergence-variational-inference.pdf}, \url{http://proceedings.mlr.press/v48/hernandez-lobatob16.pdf}, and we can tune the $\alpha$ using the same loss (but maybe over a validation set).
+
+We have to make the notation clearer.
+\fi

@@ -1,0 +1,311 @@
+\documentclass[a4paper, 11pt, openright, twoside]{reportPhD}
+
+% Paquetes
+\usepackage[T1]{fontenc}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage[pdftex]{graphicx}
+\usepackage{epstopdf}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{txfonts}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{caption}
+\usepackage{graphicx}
+\usepackage{subfigure}
+\usepackage{float}
+\usepackage{multirow}
+\usepackage{lmodern}
+\usepackage[final]{microtype}
+\usepackage[utf8]{inputenc}
+\usepackage{array,mathtools}
+\usepackage[bookmarks]{hyperref}
+\usepackage{xcolor}
+\usepackage[inner=3cm, outer=2cm, bottom=3cm]{geometry}
+%\usepackage[ruled]{algorithm2e}
+\usepackage{enumerate}
+\usepackage[inline,shortlabels]{enumitem}
+\usepackage{xfrac}
+\usepackage{booktabs}
+\usepackage{multirow}
+
+\usepackage{caption}
+%\usepackage{subcaption}
+\usepackage[toc,page]{appendix}
+\usepackage{courier}
+\usepackage{listings}
+
+%\usepackage{calc}
+
+
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+
+
+
+%\newtheorem{definition}{Definition}
+%\newtheorem{lemma}{Lemma}
+
+\usepackage{color,soul}
+\usepackage[usestackEOL]{stackengine}[2013-09-11]
+\def\stackalignment{l}
+\setstackgap{L}{1.4\baselineskip}
+\fboxsep=4pt\relax
+
+%\newtheorem{proposition}{Proposition}
+ 
+\usepackage{booktabs}
+ % The siunitx package is used by this sample document
+ % to align numbers in a column by their decimal point.
+ % Remove the next line if you don't require it.
+\usepackage[load-configurations=version-1]{siunitx} %newer version
+ %\usepackage{siunitx}
+\usepackage{tikz}
+\usetikzlibrary{shapes,snakes}
+\usetikzlibrary{bayesnetID}
+
+\usepackage{bm}
+\usepackage{arydshln}
+\usepackage{tabularx}
+
+\usepackage[draft]{minted}
+\usemintedstyle{friendly}
+
+\usepackage{fancyvrb}
+\usetikzlibrary{external}
+
+\graphicspath{{./img/}}
+
+% avoid capitalizing LIST OF ALGORITHMS header
+\let\MakeUppercase\relax
+
+\sisetup{
+round-mode = places,
+round-precision = 3,
+table-number-alignment=right,
+table-text-alignment=right,
+group-four-digits
+}
+
+\lstset{basicstyle=\scriptsize\ttfamily,breaklines=true,showstringspaces=false}
+
+
+\newcommand{\NEG}[1]{\mbox{-}#1}
+\newcommand{\dd}[1]{\text{d}#1}
+\newcommand\xqed[1]{%
+  \leavevmode\unskip\penalty9999 \hbox{}\nobreak\hfill
+  \quad\hbox{#1}}
+\newcommand\demo{\xqed{$\triangle$}}
+%\usepackage[colorlinks=true,allcolors=black,breaklinks=true]{hyperref}
+\usepackage{multicol}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{booktabs}
+\usepackage{setspace}
+\usepackage{hyperref}
+%\usepackage{subfig}
+%\usepackage[labelformat=simple]{subcaption}
+%\renewcommand\thesubfigure{\alph{subfigure}}
+%\DeclareCaptionLabelFormat{subcaptionlabel}{\normalfont(\textbf{#2}\normalfont)}
+%\captionsetup[subfigure]{labelformat=subcaptionlabel}
+
+
+\usepackage{algorithm}
+%\usepackage{algorithmicx}
+\usepackage{algpseudocode}
+
+% For algos:
+\algblockdefx[Train]{Train}{EndTrain}[1][]{\textbf{Training} #1}{\textbf{End Training}}
+\algblockdefx[Preprocessing]{Preprocessing}{EndPreprocessing}[1][]{\textbf{Preprocessing} #1}{\textbf{End Preprocessing}}
+\algblockdefx[Operation]{Operation}{EndOperation}[1][]{\textbf{Operation} #1}{\textbf{End Operation}}
+
+% References and citations
+\usepackage[capitalize]{cleveref}
+\crefname{appcha}{Appendix}{Appendices}
+
+\usepackage[backend=bibtex8, 
+            style=authoryear, 
+            citestyle=numeric,
+            bibstyle=numeric,
+            maxbibnames=15,
+            maxcitenames=2, 
+            doi=false,
+            %url=false,
+            giveninits=true,
+            hyperref]{biblatex}
+
+\renewcommand*{\nameyeardelim}{\addcomma\space}
+% space between bibliography entries
+\setlength\bibitemsep{0.5\baselineskip}
+% last name first in second and subsequent authors
+\DeclareNameAlias{sortname}{last-first}
+
+\DeclareBibliographyCategory{mypapers}
+
+\addbibresource{./bib/phd2017}
+
+\usepackage{phd}
+
+% Debug.
+%\overfullrule=10mm
+
+% Remove red border from links
+\hypersetup{colorlinks=false, pdfborder={0 0 0}}
+
+\numberwithin{equation}{section}
+\numberwithin{figure}{chapter}
+\numberwithin{table}{chapter}
+
+\pagestyle{headings}
+
+\title{Aspectos del Aprendizaje Autómatico \\ Bayesiano y Adversario \\
+{\Large (Aspects of Bayesian and Adversarial Machine Learning) }}
+\author{Víctor Gallego Alcalá}
+\newcommand{\director}{David Ríos Insua and David Gómez-Ullate Oteiza}
+
+\begin{document}
+
+\titulo
+
+\cleardoublepage
+\begin{description}[labelwidth=\widthof{\textbf{Department:}}, leftmargin=!, labelsep=2em]
+\item[Department:] Estadística e Investigación Operativa \\ Facultad de Ciencias Matemáticas \\ Universidad Complutense de Madrid (UCM) \\ Spain
+\item[Title:] Aspectos del Aprendizaje Autómatico Bayesiano y Adversario
+\item[Author:] Víctor Gallego Alcalá
+\item[Advisors:] David Ríos Insua and David Gómez-Ullate Oteiza
+\item[Date:] June 2021
+\item[Committee:] \mbox{} \\
+\begin{itemize}[itemsep=1.8cm, labelsep=0.5em, leftmargin=-2em]
+\item President: Aníbal Ramón Figueiras Vidal
+\item Secretary: Daniel Hernández Lobato
+\item Vocal 1: César Hervás Martínez
+\item Vocal 2: María Amparo Alonso Betanzos
+\item Vocal 3: David Ríos Insua
+\item Substitute 1: Ana María González Marcos
+\item Substitute 2: Pedro Antonio Gutiérrez
+\end{itemize}
+\end{description}
+
+
+\chapter*{Abstract}
+Most Machine Learning models are defined in terms of a convex optimization problem. Thus, developing algorithms to quickly solve such problems its of great interest to the field. We focus in this thesis on two of the most widely used models, the Lasso and Support Vector Machines. The former belongs to the family of regularization methods, and it was introduced in 1996 to perform both variable selection and regression at the same time. This is accomplished by adding a \lo-regularization term to the least squares model, achieving interpretability and also a good generalization error.
+ 
+Support Vector Machines were originally formulated to solve a classification problem by finding the maximum-margin hyperplane, that is, the hyperplane which separates two sets of points and its at equal distance from both of them. SVMs were later extended to handle non-separable classes and non-linear classification problems, applying the kernel-trick. A first contribution of this work is to carefully analyze all the existing algorithms to solve both problems, describing not only the theory behind them but also pointing out possible advantages and disadvantages of each one.
+ 
+Although the Lasso and SVMs solve very different problems, we show in this thesis that they are both equivalent. Following a recent result by Jaggi, given an instance of one model we can construct an instance of the other having the same solution, and vice versa. This equivalence allows us to translate theoretical and practical results, such as algorithms, from one field to the other, that have been otherwise being developed independently. We will give in this thesis not only the theoretical result but also a practical application, that consists on solving the Lasso problem using the SMO algorithm, the state-of-the-art solver for non-linear SVMs. We also perform experiments comparing SMO to GLMNet, one of the most popular solvers for the Lasso. The results obtained show that SMO is competitive with GLMNet, and sometimes even faster.
+ 
+Furthermore, motivated by a recent trend where classical optimization methods are being re-discovered in improved forms and successfully applied to many problems, we have also analyzed two classical momentum-based methods: the Heavy Ball algorithm, introduced by Polyak in 1963 and Nesterov's Accelerated Gradient, discovered by Nesterov in 1983. In this thesis we develop practical versions of Conjugate Gradient, which is essentially equivalent to the Heavy Ball method, and Nesterov's Acceleration for the SMO algorithm. Experiments comparing the convergence of all the methods are also carried out. The results show that the proposed algorithms can achieve a faster convergence both in terms of iterations and execution time.
+
+\chapter*{Resumen}
+La mayoría de modelos de Aprendizaje Automático se definen en términos de un problema de
+optimización convexo. Por tanto, desarrollar algoritmos para resolver rápidamente dichos problemas es de gran interés para este campo. En esta tesis nos centramos en dos de los modelos más usados, Lasso y Support Vector Machines. El primero pertenece a la familia de métodos de regularización, y fue introducido en 1996 para realizar selección de características y regresión al mismo tiempo. Esto se consigue añadiendo una penalización \lo al modelo de mínimos cuadrados, obteniendo interpretabilidad y un buen error de generalización.
+
+Las Máquinas de Vectores de Soporte fueron formuladas originalmente para resolver un problema de
+clasificación buscando el hiper-plano de máximo margen, es decir, el hiper-plano que separa los dos
+conjuntos de puntos y está a la misma distancia de ambos. Las SVMs se han extendido posteriormente
+para manejar clases no separables y problemas de clasificación no lineales, mediante el uso de núcleos. Una primera contribución de este trabajo es analizar cuidadosamente los algoritmos existentes para resolver ambos problemas, describiendo no solo la teoría detrás de los mismos sino también mencionando las posibles ventajas y desventajas de cada uno.
+
+A pesar de que el Lasso y las SVMs resuelven problemas muy diferentes, en esta tesis demostramos que
+ambos son equivalentes. Continuando con un resultado reciente de Jaggi, dada una instancia de uno de
+los modelos podemos construir una instancia del otro que tiene la misma solución, y viceversa. Esta
+equivalencia nos permite trasladar resultados teóricos y prácticos, como por ejemplo algoritmos, de un campo al otro, que se han desarrollado de forma independiente. En esta tesis mostraremos no solo la equivalencia teórica sino también una aplicación práctica, que consiste en resolver el problema Lasso usando el algoritmo SMO, que es el estado del arte para la resolución de SVM no lineales. También realizamos experimentos comparando SMO a GLMNet, uno de los algoritmos más populares para
+resolver el Lasso. Los resultados obtenidos muestran que SMO es competitivo con GLMNet, y en
+ocasiones incluso más rápido.
+
+Además, motivado por una tendencia reciente donde métodos clásicos de optimización se están re-
+descubriendo y aplicando satisfactoriamente en muchos problemas, también hemos analizado dos
+métodos clásicos basados en ``momento’’: el algoritmo Heavy Ball, creado por Polyak en 1963 y el
+Gradiente Acelerado de Nesterov, descubierto por Nesterov en 1983. En esta tesis desarrollamos
+versiones prácticas de Gradiente Conjugado, que es equivalente a Heavy Ball, y Aceleración de Nesterov para el algortimo SMO. Además, también se realizan experimentos comparando todos los métodos. Los resultados muestran que los algoritmos propuestos a menudo convergen más rápido, tanto en términos de iteraciones como de tiempo de ejecución.
+
+\addcontentsline{toc}{chapter}{Abstract}
+\addcontentsline{toc}{chapter}{Resumen}
+
+\chapter*{Acknowledgements}
+First of all, I would like to thank my supervisor José R. Dorronsoro Ibero for all the help and advice during this period. I am also immensely grateful to all the professors who volunteered to come to the
+thesis panel and read this dissertation. I express my gratitude to Professor Johan A.K. Suykens for giving me the opportunity to join the ESAT department at KU Leuven during the research stay of 2015.
+
+I would also like to mention all the grants and institutions that supported my research: FPU12/05163 grant, funded by ``Ministerio de Economía, Cultura y Deporte''; FPI grant, funded by ``Universidad Autónoma de Madrid''; ``Cátedra IIC Modelado y Predicción'' funded by ``Instituto de Ingeniería del Conocimiento'' and ``Instituto de Ciencias Matemáticas'' (ICMAT-CSIC). Finally, I gratefully acknowledge the computational resources provided by ``Centro de Computación Científica'' (CCC) at ``Universidad Autónoma de Madrid''.
+
+\addcontentsline{toc}{chapter}{Acknowledgments}
+
+\indice
+\indicetablas
+\indicefiguras
+\indicealgoritmos
+
+\chapter*{Notation}
+Matrices are denoted in upper-case bold font ($\Xbf$), whereas vectors are denoted in lower-case bold, ($\xbf$). Plain font stands for scalars ($x$), usually lower-case, although some important scalar constants are denoted in upper-case (for instance, $C$). Upper-case plain font is also used for random variables ($X$). Sets are usually denoted by calligraphic font ($\Xcal$) and spaces with blackboard bold font ($\Rbb$). Components of a vector are denoted in subscript ($x_i$); when the component is another sub-vector the bold face is mantained ($\xbf_i$). The components of a matrix $\Xbf$ are denoted by two subscripts ($X_{i,j}$). A single subscript on a matrix may indicate both the vector corresponding to a single row or column ($\Xbf_i$). This is indicated when it is not clear by the context. For a general sequence brackets are employed ($\set*{\xbf^k}$) and element of such sequences are denoted in superscript ($\xbf^k$). A superscript $\opt$ indicates the limit of a sequence, such as the optimum ($\xbf^\opt$).
+
+All the non-standard operators are defined on their first use. Regarding the standard ones, $\norm*{\xbf}$ indicates the norm of a vector $\xbf$, $\nabla$ is used for the gradient and $\xbf \cdot \ybf$ denotes the inner product between vectors $\xbf$ and $\ybf$. The inner product is sometimes also written as $\xbf^\tr \ybf$. The transpose of a matrix is $\Xbf^\tr$  and its inverse $\Xbf^{-1}$. $\partial$ stands for both the partial derivative and the subdifferential, and it should be clear from the context which is which. The standard big O notation is written as $\bigO{\cdot}$.
+
+\chapter{Introduction}\label{cha:intro}
+
+% if put before \chapter{Introduction} Notation chapter has arabic pagenumbers
+\setcounter{page}{1}
+\pagenumbering{arabic}
+
+\input{00_intro}
+
+\chapter{Adversarial Machine Learning and Adversarial Risk Analysis}\label{cha:amlara}
+%\input{01_math}
+
+
+\chapter{Large Scale Bayesian Inference}\label{cha:bayes}
+\input{03_bayes}
+
+
+%\chapter{Adversarial Classification}\label{cha:adv}
+%\input{04_adv}
+
+
+%\chapter{Adversarial aspects in Reinforcement Learning}\label{cha:ararl}
+%\input{05_ararl}
+
+\chapter{Conclusions}\label{cha:conclusions}
+\input{08_conclusions}
+
+
+
+
+\iffalse
+
+
+\chapter{DLMs}\label{cha:dlm}
+\input{07_dlm}
+
+\iffalse
+Link to parallel scan implementation in Jax: \url{https://colab.research.google.com/drive/1Ni8Cf1Pw-F2gtO-r21ifnQ9QJUZ2qm3T?usp=sharing}
+
+Check this \url{https://en.wikipedia.org/wiki/Kalman_filter#Marginal_likelihood} for marginalizing out the latent variables an then use SGD for MAP of the variances, or as in VIS.
+\fi
+
+%\chapter{Conclusions}\label{cha:conclusions}
+%\input{06_conclusions}
+
+%\chapter{Conclusiones}
+%\input{06_conclusiones}
+
+\begin{appendices}
+\crefalias{chapter}{appcha}
+\numberwithin{equation}{chapter}
+\makeatletter
+%\addtocontents{toc}{%
+%  \begingroup
+%  \let\protect\l@chapter\protect\l@section
+%  \let\protect\l@section\protect\l@subsection
+%}
+%\makeatother
+%\include{appendix_VIS}
+%\include{appendix_marl}
+%\include{appendix_datacoop}
+\end{appendices}
+\fi
+
+\phantomsection
+\addcontentsline{toc}{chapter}{\bibname}
+\newrefcontext[sorting=nyt]
+\printbibliography
+
+\end{document}

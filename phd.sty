@@ -1,0 +1,278 @@
+\ProvidesPackage{phd}
+
+% Enviroments
+\newtheorem{theorem}{Theorem}[chapter]
+\newtheorem{proposition}{Proposition}[chapter]
+\newtheorem{Proposition}{Proposition}[chapter]
+\newtheorem{lemma}[theorem]{Lemma}%[chapter]
+\newtheorem{corollary}{Corollary}[theorem]
+
+\theoremstyle{definition}
+\newtheorem*{example}{Example}
+\newtheorem{definition}{Definition}[chapter]
+\newtheorem{problem}{Problem}[chapter]
+
+% Operators
+\DeclareMathOperator*{\argmin}{argmin}
+\DeclareMathOperator*{\argmax}{argmax}
+\DeclareMathOperator{\sign}{sign}
+\DeclareMathOperator{\zer}{zer}
+\DeclareMathOperator{\diag}{diag}
+\DeclareMathOperator{\trace}{tr}
+\DeclareMathOperator{\dom}{dom}
+\DeclareMathOperator{\interior}{int}
+\DeclareMathOperator{\prox}{prox}
+\DeclareMathOperator{\fix}{fix}
+\DeclareMathOperator{\graph}{graph}
+\DeclareMathOperator{\var}{Var}
+%\DeclareMathOperator{\st}{S}
+\DeclareMathOperator{\proj}{P}
+\DeclareMathOperator{\conv}{conv}
+
+% Lowercase boldface
+\newcommand{\abf}{\ensuremath{\mathbf{a}}}
+\newcommand{\bbf}{\ensuremath{\mathbf{b}}}
+\newcommand{\cbf}{\ensuremath{\mathbf{c}}}
+\newcommand{\dbf}{\ensuremath{\mathbf{d}}}
+\newcommand{\ebf}{\ensuremath{\mathbf{e}}}
+\newcommand{\gbf}{\ensuremath{\mathbf{g}}}
+\newcommand{\hbf}{\ensuremath{\mathbf{h}}}
+\newcommand{\mbf}{\ensuremath{\mathbf{m}}}
+\newcommand{\pbf}{\ensuremath{\mathbf{p}}}
+\newcommand{\qbf}{\ensuremath{\mathbf{q}}}
+\newcommand{\rbf}{\ensuremath{\mathbf{r}}}
+\newcommand{\sbf}{\ensuremath{\mathbf{s}}}
+\newcommand{\tbf}{\ensuremath{\mathbf{t}}}
+\newcommand{\ubf}{\ensuremath{\mathbf{u}}}
+\newcommand{\vbf}{\ensuremath{\mathbf{v}}}
+\newcommand{\wbf}{\ensuremath{\mathbf{w}}}
+\newcommand{\xbf}{\ensuremath{\mathbf{x}}}
+\newcommand{\ybf}{\ensuremath{\mathbf{y}}}
+\newcommand{\zbf}{\ensuremath{\mathbf{z}}}
+
+% Uppercase boldface
+\newcommand{\Abf}{\ensuremath{\mathbf{A}}}
+\newcommand{\Bbf}{\ensuremath{\mathbf{B}}}
+\newcommand{\Dbf}{\ensuremath{\mathbf{D}}}
+\newcommand{\Gbf}{\ensuremath{\mathbf{G}}}
+\newcommand{\Hbf}{\ensuremath{\mathbf{H}}}
+\newcommand{\Ibf}{\ensuremath{\mathbf{I}}}
+\newcommand{\Kbf}{\ensuremath{\mathbf{K}}}
+\newcommand{\Lbf}{\ensuremath{\mathbf{L}}}
+\newcommand{\Qbf}{\ensuremath{\mathbf{Q}}}
+\newcommand{\Ubf}{\ensuremath{\mathbf{U}}}
+\newcommand{\Wbf}{\ensuremath{\mathbf{W}}}
+\newcommand{\Xbf}{\ensuremath{\mathbf{X}}}
+\newcommand{\Ybf}{\ensuremath{\mathbf{Y}}}
+\newcommand{\Zbf}{\ensuremath{\mathbf{Z}}}
+
+% Uppercase cal
+\newcommand{\Acal}{\ensuremath{\mathcal{A}}}
+\newcommand{\Ccal}{\ensuremath{\mathcal{C}}}
+\newcommand{\Dcal}{\ensuremath{\mathcal{D}}}
+\newcommand{\Fcal}{\ensuremath{\mathcal{F}}}
+\newcommand{\Hcal}{\ensuremath{\mathcal{H}}}
+\newcommand{\Ical}{\ensuremath{\mathcal{I}}}
+\newcommand{\Ocal}{\ensuremath{\mathcal{O}}}
+\newcommand{\Pcal}{\ensuremath{\mathcal{P}}}
+\newcommand{\Rcal}{\ensuremath{\mathcal{R}}}
+\newcommand{\Scal}{\ensuremath{\mathcal{S}}}
+\newcommand{\Ucal}{\ensuremath{\mathcal{U}}}
+\newcommand{\Vcal}{\ensuremath{\mathcal{V}}}
+\newcommand{\Xcal}{\ensuremath{\mathcal{X}}}
+\newcommand{\Ycal}{\ensuremath{\mathcal{Y}}}
+
+% Tilde, hat boldface
+\newcommand{\Xhat}{\widehat{\Xbf}}
+\newcommand{\what}{\widehat{\wbf}}
+\newcommand{\yhat}{\widehat{\ybf}}
+
+\newcommand{\Xtil}{\widetilde{\Xbf}}
+\newcommand{\Atil}{\widetilde{\Abf}}
+\newcommand{\wtil}{\widetilde{\wbf}}
+\newcommand{\btil}{\widetilde{\bbf}}
+\newcommand{\ytil}{\widetilde{\ybf}}
+\newcommand{\xtil}{\widetilde{\xbf}}
+
+% Uppercase bb
+\newcommand{\Ebb}{\ensuremath{\mathbb{E}}}
+\newcommand{\Rbb}{\ensuremath{\mathbb{R}}}
+\newcommand{\Ibb}{\ensuremath{\mathbb{I}}}
+
+% Greek letter boldface
+\newcommand{\epbf}{\ensuremath{\boldsymbol{\epsilon}}}
+\newcommand{\delbf}{\ensuremath{\boldsymbol{\delta}}}
+\newcommand{\thbf}{\ensuremath{\boldsymbol{\theta}}}
+\newcommand{\alphabf}{\ensuremath{\boldsymbol{\alpha}}}
+\newcommand{\betabf}{\ensuremath{\boldsymbol{\beta}}}
+\newcommand{\omegabf}{\ensuremath{\boldsymbol{\omega}}}
+\newcommand{\xibf}{\ensuremath{\boldsymbol{\xi}}}
+\newcommand{\Xibf}{\ensuremath{\boldsymbol{\Xi}}}
+
+% Optimization
+\newcommand{\agropt}[1]{\left \{ #1 \right \}}
+\newcommand{\sepopt}{~}
+\newcommand{\minp}[2]{\min_{#1}\sepopt{\agropt{#2}}}
+\newcommand{\minpc}[3]{\min_{#1}\sepopt{\agropt{#2}}\quad\text{s.t.}\quad #3}
+\newcommand{\maxp}[2]{\max_{#1}\sepopt{\agropt{#2}}}
+\newcommand{\maxpc}[3]{\max_{#1}\sepopt{\agropt{#2}}\quad\text{s.t.}\quad #3}
+
+% Norms and sets
+\newcommand{\lo}{\ensuremath{\ell_1}}
+\newcommand{\lt}{\ensuremath{\ell_2}}
+\DeclarePairedDelimiterX\set[1]\lbrace\rbrace{\def\given{\;\delimsize\vert\;}#1}
+\DeclarePairedDelimiter\abs{\lvert}{\rvert}
+\DeclarePairedDelimiter\card{\lvert}{\rvert}
+\DeclarePairedDelimiter\norm{\lVert}{\rVert}
+\DeclarePairedDelimiterXPP\bigO[1]{\mathcal{O}}\lparen\rparen{}{#1}
+
+% Mathematics
+\newcommand{\Id}{\Ibf}
+\newcommand{\msfrac}[2]{#1 / #2}
+\newcommand{\opt}{*}     % optimal
+%\newcommand{\bigO}[1]{{\mathcal{O}\left ( #1 \right )}}
+\newcommand{\softO}[1]{{\tilde{\mathcal{O}}\left ( #1 \right )}}
+\newcommand{\bigp}[1]{{\left ( #1 \right )}}
+\newcommand{\bigb}[1]{{\left [ #1 \right ]}}
+\newcommand{\tr}{\top}   % transpose
+\newcommand{\lambdam}{\lambda_\text{max}}
+\newcommand{\pder}[2]{\frac{\partial#1}{\partial#2}}
+\newcommand{\degree}{\ensuremath{^\circ}}
+\newcommand{\defeq}{\mathrel{\mathop:}=}
+\newcommand{\ones}{\mathbf{1}}
+\newcommand{\zeros}{\mathbf{0}}
+\newcommand{\RSS}{\ensuremath{\text{RSS}}}
+\newcommand{\PE}{\ensuremath{\text{PE}}}
+\newcommand{\ball}{\blacklozenge}
+\newcommand{\simplex}{\vartriangle}
+
+% Macros
+\newcommand{\data}[1]{{\ttfamily\detokenize{#1}}}
+
+\def\concat#1{%
+ \gdef\firstelement{1}
+ \left(%
+ \foreach \e in {#1}{%
+   \ifnum\firstelement=0\,\vert\,\fi{\e}%   
+   \gdef\firstelement{0}%
+ }
+ \right)%
+}
+
+% Estilo de la página de título
+\def\titulo
+{
+    \newpage
+	 \setcounter{page}{1}
+    \pagenumbering{roman}
+
+    \vfill
+
+    \thispagestyle{empty}
+    
+	\begin{center}
+		\includegraphics[width=10cm]{./img/logo.png} \\
+		\Large{\textbf{Programa de Doctorado en Ingeniería Matemática,
+Estadística e Investigación Operativa por la \\
+Universidad Complutense de Madrid y la \\
+Universidad Politécnica de Madrid}}\\
+		\Large{Facultad de Ciencias Matemáticas (UCM)} \\
+        %\large{Departamento de Ingenier\'{i}a Inform\'{a}tica} \\
+	\end{center}    
+
+    \vfill
+
+    \begin{center}
+        \huge{\@title}
+    \end{center}
+
+    \vfill
+
+    \begin{center}
+        A thesis submitted in partial fulfillment for the \\
+        degree of \large{Doctor of Philosophy}
+    \end{center}
+
+    \vfill
+
+    \begin{center}
+        \normalsize{By}\\
+        \Large{\@author}\\
+        \bigskip
+        \normalsize{under the direction of}\\
+        \Large{\director}\\
+    \end{center}
+
+    \vfill
+
+    \begin{center}
+    	Madrid, 2021
+    \end{center}
+    
+    \vfill
+}
+
+
+% Estilo de una página vacía
+\def\whitepage
+{
+    \newpage
+    \thispagestyle{empty}
+    \begin{center}
+    \end{center}
+}
+
+\def\emptypage
+{
+    \newpage
+    \begin{center}
+    \end{center}
+}
+
+% Estilo de la página con la tabla de contenidos
+\def\indice
+{
+    \newpage
+    \thispagestyle{headings}
+	 \phantomsection
+	 \addcontentsline{toc}{chapter}{\contentsname}
+    \tableofcontents
+}
+
+% Estilo de la página con la tabla de figuras
+\def\indicefiguras
+{
+    \newpage
+    \thispagestyle{headings}
+    \listoffigures
+}
+
+% Estilo de la página con la tabla de algoritmos
+\def\indicealgoritmos
+{
+    \newpage
+    \thispagestyle{headings}
+    \listofalgorithms
+}
+
+% Estilo de la página con la tabla de cuadros
+\def\indicetablas
+{
+    \newpage
+    \thispagestyle{headings}
+    \listoftables
+}
+
+\makeatletter
+\let\oldabs\abs
+\def\abs{\@ifstar{\oldabs}{\oldabs*}}
+%
+\let\oldnorm\norm
+\def\norm{\@ifstar{\oldnorm}{\oldnorm*}}
+%
+\let\oldset\set
+\def\set{\@ifstar{\oldset}{\oldset*}}
+%
+\let\oldbigO\bigO
+\def\bigO{\@ifstar{\oldbigO}{\oldbigO*}}
+\makeatother

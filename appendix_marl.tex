@@ -1,0 +1,151 @@
+\chapter{ARA for Reinforcement Learning}
+
+\section{Convergence proof of update rule for TDMPs}\label{sec:p}
+
+Consider an augmented state space so that transitions are of the form
+$$
+ (s,b) \xrightarrow[]{a} (s',b') \xrightarrow[]{a'} \ldots.
+$$
+In our setting, the DM does not observe the full state since she does
+not know the action $b$ taken by her adversary. However, if she knows his policy $p(b|s)$, or has a good estimate of it, she can take advantage of this information.
+
+Assume for now that we know the opponent's action $b$. The $Q$-function would satisfy the following recursive update \cite{sutton2012reinforcement}, when the DM is acting under a policy $\pi$,
+
+\begin{eqnarray*}
+Q^\pi (s,a,b) &=  \sum_{s'} \sum_{b'} p(s', b' |s,a,b) \left[ R_{ss'}^{ab} +  \mathbb{E}_{\pi(a'|s',b')} \left[ Q^\pi(s',a',b') \right] \right],\\
+\end{eqnarray*}
+where we explicitly take into account the structure of the state space and 
+use 
+$$
+R_{ss'}^{ab} = \mathbb{E}\left[ r_{t+1}|s_{t+1} = s', s_{t} = s, a_t = a, b_t = b \right].
+$$ 
+The next opponent action is conditionally independent of the 
+current DM action, state and his own action. We thus write $p(s', b' |s,a,b) = p(b'|s')p(s'|s,a,b)$. Then
+\begin{eqnarray*}
+Q^\pi (s,a,b) &=  \sum_{s'} p(s'|s,a,b) \left[ R_{ss'}^{ab} +  \mathbb{E}_{p(b'|s')} \mathbb{E}_{\pi(a'|s',b')} \left[ Q^\pi(s',a',b') \right] \right],\\
+\end{eqnarray*}
+as $R_{ss'}^{ab}$ does not depend on the next opponent action $b'$. Finally, the optimal $Q$-function verifies
+$$
+Q^*(s,a,b) =  \sum_{s'} p(s'|s,a,b) \left[ R_{ss'}^{ab} + \gamma \max_{a'} \mathbb{E}_{p(b'|s')} \left[ Q^*(s',a',b') \right] \right],
+$$
+since in this case $\pi(a|s) = \argmax_a Q^*(s,a)$. Observe now that:
+
+\begin{lemma}\label{lema:1}
+Given $q: \mathcal{S} \times \mathcal{B} \times \mathcal{A} \rightarrow \mathbb{R}$,
+the operator $\mathcal{H}$ 
+\begin{flalign*}
+(\mathcal{H}q) (s,b,a) = \sum_{s'} p(s'|s,b,a) \big[ r(s,b,a) +\gamma \max_{a'} \mathbb{E}_{p(b'|s')} q(s',b',a') \big].
+\end{flalign*}
+is a contraction mapping under the supremum norm.
+\end{lemma}
+\begin{proof}
+We prove that $\| \mathcal{H}q_1 - \mathcal{H}q_2 \|_{\infty} \leq \gamma \| q_1 - q_2 \|_{\infty}$.
+\begin{flalign*}
+& \| \mathcal{H}q_1 - \mathcal{H}q_2 \|_{\infty} = \\
+&= \max_{s,b,a}  \Big\vert \sum_{s'} p(s'|s,b,a) \big[ r(s,b,a) + \gamma \max_{a'} \mathbb{E}_{p(b'|s')} q_1(s',b',a') -r(s,b,a) - \gamma \max_{a'} \mathbb{E}_{p(b'|s')} q_2(s',b',a') \big]  \Big\vert = \\
+&= \gamma \max_{s,b,a}   \Big\vert \sum_{s'} p(s'|s,b,a) \big[   \max_{a'} \mathbb{E}_{p(b'|s')} q_1(s',b',a')  -\max_{a'} \mathbb{E}_{p(b'|s')} q_2(s',b',a')\big]  \Big\vert \leq \\
+&= \gamma \max_{s,b,a} \sum_{s'} p(s'|s,b,a)  \Big\vert  \max_{a'} \mathbb{E}_{p(b'|s')} q_1(s',b',a') - \max_{a'} \mathbb{E}_{p(b'|s')} q_2(s',b',a') \Big\vert \leq \\
+&= \gamma \max_{s,b,a} \sum_{s'} p(s'|s,b,a)  \max_{a',z}  \Big\vert \mathbb{E}_{p(b'|z)} q_1(z,b',a') - \mathbb{E}_{p(b'|z)} q_2(z,b',a')  \Big\vert \leq \\
+&= \gamma \max_{s,b,a} \sum_{s'} p(s'|s,b,a)  \max_{a',z,b'}  \Big\vert q_1(z,b',a') -  q_2(z,b',a')  \Big\vert =\\
+&= \gamma \max_{s,b,a} \sum_{s'} p(s'|s,b,a)  \|  q_1 -  q_2 \|_{\infty} =  \gamma \|  q_1 -  q_2 \|_{\infty}.\hspace{7cm}\qedhere
+\end{flalign*}
+\end{proof}
+Then, using the proposed learning rule (\ref{eq:lr}), we would converge
+to the optimal $Q$ for each of the opponent actions. The proof follows directly from the standard $Q$-learning convergence proof, see e.g. \cite{melo2001convergence}, and making use of Lemma 1.
+However, at the time of making the decision, we do not know what action
+he would take. Thus, we average over the possible opponent
+actions, weighting each of the actions by $p(b|s)$, as in \eqref{eq:lr2}.
+
+
+\section{One-shot game for the centralized case}\label{one-shot}
+
+%It is fostering cooperation because is changing payoffs, right? {\bf It is not just changing the original payoff bimatrix $P$ to another one $P'$. Rather, it considers a sequence of payoff bimatrices $P_t$, where $t$ refers to the iterations of the regulator. In general, $P_t$ cannot be expressed in closed form, since it depends on past updates and R's policy.}
+    
+% For symmetry, could it be interesting to frame this new problem as a one-shot game first and then as a sequential one? 
+
+%The regulator thing could be formalized as a game with different payoffs? I am trying to understand the regulator thing as a three person sequential game. 
+
+We model the one-shot version of the centralized case game as a
+three-agent sequential game.
+The regulator acts first choosing a tax policy; 
+after observing it, the agents take their actions. 
+Introducing a regulator can foster cooperation in the one shot game.
+
+For simplicity, consider the following policy: the regulator will retain a percentage $x$ of the reward if the agent decides to defect, and 0 if it decides to cooperate. Then, the regulator will share evenly the amount collected between 
+both agents. With this, given the regulator's action $x$, the payoff matrix 
+is as in Table \ref{tab:payoffIPD2}, recalling that  $T > R > P >S$.
+    
+    \begin{table}[h!]
+    \begin{center}
+    \begin{tabular}{cl|lll}
+    \multicolumn{1}{l}{}                                   &     & \multicolumn{3}{l}{\textbf{DDO}} \\ \cline{3-5} 
+    \multicolumn{1}{l}{}                                   &     & $C$         &       & $D$        \\ \hline
+    \multicolumn{1}{c|}{\textbf{Citizen}} & $C$ & $R,R$       &       & $S',T'$      \\
+    \multicolumn{1}{c|}{}                                  &     &             &       &            \\
+    \multicolumn{1}{c|}{}                                  & $D$ & $T',S'$       &       & $P,P$     
+    \end{tabular} 
+    \end{center}
+    \caption{Utilities for the data sharing game}
+    \label{tab:payoffIPD2}
+    \vspace{-2ex}
+    \end{table}
+    
+    Assume that if one agent defects and the other cooperates, the first one will receive a higher payoff, that is $T' > S'$, which means that $x < 1 - \frac{S}{T}$. Depending on $x$, three scenarios arise:
+    \begin{enumerate}
+        \item $T' > R > P > S' \iff x < 2 \left[ \frac{P-S}{T}\right]$. This is
+        equivalent to the prisoner's dilemma. $(D,D)$ strictly dominates, thus being the unique Nash Equilibrium. 
+        
+        \item $R > T' > S' > P \iff x > 2 \left[ 1- \frac{R}{T}\right]$. In this case, $(C,C)$ strictly dominates, becoming the unique Nash Equilibrium. 
+        
+        \item $T' > R > S' > P \iff x \in \left( 2 \left[ \frac{P-S}{T}\right], 2 \left[ 1- \frac{R}{T}\right] \right) $. This is a coordination game. There are two possible Nash Equilibria with pure strategies $(C, D)$ and $(D, C)$.
+    \end{enumerate}
+    
+    Moving backwards, consider the regulator's decision. Recall that
+    R maximizes social utility. Again, three scenarios emerge:
+   \begin{enumerate}
+        \item $x < 2 \left[ \frac{P-S}{T}\right]$. The social utility is $P$.
+        
+        \item $x > 2 \left[ 1- \frac{R}{T}\right]$. The social utility is $R$.
+        
+        \item $x \in \left( 2 \left[ \frac{P-S}{T}\right], 2 \left[ 1- \frac{R}{T}\right] \right) $. The social utility is $\frac{S+T}{2}$.
+    \end{enumerate}
+    
+    As $R > P$ and $R > \frac{T+S}{2}$ (as requested in the IPD),
+    the regulator maximizes his payoff choosing $x > 2 \left[ 1- \frac{R}{T}\right]$. Therefore, $(x, C, C)$, with $x > 2 \left[ 1- \frac{R}{T}\right]$ is a subgame perfect equilibrium, and 
+    we can foster cooperation in the one-shot version of the game.
+    
+    %%%%%%%%%%%%%%%%%
+\section{One-shot game for the centralized case plus incentives}\label{sec:oneshot_inc}
+
+Under this scenario, we consider the reward bimatrix in Table \ref{tab:payoffIPD_inc}, 
+where $I$ is the incentive introduced by the Regulator. 
+
+ \begin{table}[h!]
+    \begin{center}
+    \begin{tabular}{cl|lll}
+    \multicolumn{1}{l}{}                                   &     & \multicolumn{3}{l}{\textbf{DDO}} \\ \cline{3-5} 
+    \multicolumn{1}{l}{}                                   &     & $C$         &       & $D$        \\ \hline
+    \multicolumn{1}{c|}{\textbf{Citizen}} & $C$ & $R+I,R+I$       &       & $S,T$      \\
+    \multicolumn{1}{c|}{}                                  &     &             &       &            \\
+    \multicolumn{1}{c|}{}                                  & $D$ & $T,S$       &       & $P,P$     
+    \end{tabular} 
+    \end{center}
+    \caption{Utilities for the data sharing game with incentives}
+    \label{tab:payoffIPD_inc}
+    \vspace{-2ex}
+    \end{table}
+
+Consider the case in which the agents take 
+the $(C, D)$ pair of actions. In this case, they perceive rewards $(S, T)$.
+After tax collection and distribution, it leads to
+$(S - \frac{Sx}{2} +  \frac{Tx}{2}, T -  \frac{Tx}{2} +  \frac{Sx}{2})$, with $x$ being the tax rate collected by the Regulator. In order to ensure 
+that $(C,C)$ is a Nash equilibrium, two conditions must hold:
+\begin{itemize}
+    \item $S - \frac{Sx}{2} +  \frac{Tx}{2} > P$, so that agents do not 
+    switch from $(C,D)$ to $(D,D)$. This simplifies to $x > 2\frac{(P-S)}{T-S}$.
+    \item $R + I > T -  \frac{Tx}{2} +  \frac{Sx}{2}$, so that 
+    the agents do not switch from $(C, C)$ to $(C,D)$. This simplifies to $x > 2\frac{T - (R+I)}{T-S}$.
+\end{itemize}
+
+This shows that even if the gap between $T$ and $R$ is large, with the
+aid of incentives both agents could reach mutual cooperation, also under a tax framework, since $I$ can grow arbitrarily to ignore the second restriction.
