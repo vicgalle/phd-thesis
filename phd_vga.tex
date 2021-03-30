@@ -13,6 +13,7 @@
 \usepackage{amssymb}
 \usepackage{caption}
 \usepackage{graphicx}
+%\usepackage{subcaption}
 \usepackage{subfigure}
 \usepackage{float}
 \usepackage{multirow}
@@ -30,11 +31,11 @@
 \usepackage{booktabs}
 \usepackage{multirow}
 
-\usepackage{caption}
-%\usepackage{subcaption}
 \usepackage[toc,page]{appendix}
 \usepackage{courier}
 \usepackage{listings}
+
+%\usepackage[linesnumbered]{algorithm2e}
 
 %\usepackage{calc}
 
@@ -111,9 +112,6 @@ group-four-digits
 %\captionsetup[subfigure]{labelformat=subcaptionlabel}
 
 
-\usepackage{algorithm}
-%\usepackage{algorithmicx}
-\usepackage{algpseudocode}
 
 % For algos:
 \algblockdefx[Train]{Train}{EndTrain}[1][]{\textbf{Training} #1}{\textbf{End Training}}
@@ -248,22 +246,25 @@ All the non-standard operators are defined on their first use. Regarding the sta
 
 \input{00_intro}
 
-\chapter{Adversarial Machine Learning and Adversarial Risk Analysis}\label{cha:amlara}
+%\chapter{Adversarial Machine Learning and Adversarial Risk Analysis}\label{cha:amlara}
 %\input{01_math}
 
-%\chapter{Current advances in deep learning}\label{cha:deep}
-%\input{02_deep}
+\chapter{Current advances in deep learning}\label{cha:deep}
+\input{02_deep}
 
 \chapter{Large Scale Bayesian Inference}\label{cha:bayes}
 \input{03_bayes}
 
 
-%\chapter{Adversarial Classification}\label{cha:adv}
-%\input{04_adv}
+\chapter{Adversarial Classification}\label{cha:adv}
+\input{04_adv}
 
 
-%\chapter{Adversarial aspects in Reinforcement Learning}\label{cha:ararl}
-%\input{05_ararl}
+\chapter{Adversarial aspects in Reinforcement Learning}\label{cha:ararl}
+\input{05_ararl}
+
+\chapter{DLMs}\label{cha:dlm}
+\input{07_dlm}
 
 \chapter{Conclusions}\label{cha:conclusions}
 \input{08_conclusions}
@@ -274,8 +275,7 @@ All the non-standard operators are defined on their first use. Regarding the sta
 \iffalse
 
 
-\chapter{DLMs}\label{cha:dlm}
-\input{07_dlm}
+
 
 \iffalse
 Link to parallel scan implementation in Jax: \url{https://colab.research.google.com/drive/1Ni8Cf1Pw-F2gtO-r21ifnQ9QJUZ2qm3T?usp=sharing}
@@ -288,22 +288,25 @@ Check this \url{https://en.wikipedia.org/wiki/Kalman_filter#Marginal_likelihood}
 
 %\chapter{Conclusiones}
 %\input{06_conclusiones}
+\fi
+
 
 \begin{appendices}
-\crefalias{chapter}{appcha}
-\numberwithin{equation}{chapter}
-\makeatletter
+%\crefalias{chapter}{appcha}
+%\numberwithin{equation}{chapter}
+%\makeatletter
 %\addtocontents{toc}{%
 %  \begingroup
 %  \let\protect\l@chapter\protect\l@section
 %  \let\protect\l@section\protect\l@subsection
 %}
 %\makeatother
-%\include{appendix_VIS}
+
+\include{appendix_bayes}
 %\include{appendix_marl}
 %\include{appendix_datacoop}
 \end{appendices}
-\fi
+
 
 \phantomsection
 \addcontentsline{toc}{chapter}{\bibname}

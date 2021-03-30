@@ -974,13 +974,23 @@ Observe that the proposed robustification process
 Next, we show the performance of the scalable approach continuing with the digit recognition example from Section \ref{sec:scalable}. This batch of experiments aims to show that the ARA-inspired defence  can also scale to high-dimensional feature spaces and multiclass problems. The 
 network architecture is shown in Section \ref{sec:scalable}. It is trained using SGD with momentum ($0.5$) for 5 epochs, with learning rate of $0.01$ and batch size of 32. The training set includes 50,000 digit images, and we report results over a 10,000 digit test set. As for uncertainties from Section \ref{sec:uncs}, we use both kinds. 
 
-\begin{figure}[!h]
-\centering     %%% not \center
-\subfigure[FGSM attack.]{\label{fig:sub1}\includegraphics[width=70mm]{figures/comparison_mnist_fgsm.png}}
-\subfigure[PGD attack under $\ell_1$ norm.]{\label{fig:sub2}\includegraphics[width=70mm]{figures/comparison_mnist_pgdl1.png}}
-\caption{Robustness of a deep network for MNIST under three defence mechanisms 
-(none, AT, ARA). (a) depicts the security evaluation curves under the FGSM attack. (b) depicts the security evaluation curves under the PGD attack.}
-\label{fig:comparison_mnist}
+
+\begin{figure}[!htb]
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{figures/comparison_mnist_fgsm.png}
+        \caption{FGSM attack.}
+        \label{fig:sub1}
+    \end{subfigure}
+     %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
+      %(or a blank line to force the subfigure onto a new line)
+    \begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{figures/comparison_mnist_pgdl1.png}
+        \caption{PGD attack under $\ell_1$ norm.}
+        \label{fig:sub2}
+    \end{subfigure}
+    \caption{Robustness of a deep network for MNIST under three defence mechanisms 
+(none, AT, ARA). (a) depicts the security evaluation curves under the FGSM attack. (b) depicts the security evaluation curves under the PGD attack.}\label{fig:comparison_mnist}
 \end{figure}
 
 Figure \ref{fig:comparison_mnist} shows the \emph{security evaluation curves} \cite{BIGGIO2018317} for three different defences (none, AT and ARA), using two attacks at test time: FGSM and PGD. Such curves depict the accuracy of the defender model at this task ($y$-axis), under different attack intensities $\alpha$ ($x$-axis). Note how the uncertainties provided by the ARA training method substantially improve the robustness of the neural network under both attacks. From the graphics, we observe that the ARA approach provides a greater degree of robustness as the attack intensities increase. This suggests that the proposed robustification framework can scale well to both tall and wide datasets and that the introduction of uncertainties by the ARA approach is highly beneficial to increase the robustness of the defended models.

@@ -1,0 +1,32 @@
+class VAE(nn.Module):
+    def __init__(self):
+        super(VAE, self).__init__()
+
+        self.z_d = 10
+        self.h_d = 200
+        self.x_d = 28*28
+
+        self.fc1_mu = nn.Linear(self.x_d, self.h_d)
+        self.fc1_cov = nn.Linear(self.x_d, self.h_d)
+        self.fc12_mu = nn.Linear(self.h_d, self.h_d)
+        self.fc12_cov = nn.Linear(self.h_d, self.h_d)
+        self.fc2_mu = nn.Linear(self.h_d, self.z_d)
+        self.fc2_cov = nn.Linear(self.h_d, self.z_d)
+
+        self.fc3 = nn.Linear(self.z_d, self.h_d)
+        self.fc32 = nn.Linear(self.h_d, self.h_d)
+        self.fc4 = nn.Linear(self.h_d, self.x_d)
+
+    def encode(self, x):
+        h1_mu = F.relu(self.fc1_mu(x))
+        h1_cov = F.relu(self.fc1_cov(x))
+        h1_mu = F.relu(self.fc12_mu(h1_mu))
+        h1_cov = F.relu(self.fc12_cov(h1_cov))
+        # we work in the logvar-domain
+        return self.fc2_mu(h1_mu),
+        torch.log(F.softplus(self.fc2_cov(h1_cov)))
+
+    def decode(self, z):
+        h3 = F.relu(self.fc3(z))
+        h3 = F.relu(self.fc32(h3))
+        return torch.sigmoid(self.fc4(h3))
