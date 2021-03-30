@@ -511,70 +511,53 @@ MoG&  $1.42$ & $ \pmb{1.19} $ \\
 
 For the computation of the error of $\mathbb{E}\left[ X \right]$ in Table \ref{tab:ess}, we sample for 500 iterations after discarding the first 500 iterations as burn-in, and we collect samples every 10 iterations to reduce correlation between samples. For the MoE case, we used 10 particles, whereas for the MoG task, we used 20 particles given the bigger number of modes.
 
-\begin{figure}[!htb]
-    \centering
-    \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{img/exp1_MOO}
-        \caption{Estimation of $\mathbb{E}\left[X\right]$}
-        \label{fig:gull}
-    \end{subfigure}
-     %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
-      %(or a blank line to force the subfigure onto a new line)
-    \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{img/exp2_MOO}
-        \caption{Estimation of $\mathbb{E}\left[X^2\right]$}
-        \label{fig:tiger}
-    \end{subfigure}
-    \caption{Evolution of estimation, MoE experiment. Curves plotted for 5 simulations. 10 particles used at each simulation. Black line depicts exact value to be estimated}\label{fig:moe}
+
+\begin{figure}[ht]
+\begin{center}
+\minipage{0.45\textwidth}
+\hspace{-0.5em}
+  \includegraphics[width=\linewidth]{img/exp1_MOO}
+\endminipage\hfill
+\minipage{0.45\textwidth}
+  \includegraphics[width=\linewidth]{img/exp2_MOO}
+\endminipage
+\end{center}
+\caption{Evolution of estimation, MoE experiment. Curves plotted for 5 simulations. 10 particles used at each simulation. Black line depicts exact value to be estimated. Left: Estimation of $\mathbb{E}\left[X\right]$. Right: Estimation of $\mathbb{E}\left[X^2\right]$.} \label{fig:moe}
 \end{figure}
 
-\begin{figure}[!htb]
-    \centering
-    \begin{subfigure}[b]{0.2\textwidth}
-        \includegraphics[width=\textwidth]{img/init.png}
-        \caption{Prior particles}
-        \label{fig:gull}
-    \end{subfigure}
-     %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
-      %(or a blank line to force the subfigure onto a new line)
-    \begin{subfigure}[b]{0.2\textwidth}
-        \includegraphics[width=\textwidth]{img/sgld.png}
-        \caption{SGLD dyn.}
-        \label{fig:tiger}
-    \end{subfigure}
-    %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
-    %(or a blank line to force the subfigure onto a new line)
-    \begin{subfigure}[b]{0.2\textwidth}
-        \includegraphics[width=\textwidth]{img/psvgd.png}
-        \caption{SGLD+R dyn.}
-        \label{fig:mouse}
-    \end{subfigure}
-     %~ %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
-    %(or a blank line to force the subfigure onto a new line)
-    \begin{subfigure}[b]{0.2\textwidth}
-        \includegraphics[width=\textwidth]{img/target.png}\label{fig:3x3gauss}
-        \caption{MoG density}
-        \label{fig:mouse}
-    \end{subfigure}
-    \caption{Evolution of the particles during the MoG experiment}\label{fig:mog}
+\begin{figure}[ht]
+\begin{center}
+\minipage{0.23\textwidth}
+\hspace{-0.5em}
+  \includegraphics[width=\linewidth]{img/init.png}
+\endminipage\hfill
+\minipage{0.23\textwidth}
+  \includegraphics[width=\linewidth]{img/sgld.png}
+\endminipage\hfill
+\minipage{0.23\textwidth}
+  \includegraphics[width=\linewidth]{img/psvgd.png}
+\endminipage\hfill
+\minipage{0.23\textwidth}
+  \includegraphics[width=\linewidth]{img/target.png}\label{fig:3x3gauss}
+\endminipage
+\end{center}
+\caption{Evolution of the particles during the MoG experiment. (a) Prior particles. (b) SGLD dyn. (c) SGLD+R dyn. (d) MoG density.}\label{fig:mog}
 \end{figure}
 
-\begin{figure}[!htb]
-    \centering
-    \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{img/exp1.pdf}
-        \caption{Estimation of $\mathbb{E}\left[X\right]$}
-        \label{fig:gull}
-    \end{subfigure}
-     %add desired spacing between images, e. g. ~, \quad, \qquad, \hfill etc. 
-      %(or a blank line to force the subfigure onto a new line)
-    \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{img/exp2.pdf}
-        \caption{Estimation of $\mathbb{E}\left[X^2\right]$}
-        \label{fig:tiger}
-    \end{subfigure}
-    \caption{Evolution of estimation during the MoE experiment. 100 particles are used. Black line depicts the exact value to be estimated}\label{fig:moe100}
+
+\begin{figure}[ht]
+\begin{center}
+\minipage{0.45\textwidth}
+\hspace{-0.5em}
+  \includegraphics[width=\linewidth]{img/exp1.pdf}
+\endminipage\hfill
+\minipage{0.45\textwidth}
+  \includegraphics[width=\linewidth]{img/exp2.pdf}
+\endminipage
+\end{center}
+\caption{Evolution of estimation during the MoE experiment. 100 particles are used. Black line depicts the exact value to be estimated. Left: Estimation of $\mathbb{E}\left[X\right]$. Right: Estimation of $\mathbb{E}\left[X^2\right]$.}\label{fig:moe100}
 \end{figure}
+
 
 
 
@@ -649,7 +632,7 @@ The model used for attack generation is a fully-connected network with three hid
 
 
 
-\begin{figure}[!h]
+\begin{figure}[h]
     \centering
 \includegraphics[width=0.5\textwidth]{img/adv-2}
     \caption{Accuracy for various values of attack strengths under the FGSM attack.}\label{fig:attacks}
