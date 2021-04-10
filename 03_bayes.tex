@@ -1,6 +1,16 @@
-
-
 \section{Introduction}
+
+This Chapter presents two developments at the intersection of approximate Bayesian inference and complex machine learning models, such as neural networks. The first one proposes a unifying view of two different Bayesian inference algorithms, Stochastic Gradient Markov Chain Monte Carlo (SG-MCMC) and Stein Variational Gradient Descent (SVGD), leading to improved and efficient novel sampling schemes. We also show that SVGD combined with a noise term can be framed as a multiple chain SG-MCMC method. Sections \ref{sec:back} to \ref{sec:experiments_sgmcmc} are devoted to this study.
+
+On the other hand, in the second part of this Chapter we propose a complementary framework boost the efficiency of Bayesian inference in probabilistic models is introduced by embedding a Markov chain sampler within a variational posterior approximation. We call this framework “variationally inferred sampling” (VIS). Its strengths are its ease of implementation and the automatic tuning of sampler parameters, leading to a faster mixing time through automatic differentiation.
+Sections \ref{sec:main} to \ref{sec:exps_vis} tackle this framework.
+
+We continue by giving a brief introduction for each of the two components. Then, the discussion follows with the details of each of the two. Finally, in Section \ref{sec:conclusion_lsb} we conclude with some remarks and avenues for future research.
+
+
+
+
+\subsection{A motivation for SG-MCMC with repulsive forces}
 
 
 Bayesian computation lies at the heart of many machine learning models in both academia and industry \cite{bishop2006pattern}. Thus, it is of major importance to develop efficient approximation techniques that tackle the intractable integrals that arise in large scale Bayesian inference and prediction problems \cite{gelman2013bayesian}. 
@@ -22,6 +32,14 @@ Any competing MCMC approach should verify the following list of properties as ou
 % \item Convergence to the true posterior. The dynamics of the underlying stochastic differential equation should converge to the exact posterior. SG-MCMC introduces a discretization of the previous SDE that induces some bias. However we shall see that it is controllable and smaller than in variational methods. 
 % \item Flexibility. Since, we provide a parametric formulation of the transition kernel, we can adapt other methods such as \emph{Hamiltonian Monte Carlo} \cite{chen2014stochastic} or the Nosé-Hoover thermostat method. \cite{ding2014bayesian}
 % \end{enumerate}
+There has been recent interest in developing new dynamics for SG-MCMC samplers with the aim of exploring the target distribution more efficiently. \cite{chen2014stochastic} proposed a stochastic gradient version of HMC, and \cite{ding2014bayesian} did the same leveraging for the Nos\'e-Hoover thermostat dynamics. \cite{chen2016bridging} leverages ideas from stochastic gradient optimization by proposing the analogue sampler to the Adam optimizer. A relativistic variant of Hamiltonian dynamics was introduced by \cite{abbati2018adageo}. Two of the most recent derivations of SG-MCMC samplers are \cite{zhang2019cyclical}, in which the authors propose a policy controlling the learning rate which serves as a better preconditioning; and \cite{gong2019meta}, in which a meta-learning approach is proposed to learn an efficient SG-MCMC transition kernel.
+
+While the previous works propose new kernels which can empirically work well, they focus on the case of a single chain. We instead consider the case of several chains in parallel, and the bulk of our contribution focuses on how to develop transition kernels which exploit interactions between chains. Thus, our framework can be seen as an orthogonal development to the previous listed approaches, and could be actually combined with them.
+
+On the theoretical side, \cite{chen2018unified} study another connection between MCMC and deterministic flows. In particular, they explore the correspondence between Langevin dynamics and Wasserstein gradient flows.
+We instead formulate the dynamics of SVGD as a particular kind of MCMC dynamics, which enables us to use the Fokker-Planck equation to show in a straightforward manner how our samplers are valid. \cite{liu2017stein} started to consider similitudes between SG-MCMC and SVGD, though in this work we propose the first hybrid scheme between both methods.
+
+
 
 Our contributions are summarized as follows. First, we provide a unifying hybrid scheme of SG-MCMC and SVGD algorithms satisfying the previous list of requirements. Second, and based on the previous connection, 
 we develop new SG-MCMC schema that include repulsive forces between particles and momentum acceleration. Finally, we show how momentum-based extensions of SGD can be incorporated into our framework, leading to new samplers which benefit from both momentum acceleration and repulsion between particles for better exploration of complex posterior landscapes, therefore providing a very competitive scheme. 
@@ -29,7 +47,7 @@ we develop new SG-MCMC schema that include repulsive forces between particles an
 Figure \ref{fig:diagram} provides a diagram of our proposal. Starting with SGD, one can add a carefully crafted noise term to arrive at the simplest SG-MCMC sampler, SGLD. Then, one can add repulsion between particles to speed-up the mixing time, leading to SGLD+R, our first contribution (Section \ref{sec:framework}). On top of that, we can further augment the latent space with momentum variables, leading to the Adam+NR sampler, our second proposed sampler (\ref{sec:momentum}).
 
 After an overview of posterior approximation methods in Section \ref{sec:back}, we propose our framework in Section \ref{sec:framework}.
-Section \ref{sec:experiments} discusses relevant experiments showcasing the benefits of our proposal. Finally, Section \ref{sec:conclusion} sums up our contributions and highlight several open problems.
+Section \ref{sec:experiments_sgmcmc} discusses relevant experiments showcasing the benefits of our proposal. Finally, Section \ref{sec:conclusion_lsb} sums up our contributions and highlight several open problems.
 
 
 \begin{figure}[!h]
@@ -40,43 +58,143 @@ Section \ref{sec:experiments} discusses relevant experiments showcasing the bene
 
 
 
-\section{Background and related work}\label{sec:back}
 
-Consider a probabilistic model $p(\bm{x}| \bm{z})$ and a prior distribution $p(\bm{z})$ where $\bm{x}$ denotes an observation and $\bm{z} = ( z_1, \ldots, z_d) $ an unobserved $d-$dimensional latent variable or parameter, depending on the context. We are interested in performing inference regarding the unobserved variable $\bm{z}$, by approximating its posterior distribution:
+
+
+\subsection{A motivation for variationaly inferred samplers (VIS)}
+Bayesian inference and prediction in large, complex models, such as in 
+deep neural networks or stochastic processes, remains an elusive problem \cite{blei2017variational,insua2012bayesian,alquier2020approximate}.
+%
+%as in 
+%Accurate and efficient uncertainty estimation is becoming increasingly relevant in the Machine Learning community. As current models, such as those grounded in deep learning \cite{SCHMIDHUBER201585}, become more and more complex, traditional uncertainty estimation techniques become obsolete, thus the growing interest in developing newer approximation frameworks.
+%
+%One of the most popular and flexible paradigms to perform uncertainty estimation is provided by Bayesian statistics \cite{gelmanbda04}. Consider a joint probability model of latent variables and parameters $z$ and observations $x$,
+%$$
+%p(x,z) = p(z)p(x|z). 
+%$$
+%Under the Bayesian paradigm, the latent variables govern the distribution of the observed data. A Bayesian probabilistic model draws the latent variables or parameters from some prior distribution $p(z)$ and relates them to the observations via the likelihood probability $p(x|z)$. The machine learning and artificial intelligence communities are pervaded by models that can be expressed naturally through a joint model. Variational autoencoders (VAE) \cite{kingma2013auto} or  hidden Markov models (HMM) \cite{rabiner1989tutorial} are two relevant examples. 
+%
+%To perform Bayesian inference, we need to condition on the data to compute the posterior distribution, which we can be used to get uncertainty estimates. In complex models, this distribution 
+Variational approximations (e.g., automatic differentiation variational inference (ADVI) \cite{kucukelbir2017automatic}) tend to be biased and 
+underestimate uncertainty \cite{riquelme2018failure}. 
+On the other hand, depending on the target distribution,
+%is frequently intractable and requires approximations, such as Monte Carlo methods (e.g.,
+Markov Chain Monte Carlo (MCMC) \cite{andrieu2010particle} 
+methods, such 
+as Hamiltonian Monte Carlo (HMC) \cite{neal2011mcmc}),   
+tend to be exceedingly slow  \cite{van2018simple} {in large scale settings with large amounts of data points and/or parameters}. For this reason, in recent years, there has been increasing interest in developing more efficient posterior approximations \cite{nalisnick2016approximate,salimans2015markov,tran2015variational} and inference techniques that aim to be as general and flexible as possible {so that they can be easily used with any probabilistic model} \cite{wood2014new, ge2018t}.
+
+It is well known that the performance of a sampling method depends
+heavily on the parameterization used \cite{papaspiliopoulos2007general}. This work proposes
+a framework to automatically tune the parameters of a 
+MCMC sampler {with the aim of adapting the shape of the posterior, thus~boosting the Bayesian inference efficiency. 
+ We deal with a case in which the latent variables or parameters are continuous. Our framework can also be regarded as a principled way to enhance the flexibility of  variational posterior approximation in search of an optimally tuned MCMC sampler;} thus the proposed name of our framework is {the variationally inferred sampler} (VIS).
+
+
+{
+
+The idea of preconditioning the posterior distribution to speed up the mixing time of a MCMC sampler has been explored recently in \cite{hoffmanneutra,PhysRevLett.121.260601}, where a parameterization was learned before sampling via HMC. Both papers extend seminal work in \cite{parno2014transport} by learning an efficient and expressive deep, non-linear transformation instead of a polynomial regression. However, they do not account for tuning the parameters of the sampler, as introduced in Section \ref{sec:main}, where a fully, end-to-end differentiable sampling scheme is proposed.
+
+The work presented in \cite{rezende2015variational} introduced a general
+framework for constructing more flexible variational distributions, called normalizing flows. These transformations are one of the main techniques used to improve the flexibility of current variational inference (VI) approaches and have recently pervaded the approximate Bayesian inference
+literature with developments such as continuous-time normalizing flows \cite{chen2018continuoustime} (which extend an initial simple variational posterior with a discretization of Langevin dynamics) or householder flow for mixtures of Gaussian distributions \cite{LIU201943}. However, they require a generative adversarial network (GAN) \cite{goodfellow2014generative} to learn the posterior,
+which can be unstable in high-dimensional spaces. We overcome this problem with our novel formulation; moreover, our framework is also compatible with different optimizers, rather than only those derived from Langevin dynamics \cite{10.5555/3122009.3208015}. Other recent proposals create more flexible variational posteriors based on implicit approaches typically requiring a GAN, as presented in \cite{huszar2017variational} and including unbiased implicit variational inference (UIVI)
+\cite{pmlr-v89-titsias19a} or semi-implicit variational inference (SIVI) \cite{yin2018semi}. Our variational approximation is also implicit but uses a sampling algorithm to drive the evolution of the density, combined with a Dirac delta approximation to derive an efficient variational approximation, as reported through extensive experiments in Section \ref{sec:exps_vis}.
+
+Closely related to our framework is the work presented in \cite{hoffman2017learning}, where a variational autoencoder (VAE) is learned using HMC. We~use a similar compound distribution as the variational approximation, yet 
+our approach allows  any stochastic gradient MCMC to be embedded, %(SG-MCMC) sampler parameterized as $Q_{\eta, T}(z|z_0)$, where $z_0$ is the initial sample, $\eta$ the sampler hyperparameters and $T$ denotes the number of iterations.
+ as well as facilitating the tuning of sampler parameters via gradient descent.
+Our work also relates to the recent idea of 
+sampler amortization \cite{feng2017learning}. 
+A common problem with these approaches is that they incur in an additional error---the amortization gap \cite{cremer2018inference}---which we alleviate by evolving a set of particles through a stochastic process in the latent space after learning a good initial distribution,
+meaning that %. Hence, the bias generated by 
+the initial approximation bias can be significantly reduced.
+%after several process iterations % of the process.
+A recent related article was presented in~\cite{pmlr-v97-ruiz19a},
+which also defined a compound distribution. 
+However, our focus is on efficient approximation using the reverse KL %Please define if appropriate 
+divergence, %the standard and well understood divergence used in variational inference, 
+which allows sampler parameters to be tuned and achieves superior results. Apart from optimizing this kind of divergence, % (better studied than the divergence  use),
+the~main point is that we can compute the gradients of sampler parameters %$\eta$ 
+(Section \ref{sec:tuning}), whereas in~\cite{pmlr-v97-ruiz19a} the authors only consider a parameterless sampler: % $Q_T(z|z_0)$:
+thus, our framework allows for greater flexibility, helping the user
+to tune sampler hyperparameters.
+In the Coupled Variational Bayes (CVB)~\cite{dai2018coupled} approach,
+optimization is in the dual space, whereas
+we optimize the standard
+evidence lower bound (ELBO). Note that even if the optimization was exact, the solutions would coincide, and it is not clear yet what happens in the truncated optimization case,% (finite $T$), 
+other than performing empirical experiments on given datasets. We thus feel that there is room for implicit methods that perform optimization in the primal space 
+(besides this, they are easier to implement). Moreover,
+the previous dual optimization approach requires the use of an additional neural network (see the paper on the Coupled Variational Bayes (CVB) approach
+ or \cite{fang2019implicit}). This adds a large number of parameters and requires another architecture decision. With VIS, we do not need to introduce an auxiliary network, since we perform a ``non-parametric'' approach by back-propagating instead through 
+several iterations of SGLD. %Please define if appropriate 
+%Thus, the only parameters introduced are the sampler hyperparameters (the step-size in the SGLD case).
+Moreover, the lack of an auxiliary network simplifies the design choices.
+}
+
+
+%If we consider a probabilistic program to define a distribution $p(x, z)$, where $x$ are observations and $z$  denote both latent variables and parameters, then we are typically interested in answering queries involving the posterior $p(z | x)$. 
+
+{ Thus, our contributions include a flexible and consistent variational approximation to the posterior,
+embedding an initial variational approximation within a stochastic process;} %, together with 
+an analysis of its key properties; %(Section \ref{sec:main}); 
+    the provision of several strategies for ELBO
+    optimization using the previous 
+    approximation; and finally, 
+    an illustration of its power through relevant complex examples.
+    %\item An alternative ELBO function objective formulation, which is a variant of the original one when this new variational approximation is adopted. %(Section \ref{sec:rewriting}).
+    %\item A specialization to the case of Bayesian inference in state-space models.% (Section \ref{sec:ss}).
+    %\item Variance reduction and reparameterization via delayed sampling to accelerate the sampling process.
+    %\item Guide generation (special structure in the warping flow).
+
+
+ 
+
+
+%BMAML: only SVGD, focus on multiple tasks, custom losses.
+
+
+
+
+
+
+\section{Background}\label{sec:back}
+
+Consider a probabilistic model $p({x}| {z})$ and a prior distribution $p({z})$ where ${x}$ denotes an observation and ${z} = ( z_1, \ldots, z_d) $ an unobserved $d-$dimensional latent variable or parameter, depending on the context. We are interested in performing inference regarding the unobserved variable ${z}$, by approximating its posterior distribution:
 $$
-p(\bm{z} | \bm{x}) = \frac{ p(\bm{z})p(\bm{x}| \bm{z}) }{ \int p(\bm{z})p(\bm{x}| \bm{z}) d\bm{z} } = \frac{ p(\bm{z})p(\bm{x}| \bm{z}) }{ p(\bm{x}) } = \frac{p(\bm{z},\bm{x})}{p(\bm{x})}.
+p({z} | {x}) = \frac{ p({z})p({x}| {z}) }{ \int p({z})p({x}| {z}) d{z} } = \frac{ p({z})p({x}| {z}) }{ p({x}) } = \frac{p({z},{x})}{p({x})}.
 $$
-Except for reduced classes of distributions like \textit{conjugate priors}, \cite{raiffa1961applied}, the integral $p(\bm{x}) = \int p(\bm{z})p(\bm{x}| \bm{z}) d\bm{z}$ is analytically intractable; no general explicit expressions of the posterior are available. Thus, several techniques have been proposed to perform approximate posterior inference.
+Except for reduced classes of distributions like \textit{conjugate priors}, \cite{raiffa1961applied}, the integral $p({x}) = \int p({z})p({x}| {z}) d{z}$ is analytically intractable; no general explicit expressions of the posterior are available. Thus, several techniques have been proposed to perform approximate posterior inference.
 
 
 \subsection{Inference as sampling}\label{sec:infassamp}
 
-Hamiltonian Monte Carlo (HMC, \cite{neal2011mcmc}) is an effective sampling method for models whose probability is point-wise computable and differentiable. %HMC uses Hamiltonian dynamics to produce minimally correlated proposals by augmenting the state space of the target distribution $p(z| x)$ with a $d-$dimensional vector $\bm{r}$. The resulting joint distribution is:
+Hamiltonian Monte Carlo (HMC, \cite{neal2011mcmc}) is an effective sampling method for models whose probability is point-wise computable and differentiable. %HMC uses Hamiltonian dynamics to produce minimally correlated proposals by augmenting the state space of the target distribution $p(z| x)$ with a $d-$dimensional vector ${r}$. The resulting joint distribution is:
 %$$
-%p(z, \bm{r}| x) = p(z| x)p(\bm{r}),\qquad \bm{r} \sim \mathcal{N}(\bm{0}, \bm{I}).
+%p(z, {r}| x) = p(z| x)p({r}),\qquad {r} \sim \mathcal{N}({0}, {I}).
 %$$
-%HMC employs two proposals, the first one randomizing $\bm{r}$ (to explore the state space) whereas the second one updates both $z$ and $\bm{r}$ 
+%HMC employs two proposals, the first one randomizing ${r}$ (to explore the state space) whereas the second one updates both $z$ and ${r}$ 
 %simulating the Hamiltonian dynamics defined through 
 %$$
-%H(z, \bm{r}) = -\log p(z| x) + \bm{r}^\intercal \bm{r}/2.
+%H(z, {r}) = -\log p(z| x) + {r}^\intercal {r}/2.
 %$$
-HMC requires the exact simulation of a certain dynamical system which can be cumbersome in high-dimensional or large data settings. When this is an issue, \cite{welling2011bayesian} proposed a formulation of a continuous-time Markov process that converges to a target distribution $p(\bm{z} | \bm{x})$. It is based on the Euler-Maruyama discretization of Langevin dynamics:
+HMC requires the exact simulation of a certain dynamical system which can be cumbersome in high-dimensional or large data settings. When this is an issue, \cite{welling2011bayesian} proposed a formulation of a continuous-time Markov process that converges to a target distribution $p({z} | {x})$. It is based on the Euler-Maruyama discretization of Langevin dynamics:
 \begin{eqnarray}\label{eq:sgld}
-\bm{z}_{t+1} \leftarrow \bm{z}_{t} - \epsilon_t \nabla \log p(\bm{z}_t,\bm{x})  + \mathcal{N}(\bm{0}, 2\epsilon_t I),
+{z}_{t+1} \leftarrow {z}_{t} + \epsilon_t \nabla \log p({z}_t,{x})  + \mathcal{N}({0}, 2\epsilon_t I),
 \end{eqnarray}
-where $\epsilon_t$ is the step size. The previous iteration uses the gradient evaluated at one data point $\bm{x}$, but we can use the full dataset or mini-batches. Several extensions of the original Langevin sampler have been proposed to increase mixing speed, see for instance \cite{li2016preconditioned,li2016high,li2019communication}.
+where $\epsilon_t$ is the step size. The previous iteration uses the gradient evaluated at one data point ${x}$, but we can use the full dataset or mini-batches. Several extensions of the original Langevin sampler have been proposed to increase mixing speed, see for instance \cite{li2016preconditioned,li2016high,li2019communication}.
 
-\cite{ma2015complete} proposed a general formulation of a continuous-time Markov process that converges to a target distribution $\pi(\bm{z}) \propto \exp (-H(\bm{z}))$. It is based on the Euler-Maruyama discretization of the generalized Langevin dynamics:
+\cite{ma2015complete} proposed a general formulation of a continuous-time Markov process that converges to a target distribution $\pi({z}) \propto \exp (-H({z}))$. It is based on the Euler-Maruyama discretization of the generalized Langevin dynamics:
 \begin{align}\label{eq:sgmcmc}
 \begin{split}
-&\bm{z}_{t+1} \leftarrow \bm{z}_{t} \\ & -\epsilon_t \left[ (\mathbf{D}(\bm{z}_t) + \mathbf{Q}(\bm{z}_t)) \nabla H(\bm{z}_t) + \mathbf{\Gamma}(\bm{z}_t) \right] + \mathcal{N}(\mathbf{0}, 2\epsilon_t \mathbf{D}(\bm{z}_t)),
+&{z}_{t+1} \leftarrow {z}_{t}  -\epsilon_t \left[ ({D}({z}_t) + {Q}({z}_t)) \nabla H({z}_t) + {\Gamma}({z}_t) \right] + \mathcal{N}({0}, 2\epsilon_t {D}({z}_t)),
 \end{split}
 \end{align}
-with $\mathbf{D}(\bm{z})$ being a diffusion matrix; $\mathbf{Q}(\bm{z})$, a curl matrix; and $\mathbf{\Gamma}(\bm{z})_i = \sum_{j=1}^d \frac{\partial}{\partial \bm{z}_j} (\mathbf{D}_{ij}(\bm{z}) + \mathbf{Q}_{ij}(\bm{z})) $ is a correction term which amends the bias.
+with ${D}({z})$ being a diffusion matrix; ${Q}({z})$, a curl matrix; and ${\Gamma}({z})_i = \sum_{j=1}^d \frac{\partial}{\partial {z}_j} ({D}_{ij}({z}) + {Q}_{ij}({z})) $ is a correction term which amends the bias.
 
-To obtain a valid SG-MCMC algorithm, we simply have to choose the dimensionality of $\bm{z}$ (e.g., if we augment the space with auxiliary variables as in HMC), and the matrices $\mathbf{D}$ and $\mathbf{Q}$. For instance, the popular Stochastic Gradient Langevin Dynamics (SGLD) algorithm, the first SG-MCMC scheme in (\ref{eq:sgld}), is obtained when $\mathbf{D} = \mathbf{I}$ and $\mathbf{Q} = \mathbf{0}$. In addition, the Hamiltonian variant can be recovered if we augment the state space with a $d-$dimensional momentum term $\mathbf{m}$, leading to an augmented latent space $ \bar{\bm{z}} = (\bm{z}, \mathbf{m})$. Then, we set $\mathbf{D} = \mathbf{0}$ and $\mathbf{Q} = \begin{pmatrix}
-\mathbf{0} & -\mathbf{I} \\
-\mathbf{I} & \mathbf{0}
+To obtain a valid SG-MCMC algorithm, we simply have to choose the dimensionality of ${z}$ (e.g., if we augment the space with auxiliary variables as in HMC), and the matrices ${D}$ and ${Q}$. For instance, the popular Stochastic Gradient Langevin Dynamics (SGLD) algorithm, the first SG-MCMC scheme in (\ref{eq:sgld}), is obtained when ${D} = {I}$ and ${Q} = {0}$. In addition, the Hamiltonian variant can be recovered if we augment the state space with a $d-$dimensional momentum term ${m}$, leading to an augmented latent space $ \bar{{z}} = ({z}, {m})$. Then, we set ${D} = {0}$ and ${Q} = \begin{pmatrix}
+{0} & -{I} \\
+{I} & {0}
 \end{pmatrix}$.
 
 
@@ -85,86 +203,79 @@ To obtain a valid SG-MCMC algorithm, we simply have to choose the dimensionality
 
 %Later say, the benefit of this is amortization, in order to justify $q(z) \rightarrow q(z|x)$.
 
-Variational inference, \cite{kucukelbir2017automatic}, tackles the problem of approximating the posterior $p(\bm{z} | \bm{x})$ with a tractable parameterized distribution $q_{\bm{\lambda}}(\bm{z}|\bm{x})$. The goal is to find parameters $\bm{\lambda}$ so that the variational distribution $q_{\bm{\lambda}}(\bm{z}|\bm{x})$ (also referred to as the variational guide or variational approximation) is as close as possible to the actual posterior. Closeness is typically measured through the
+Variational inference, \cite{kucukelbir2017automatic}, tackles the problem of approximating the posterior $p({z} | {x})$ with a tractable parameterized distribution $q_{{\lambda}}({z}|{x})$. The goal is to find parameters ${\lambda}$ so that the variational distribution $q_{{\lambda}}({z}|{x})$ (also referred to as the variational guide or variational approximation) is as close as possible to the actual posterior. Closeness is typically measured through the
 Kullback-Leibler 
 divergence $KL(q || p)$, which is reformulated into the \emph{evidence lower bound} (ELBO) given by
 \begin{equation}\label{eq:elbo}
-\mbox{ELBO}(q) = \mathbb{E}_{q_{\bm{\lambda}}(\bm{z}|\bm{x})} \left[ \log p(\bm{x},\bm{z}) - \log q_{\bm{\lambda}}(\bm{z}|\bm{x})\right].
+\mbox{ELBO}(q) = \mathbb{E}_{q_{{\lambda}}({z}|{x})} \left[ \log p({x},{z}) - \log q_{{\lambda}}({z}|{x})\right].
 \end{equation}
 To allow 
-for greater flexibility, typically a deep non-linear model conditioned on observation $\bm{x}$ defines the mean $\mu_{\bm{\lambda}}(\bm{x})$ and covariance matrix $\sigma_{\bm{\lambda}}(\bm{x})$ of a
-Gaussian distribution $q_{\bm{\lambda}}(\bm{z}|\bm{x}) \sim \mathcal{N}(\mu_{\bm{\lambda}}(\bm{x}), \sigma_{\bm{\lambda}}(\bm{x}))$.
+for greater flexibility, typically a deep non-linear model conditioned on observation ${x}$ defines the mean $\mu_{{\lambda}}({x})$ and covariance matrix $\sigma_{{\lambda}}({x})$ of a
+Gaussian distribution $q_{{\lambda}}({z}|{x}) \sim \mathcal{N}(\mu_{{\lambda}}({x}), \sigma_{{\lambda}}({x}))$.
 Inference is then performed using a gradient-based maximization routine, leading to variational parameter updates
 \begin{align*}
-\bm{\lambda}_{t+1} = \bm{\lambda}_t +  \epsilon_t \nabla_{\bm{\lambda}} \mbox{ELBO}(q),
+{\lambda}_{t+1} = {\lambda}_t +  \epsilon_t \nabla_{{\lambda}} \mbox{ELBO}(q),
 \end{align*}
 where $\epsilon_t$ is the learning rate. Stochastic gradient descent (SGD) \cite{hoffman2013stochastic}, or some variant of it, such as Adam \cite{kingma2014adam}, are used as optimization algorithms.
 
 %Introduce SVGD as performing functional gradient descent.
-On the other hand, SVGD \cite{liu2016stein}, frames posterior sampling as an optimization process, in which a set of $L$ particles $\lbrace \bm{z}_i \rbrace_{i=1}^L$ is evolved iteratively via a velocity field $\bm{z}_{i, t+1} \leftarrow \bm{z}_{i, t} + \epsilon_t \phi(\bm{z}_{i,t})$, where $\phi : \mathbb{R}^d \rightarrow \mathbb{R}^d$ is a smooth function characterizing the perturbation of the latent space.
+On the other hand, SVGD \cite{liu2016stein}, frames posterior sampling as an optimization process, in which a set of $L$ particles $\lbrace {z}_i \rbrace_{i=1}^L$ is evolved iteratively via a velocity field ${z}_{i, t+1} \leftarrow {z}_{i, t} + \epsilon_t \phi({z}_{i,t})$, where $\phi : \mathbb{R}^d \rightarrow \mathbb{R}^d$ is a smooth function characterizing the perturbation of the latent space.
 Let $q$ be the particle distribution at iteration $t$ and $q_{\left[ \epsilon \phi \right]}$ the distribution after update ($t+1$). Then, the optimal choice of the velocity field $\phi$ can be framed through the optimization problem $\phi^* = \arg\max_{\phi \in \mathcal{F}} \lbrace -\frac{d}{d\epsilon} \mbox{KL}( q_{\left[ \epsilon \phi \right]} \| p) \rbrace$, in with $\phi$ chosen to maximize the decreasing rate on the Kullback-Leibler (KL) divergence between the particle distribution and the target, and $\mathcal{F}$, some proper function space. When $\mathcal{F}$ is a \emph{reproducing kernel Hilbert space} (RKHS), \cite{liu2016stein} showed that the optimal velocity field leads to
 \begin{align}\label{eq:svgd}
 \begin{split}
-&\bm{z}_{i, t+1} \leftarrow \bm{z}_{i, t} \\&- \epsilon_t \frac{1}{L}  \sum_{j=1}^L \left[ k(\bm{z}_{j, t}, \bm{z}_{i, t})\nabla H(\bm{z}_{j,t}) + \nabla_{\bm{z}_{j, t}}  k(\bm{z}_{j, t}, \bm{z}_{i, t})  \right],
+&{z}_{i, t+1} \leftarrow {z}_{i, t} - \epsilon_t \frac{1}{L}  \sum_{j=1}^L \left[ k({z}_{j, t}, {z}_{i, t})\nabla H({z}_{j,t}) + \nabla_{{z}_{j, t}}  k({z}_{j, t}, {z}_{i, t})  \right],
 \end{split}
 \end{align}
-where the RBF kernel $k(\bm{z}, \bm{z}') = \exp (-\frac{1}{h}  \| \bm{z} - \bm{z}' \|^2 )$ is typically adopted. Observe that in (\ref{eq:svgd}) the gradient term $\nabla_{\bm{z}_{j, t}}  k(\bm{z}_{j, t}, \bm{z}_{i, t})$ acts as a repulsive force that prevents particles from collapsing. 
+where the RBF kernel $k({z}, {z}') = \exp (-\frac{1}{h}  \| {z} - {z}' \|^2 )$ is typically adopted. Observe that in (\ref{eq:svgd}) the gradient term $\nabla_{{z}_{j, t}}  k({z}_{j, t}, {z}_{i, t})$ acts as a repulsive force that prevents particles from collapsing. 
 
 %\subsection{Related work}
 
 %Discuss \url{https://arxiv.org/pdf/1512.07962.pdf}. They bridge the gap between stochastic optimization and SG-MCMC. We instead bridge the gap between SVGD and SGMCMC, and as a corollary we derive a family of SVGD algorithms. Also, they don't use Ma framework, so ours is a easier alternative.
 
 \subsection{The Fokker-Planck equation}\label{sec:fp}
-Consider a stochastic differential equation (SDE) of the form $d\bm{z} = \mu_t(\bm{z})dt + \sqrt{2 D_t(\bm{z})}dB_t$. The distribution $q_t(\bm{z})$ of a population of particles evolving according to the previous SDE from some initial distribution $q_0(\bm{z})$ is governed by the Fokker-Planck partial differential equation (PDE) \cite{risken-fpe-1989},
+Consider a stochastic differential equation (SDE) of the form $d{z} = \mu_t({z})dt + \sqrt{2 D_t({z})}dB_t$. The distribution $q_t({z})$ of a population of particles evolving according to the previous SDE from some initial distribution $q_0({z})$ is governed by the Fokker-Planck partial differential equation (PDE) \cite{risken-fpe-1989},
 $$
-\frac{\partial}{\partial t} q_t(\bm{z}) = -\frac{\partial}{\partial \bm{z}} \left[ \mu_t(\bm{z}) q_t(\bm{z})\right] + \frac{\partial^2}{\partial \bm{z}^2} \left[ D_t(\bm{z})q_t(\bm{z})\right].
+\frac{\partial}{\partial t} q_t({z}) = -\frac{\partial}{\partial {z}} \left[ \mu_t({z}) q_t({z})\right] + \frac{\partial^2}{\partial {z}^2} \left[ D_t({z})q_t({z})\right].
 $$
 Deriving the Fokker-Planck equation from the SDE of a potential SG-MCMC sampler is of great interest since we can check whether the target distribution is a stationary solution of the previous PDE (and thus, the sampler is consistent); and to compare if two a priori different SG-MCMC samplers result in the same trajectories.
 
 
-\subsection{Related work}
 
-There has been recent interest in developing new dynamics for SG-MCMC samplers with the aim of exploring the target distribution more efficiently. \cite{chen2014stochastic} proposed a stochastic gradient version of HMC, and \cite{ding2014bayesian} did the same leveraging for the Nos\'e-Hoover thermostat dynamics. \cite{chen2016bridging} leverages ideas from stochastic gradient optimization by proposing the analogue sampler to the Adam optimizer. A relativistic variant of Hamiltonian dynamics was introduced by \cite{abbati2018adageo}. Two of the most recent derivations of SG-MCMC samplers are \cite{zhang2019cyclical}, in which the authors propose a policy controlling the learning rate which serves as a better preconditioning; and \cite{gong2019meta}, in which a meta-learning approach is proposed to learn an efficient SG-MCMC transition kernel.
-
-While the previous works propose new kernels which can empirically work well, they focus on the case of a single chain. We instead consider the case of several chains in parallel, and the bulk of our contribution focuses on how to develop transition kernels which exploit interactions between chains. Thus, our framework can be seen as an orthogonal development to the previous listed approaches, and could be actually combined with them.
-
-On the theoretical side, \cite{chen2018unified} study another connection between MCMC and deterministic flows. In particular, they explore the correspondence between Langevin dynamics and Wasserstein gradient flows.
-We instead formulate the dynamics of SVGD as a particular kind of MCMC dynamics, which enables us to use the Fokker-Planck equation to show in a straightforward manner how our samplers are valid. \cite{liu2017stein} started to consider similitudes between SG-MCMC and SVGD, though in this work we propose the first hybrid scheme between both methods.
 
 
 
 \section{The proposed framework}\label{sec:framework}
 
-We use the framework from \cite{ma2015complete} in an augmented state space $\bm{z} = \left( \bm{z}_{1}, \bm{z}_{2}, \ldots,\bm{z}_{L}\right) \in \mathbb{R}^{Ld}$ to obtain a valid posterior sampler that runs multiple ($L$) Markov chains with interactions. This version of SG-MCMC is given by the equation
+We use the framework from \cite{ma2015complete} in an augmented state space ${z} = \left( {z}_{1}, {z}_{2}, \ldots,{z}_{L}\right) \in \mathbb{R}^{Ld}$ to obtain a valid posterior sampler that runs multiple ($L$) Markov chains with interactions. This version of SG-MCMC is given by the equation
 \begin{equation}\label{eq:general}
-\bm{z}_{t+1} \leftarrow \bm{z}_t -\epsilon_t \left[ (\mathbf{\mathbf{D_K}} + \mathbf{Q_K})\mathbf{\nabla} + \mathbf{\Gamma_K} \right] + \bm{\eta}_t,
+{z}_{t+1} \leftarrow {z}_t -\epsilon_t \left[ ({{D_K}} + {Q_K}){\nabla} + {\Gamma_K} \right] + {\eta}_t,
 \end{equation}
-with $\bm{\eta}_t \sim \mathcal{N}(\mathbf{0}, 2\epsilon_t \mathbf{\mathbf{D_K}})$.
-Now, $\bm{z}_t = \left(\bm{z}_{1,t} \ldots  \bm{z}_{L,t} \right)^\top$ is an $Ld$-dimensional vector defined by the concatenation of $L$ particles; $\mathbf{\nabla} \in \mathbb{R}^{L \times d \times 1}$ so that $(\mathbf{\nabla})_{i,:} = \nabla H(\bm{z}_{i,t})$\footnote{Though $\mathbf{\nabla} \in \mathbb{R}^{L d \times 1}$ to allow multiplication by $\mathbf{D_K} + \mathbf{Q_K}$, we reshape it as $\mathbf{\nabla} \in \mathbb{R}^{L\times d \times 1}$ to better illustrate how it is defined.}; $\mathbf{D_K} \in \mathbb{R}^{Ld\times Ld}$ is an expansion of the diffusion matrix $D$, accounting for the distance between the particles; $\mathbf{Q_K} \in \mathbb{R}^{Ld\times Ld}$ is the curl matrix, which is skew-symmetric and might be used if a Hamiltonian variant is adopted; and $\mathbf{\Gamma_K}$ is the correction term from the framework of \cite{ma2015complete}. Note that $\mathbf{D_K}$, $\mathbf{Q_K}$ and $\mathbf{\Gamma_K}$ can depend on the state $\bm{z}_t$ (an example will be given below), but we do not make it explicit to simplify notation.
+with ${\eta}_t \sim \mathcal{N}({0}, 2\epsilon_t {{D_K}})$.
+Now, ${z}_t = \left({z}_{1,t} \ldots  {z}_{L,t} \right)^\top$ is an $Ld$-dimensional vector defined by the concatenation of $L$ particles; ${\nabla} \in \mathbb{R}^{L \times d \times 1}$ so that $({\nabla})_{i,:} = \nabla H({z}_{i,t})$\footnote{Though ${\nabla} \in \mathbb{R}^{L d \times 1}$ to allow multiplication by ${D_K} + {Q_K}$, we reshape it as ${\nabla} \in \mathbb{R}^{L\times d \times 1}$ to better illustrate how it is defined.}; ${D_K} \in \mathbb{R}^{Ld\times Ld}$ is an expansion of the diffusion matrix $D$, accounting for the distance between the particles; ${Q_K} \in \mathbb{R}^{Ld\times Ld}$ is the curl matrix, which is skew-symmetric and might be used if a Hamiltonian variant is adopted; and ${\Gamma_K}$ is the correction term from the framework of \cite{ma2015complete}. Note that ${D_K}$, ${Q_K}$ and ${\Gamma_K}$ can depend on the state ${z}_t$ (an example will be given below), but we do not make it explicit to simplify notation.
 
 In matrix form, the update rule (\ref{eq:svgd}) for SVGD can be expressed as
 \begin{equation}\label{eq:svgd_mat}
-\overline{\bm{z}}_{t+1} \leftarrow \overline{\bm{z}}_t -\frac{\epsilon_t}{L}\left( \overline{\mathbf{K}} \overline{\mathbf{\nabla}} + \overline{\mathbf{\Gamma}} \right)
+\overline{{z}}_{t+1} \leftarrow \overline{{z}}_t -\frac{\epsilon_t}{L}\left( \overline{{K}} \overline{{\nabla}} + \overline{{\Gamma}} \right)
 \end{equation}
-where $\overline{\mathbf{K}} \in \mathbb{R}^{L \times L}$ so that $(\overline{\mathbf{K}})_{ij} = k(\bm{z}_i, \bm{z}_j)$, $\overline{\mathbf{\nabla}} \in \mathbb{R}^{L\times d}$ and $\overline{\bm{z}}_t \in \mathbb{R}^{L\times d}$. Casting the later matrix as a tensor $\mathbf{\nabla} \in \mathbb{R}^{L \times d \times 1}$ and the former one as a tensor $\mathbf{K} \in \mathbb{R}^{(L \times d) \times (L \times d)}$ by broadcasting along the second and fourth axes, we may associate $\mathbf{K}$ with the SG-MCMC's diffusion matrix $\mathbf{D}$ over an $Ld-$dimensional space. 
+where $\overline{{K}} \in \mathbb{R}^{L \times L}$ so that $(\overline{{K}})_{ij} = k({z}_i, {z}_j)$, $\overline{{\nabla}} \in \mathbb{R}^{L\times d}$ and $\overline{{z}}_t \in \mathbb{R}^{L\times d}$. Casting the later matrix as a tensor ${\nabla} \in \mathbb{R}^{L \times d \times 1}$ and the former one as a tensor ${K} \in \mathbb{R}^{(L \times d) \times (L \times d)}$ by broadcasting along the second and fourth axes, we may associate ${K}$ with the SG-MCMC's diffusion matrix ${D}$ over an $Ld-$dimensional space. 
 
-The big matrix $\mathbf{D_K}$ in Eq. (\ref{eq:general}) is defined as a permuted block-diagonal matrix consisting of $d$ repeated kernel matrices $\overline{\mathbf{K}}$:
+The big matrix ${D_K}$ in Eq. (\ref{eq:general}) is defined as a permuted block-diagonal matrix consisting of $d$ repeated kernel matrices $\overline{{K}}$:
 $$
-\mathbf{D_K} = \left[
+{D_K} = \left[
 \begin{array}{cccc}
-\overline{\mathbf{K}} &  &  &  \\
+\overline{{K}} &  &  &  \\
 %\hline
- & \overline{\mathbf{K}} &  &  \\
+ & \overline{{K}} &  &  \\
 %\hline
  &  & \ddots &   \\
 %\hline
- &  &  & \overline{\mathbf{K}}  \\
+ &  &  & \overline{{K}}  \\
 \end{array}
-\right] \mathbf{P},
+\right] {P},
 $$
-with $\mathbf{P}$ being the $Ld \times Ld$ permutation matrix
+with ${P}$ being the $Ld \times Ld$ permutation matrix
 $$
-\mathbf{P} = \left[
+{P} = \left[
 \begin{array}{c|c|c|c}
 \begin{matrix}
 1 & & &\\
@@ -221,50 +332,50 @@ $$
 \end{array}
 \right].
 $$
-The permutation matrix $\mathbf{P}$ rearranges the block-diagonal kernel matrix to match with the dimension ordering of the state space $\bm{z}_t = \left(\bm{z}_{1,t} \ldots  \bm{z}_{L,t} \right)^\top$.
-With this convention, $\mathbf{D_K} \mathbf{\nabla}$ is equivalent to $\overline{\mathbf{K}} \overline{\mathbf{\nabla}}$, only differing in the shape of the resulting matrix. This allows us to frame SVGD plus the noise term as a valid scheme within the SG-MCMC framework of \cite{ma2015complete}, using the $Ld$-dimensional augmented state space.
+The permutation matrix ${P}$ rearranges the block-diagonal kernel matrix to match with the dimension ordering of the state space ${z}_t = \left({z}_{1,t} \ldots  {z}_{L,t} \right)^\top$.
+With this convention, ${D_K} {\nabla}$ is equivalent to $\overline{{K}} \overline{{\nabla}}$, only differing in the shape of the resulting matrix. This allows us to frame SVGD plus the noise term as a valid scheme within the SG-MCMC framework of \cite{ma2015complete}, using the $Ld$-dimensional augmented state space.
 
-%Appendix \ref{app:bigK} shows the precise definition of the matrix $\mathbf{K}$.
+%Appendix \ref{app:bigK} shows the precise definition of the matrix ${K}$.
 
 % { \color{blue}
 % Note the target distribution is $\pi(z_1) ... \pi(z_K)$ (NO!) en su lugar ponerlo como exponente y descomponer H en sumas, como en \cite{NIPS2015_5891}. }
 
-From this perspective, \eqref{eq:svgd_mat} can be seen as a special case of \eqref{eq:general} with curl matrix $\mathbf{Q_K} = \mathbf{0}$ and no noise term. We refer to this perturbed variant of SVGD as \emph{Parallel SGLD plus repulsion} (SGLD+R):
+From this perspective, \eqref{eq:svgd_mat} can be seen as a special case of \eqref{eq:general} with curl matrix ${Q_K} = {0}$ and no noise term. We refer to this perturbed variant of SVGD as \emph{Parallel SGLD plus repulsion} (SGLD+R):
 \begin{equation}\label{eq:psvgd_mat}
-\bm{z}_{t+1} \leftarrow \bm{z}_t -\frac{\epsilon_t}{L}\left( \mathbf{D_K} \mathbf{\nabla} + \mathbf{\Gamma_K} \right) + \bm{\eta}_t, \qquad \bm{\eta}_t \sim \mathcal{N}(\mathbf{0}, 2\epsilon_t \mathbf{D_K}/L).
+{z}_{t+1} \leftarrow {z}_t -\frac{\epsilon_t}{L}\left( {D_K} {\nabla} + {\Gamma_K} \right) + {\eta}_t, \qquad {\eta}_t \sim \mathcal{N}({0}, 2\epsilon_t {D_K}/L).
 \end{equation}
-Since $\mathbf{D_K}$ is a definite positive matrix (constructed from the RBF kernel), we may use the key result from \cite{ma2015complete} (Theorem 1) to derive the following:
+Since ${D_K}$ is a definite positive matrix (constructed from the RBF kernel), we may use the key result from \cite{ma2015complete} (Theorem 1) to derive the following:
 
 \begin{proposition}
-SGLD+R (or its general form, Eq. \eqref{eq:general}) has $\pi(\bm{z}) = \prod_{l=1}^L \pi(\bm{z}_l)$ as stationary distribution, and the proposed discretization is asymptotically exact as $\epsilon_t \rightarrow 0$.
+SGLD+R (or its general form, Eq. \eqref{eq:general}) has $\pi({z}) = \prod_{l=1}^L \pi({z}_l)$ as stationary distribution, and the proposed discretization is asymptotically exact as $\epsilon_t \rightarrow 0$.
 \end{proposition}
-\noindent Having shown that SVGD plus a noise term can be framed as an SG-MCMC method, we may now explore the design spaces of the $\mathbf{D_K}$ and $\mathbf{Q_K}$ matrices. %However, for the rest of the paper we resort to the case $\mathbf{Q} = \mathbf{0}$ (i.e., we will just experimentally study SGLD with repulsion between multiple particles).
+\noindent Having shown that SVGD plus a noise term can be framed as an SG-MCMC method, we may now explore the design spaces of the ${D_K}$ and ${Q_K}$ matrices. %However, for the rest of the paper we resort to the case ${Q} = {0}$ (i.e., we will just experimentally study SGLD with repulsion between multiple particles).
 
-Algorithm \ref{alg:alg1} shows how to set the sampler up. The step sizes $\epsilon_t$ decrease to $0$ using the Robbins-Monro conditions, \cite{robbins1951stochastic}, given by $\sum_{t=1}^\infty \epsilon_t = \infty, \sum_{t=1}^\infty \epsilon_t^2 < \infty$. However, in practical situations we can consider a small and constant step size, see Section \ref{sec:experiments}. 
+Algorithm \ref{alg:alg1} shows how to set the sampler up. The step sizes $\epsilon_t$ decrease to $0$ using the Robbins-Monro conditions, \cite{robbins1951stochastic}, given by $\sum_{t=1}^\infty \epsilon_t = \infty, \sum_{t=1}^\infty \epsilon_t^2 < \infty$. However, in practical situations we can consider a small and constant step size, see Section \ref{sec:experiments_sgmcmc}. 
 
 \begin{algorithm}[!h] % 
 \caption{Bayesian Inference via SGLD+R}  
 \label{alg:alg1}
 \begin{algorithmic}
-\State {\bf Input:} A target distribution with density function $\pi(\bm{z}) \propto \exp (-H(\bm{z}))$; a prior distribution $p(\bm{z})$. 
-\State {\bf Output:} A set of particles $\{\bm{z}_i\}_{i=1}^{ML}$ that approximates the target distribution.  
-\State Sample initial set of particles from prior: $\bm{z}_1^0, \bm{z}_2^0, \ldots \bm{z}_L^0 \sim p(\bm{z})$.
+\State {\bf Input:} A target distribution with density function $\pi({z}) \propto \exp (-H({z}))$; a prior distribution $p({z})$. 
+\State {\bf Output:} A set of particles $\{{z}_i\}_{i=1}^{ML}$ that approximates the target distribution.  
+\State Sample initial set of particles from prior: ${z}_1^0, {z}_2^0, \ldots {z}_L^0 \sim p({z})$.
 \For{each iteration $t$}
 \State 
 \begin{align} \label{eq:psvgd_alg}
 \begin{split}
-&\bm{z}_i^{t+1}  \gets  \bm{z}_i^t \\& - \epsilon_t \frac{1}{L}\sum_{l=1}^L\big[  k(\bm{z}_l^t, \bm{z}_i^t)  \nabla_{\bm{z}_l^t} H(\bm{z}_l^t) + \nabla_{\bm{z}_l^t} k(\bm{z}_l^t, \bm{z}_i^t)\big] + \bm{\eta}_i^t
+&{z}_i^{t+1}  \gets  {z}_i^t  - \epsilon_t \frac{1}{L}\sum_{l=1}^L\big[  k({z}_l^t, {z}_i^t)  \nabla_{{z}_l^t} H({z}_l^t) + \nabla_{{z}_l^t} k({z}_l^t, {z}_i^t)\big] + {\eta}_i^t
 \end{split}
 \end{align}
-\State where $\bm{\eta}_i^t$ is the noise for particle $i$ defined as in Eq (\ref{eq:psvgd_mat}).
-\State After  burn-in period, start collecting particles: $ \{\bm{z}_i\}_{i=1}^{NL} \gets \{\bm{z}_i\}_{i=1}^{(N-1)L} \cup \{ \bm{z}_1^{t+1}, \ldots,  \bm{z}_L^{t+1} \} $ 
+\State where ${\eta}_i^t$ is the noise for particle $i$ defined as in Eq (\ref{eq:psvgd_mat}).
+\State After  burn-in period, start collecting particles: $ \{{z}_i\}_{i=1}^{NL} \gets \{{z}_i\}_{i=1}^{(N-1)L} \cup \{ {z}_1^{t+1}, \ldots,  {z}_L^{t+1} \} $ 
 \EndFor
 \end{algorithmic}
 \end{algorithm}
 
-\paragraph{Complexity}  Our proposed method is amenable to sub-sampling, as the mini-batch setting from SG-MCMC can be adopted: the main computational bottleneck lies in the evaluation of the gradient $\nabla_{\bm{z}} \log \pi( \bm{z})$, which can be troublesome in a big data setting when $\pi(\bm{z} | \mathcal{D}) \propto p(\bm{z}) \Pi_{i=1}^N p(\bm{x}_i | \bm{z})  $. We may then  approximate the true gradient with an unbiased estimator taken along a minibatch of datapoints $\Omega \subset \lbrace 1, 2, \ldots, N \rbrace$ in the usual way:
+\paragraph{Complexity}  Our proposed method is amenable to sub-sampling, as the mini-batch setting from SG-MCMC can be adopted: the main computational bottleneck lies in the evaluation of the gradient $\nabla_{{z}} \log \pi( {z})$, which can be troublesome in a big data setting when $\pi({z} | \mathcal{D}) \propto p({z}) \Pi_{i=1}^N p({x}_i | {z})  $. We may then  approximate the true gradient with an unbiased estimator taken along a minibatch of datapoints $\Omega \subset \lbrace 1, 2, \ldots, N \rbrace$ in the usual way:
 $$
-\nabla_{\bm{z}} \log \pi( \bm{z} | \mathcal{D}) \approx \nabla_{\bm{z}} \log p(\bm{z}) + \frac{N}{| \Omega |} \sum_{i \in \Omega} \nabla_{\bm{z}} \log p(\bm{x}_i | \bm{z}).
+\nabla_{{z}} \log \pi( {z} | \mathcal{D}) \approx \nabla_{{z}} \log p({z}) + \frac{N}{| \Omega |} \sum_{i \in \Omega} \nabla_{{z}} \log p({x}_i | {z}).
 $$
 
 
@@ -279,52 +390,51 @@ If many more particles are  used, one could approximate the expectation in (\ref
 
 We study in detail the behaviour of SVGD and SGLD+R. To do so, we first derive the Fokker-Planck equation for the SGLD+R sampler.
 \begin{proposition}
-The distribution $q_t(\bm{z})$ of a population of particles evolving according to SGLD+R is governed by the PDE
+The distribution $q_t({z})$ of a population of particles evolving according to SGLD+R is governed by the PDE
 $$
-\frac{\partial}{\partial t} q_t(\bm{z}) = -\frac{\partial}{\partial \bm{z}} \left[ (D_K \nabla \log \pi(\bm{z}) + \Gamma_K) q_t(\bm{z})\right] + \frac{\partial^2}{\partial \bm{z}^2} \left[ D_K q_t(\bm{z})  \right].
+\frac{\partial}{\partial t} q_t({z}) = -\frac{\partial}{\partial {z}} \left[ (D_K \nabla \log \pi({z}) + \Gamma_K) q_t({z})\right] + \frac{\partial^2}{\partial {z}^2} \left[ D_K q_t({z})  \right].
 $$
-The target distribution $\pi(\bm{z})$ is a stationary solution of the previous PDE.
+The target distribution $\pi({z})$ is a stationary solution of the previous PDE.
 \end{proposition}
 \begin{proof}
 The first part is a straightforward application of the Fokker-Planck equation from Section \ref{sec:fp}. For the last part, we need to show that
 \begin{align*}
-\frac{\partial}{\partial t} q_t(\bm{z}) = 0 = &-\frac{\partial}{\partial \bm{z}} \left[ (\mathbf{D_K} \nabla \log \pi(\bm{z}) + \mathbf{\Gamma_K}) \pi(\bm{z})\right] + \\& \frac{\partial^2}{\partial \bm{z}^2} \left[ \mathbf{D_K} \pi(\bm{z})  \right].
+\frac{\partial}{\partial t} q_t({z}) = 0 = &-\frac{\partial}{\partial {z}} \left[ ({D_K} \nabla \log \pi({z}) + {\Gamma_K}) \pi({z})\right] +  \frac{\partial^2}{\partial {z}^2} \left[ {D_K} \pi({z})  \right].
 \end{align*}
 To see so, we will expand each term in the rhs:
 \begin{align*}
-& \frac{\partial}{\partial \bm{z}} \left[ (\mathbf{D_K} \nabla \log \pi(\bm{z}) + \mathbf{\Gamma_K}) \pi(\bm{z})\right] = \\
-&= \pi(\bm{z})\frac{\partial}{\partial \bm{z}} \left[ \mathbf{D_K} \nabla \log \pi(\bm{z}) + \mathbf{\Gamma_K} \right] + \\& \left[ \mathbf{D_K} \nabla \log \pi(\bm{z}) + \mathbf{\Gamma_K} \right] \frac{\partial}{\partial \bm{z}} \pi(\bm{z}) = \\
-&= \pi(\bm{z})\frac{\partial}{\partial \bm{z}}\mathbf{D_K} \nabla \log \pi(\bm{z})+ \pi(\bm{z})\mathbf{D_K} \nabla^2 \log \pi(\bm{z}) + \\& \pi(\bm{z}) \frac{\partial}{\partial \bm{z}} \mathbf{\Gamma_K} + \mathbf{D_K} \nabla \log \pi(\bm{z}) \nabla \pi(\bm{z})  + \mathbf{\Gamma_K} \nabla \pi(\bm{z}) = \\
-&= \mathbf{\Gamma_K} \nabla \pi(\bm{z}) + \pi(\bm{z})\frac{\partial}{\partial \bm{z}}\mathbf{D_K}\nabla \log \pi(\bm{z}) +  \\&
-\pi(\bm{z}) \frac{\partial}{\partial \bm{z}} \mathbf{\Gamma_K} +
-\mathbf{D_K}(\pi(\bm{z})\nabla^2 \log \pi(\bm{z}) + \nabla \log \pi(\bm{z}) \nabla \pi(\bm{z})).
+& \frac{\partial}{\partial {z}} \left[ ({D_K} \nabla \log \pi({z}) + {\Gamma_K}) \pi({z})\right] = \\
+&= \pi({z})\frac{\partial}{\partial {z}} \left[ {D_K} \nabla \log \pi({z}) + {\Gamma_K} \right] +  \left[ {D_K} \nabla \log \pi({z}) + {\Gamma_K} \right] \frac{\partial}{\partial {z}} \pi({z}) = \\
+&= \pi({z})\frac{\partial}{\partial {z}}{D_K} \nabla \log \pi({z})+ \pi({z}){D_K} \nabla^2 \log \pi({z}) + \pi({z}) \frac{\partial}{\partial {z}} {\Gamma_K} + {D_K} \nabla \log \pi({z}) \nabla \pi({z})  + {\Gamma_K} \nabla \pi({z}) = \\
+&= {\Gamma_K} \nabla \pi({z}) + \pi({z})\frac{\partial}{\partial {z}}{D_K}\nabla \log \pi({z}) +  
+\pi({z}) \frac{\partial}{\partial {z}} {\Gamma_K} +
+{D_K}(\pi({z})\nabla^2 \log \pi({z}) + \nabla \log \pi({z}) \nabla \pi({z})).
 \end{align*}
 The other term expands to
 \begin{align*}
-&\frac{\partial^2}{\partial \bm{z}^2} \left[ \mathbf{D_K} \pi(\bm{z})  \right] = \\
-&= \frac{\partial}{\partial \bm{z}} \left[ \frac{\partial}{\partial \bm{z}} \mathbf{D_K} \pi(\bm{z}) + \mathbf{D_K} \nabla \pi(\bm{z}) \right] = \\
-&= \frac{\partial^2}{\partial \bm{z}^2}\mathbf{D_K} \pi(\bm{z}) + \pi(\bm{z}) \nabla \log \pi(\bm{z}) \frac{\partial}{\partial \bm{z}}\mathbf{D_K} + \\ &\frac{\partial}{\partial \bm{z}}  \mathbf{D_K} \nabla \pi(\bm{z}) + \mathbf{D_K} \nabla^2 \pi(\bm{z}) = \\
-&= \frac{\partial}{\partial \bm{z}}  \mathbf{D_K} \nabla \pi(\bm{z}) +
-\pi(\bm{z}) \nabla \log \pi(\bm{z}) \frac{\partial}{\partial \bm{z}}\mathbf{D_K} + \\
-&\frac{\partial^2}{\partial \bm{z}^2}\mathbf{D_K} \pi(\bm{z})+ 
-\mathbf{D_K}(\pi(\bm{z})\nabla^2 \log \pi(\bm{z}) + \nabla \log \pi(\bm{z}) \nabla \pi(\bm{z})).
+&\frac{\partial^2}{\partial {z}^2} \left[ {D_K} \pi({z})  \right] = \\
+&= \frac{\partial}{\partial {z}} \left[ \frac{\partial}{\partial {z}} {D_K} \pi({z}) + {D_K} \nabla \pi({z}) \right] = \\
+&= \frac{\partial^2}{\partial {z}^2}{D_K} \pi({z}) + \pi({z}) \nabla \log \pi({z}) \frac{\partial}{\partial {z}}{D_K} + \frac{\partial}{\partial {z}}  {D_K} \nabla \pi({z}) + {D_K} \nabla^2 \pi({z}) = \\
+&= \frac{\partial}{\partial {z}}  {D_K} \nabla \pi({z}) +
+\pi({z}) \nabla \log \pi({z}) \frac{\partial}{\partial {z}}{D_K} + \frac{\partial^2}{\partial {z}^2}{D_K} \pi({z})+ 
+{D_K}(\pi({z})\nabla^2 \log \pi({z}) + \nabla \log \pi({z}) \nabla \pi({z})).
 \end{align*}
-Taking into account that by the definition of the correction term, $\Gamma_K = \frac{\partial}{\partial \bm{z}} D_K$, the previous expansions are equal so they cancel each other in the rhs of the PDE.
+Taking into account that by the definition of the correction term, $\Gamma_K = \frac{\partial}{\partial {z}} D_K$, the previous expansions are equal so they cancel each other in the rhs of the PDE.
 \end{proof}
 This last result is an alternative proof of our Proposition 1, without having to resort to the framework of \cite{ma2015complete} as was the case there. It is of independent interest for us here, since we can establish a complementary result for the case of SVGD as follows.
 \begin{proposition}
-The distribution $q_t(\bm{z})$ of a population of particles evolving according to SVGD is governed by
+The distribution $q_t({z})$ of a population of particles evolving according to SVGD is governed by
 $$
-\frac{\partial}{\partial t} q_t(\bm{z}) = -\frac{\partial}{\partial \bm{z}} \left[ (D_K \nabla \log \pi(\bm{z}) + \Gamma_K) q_t(\bm{z})\right] .
+\frac{\partial}{\partial t} q_t({z}) = -\frac{\partial}{\partial {z}} \left[ (D_K \nabla \log \pi({z}) + \Gamma_K) q_t({z})\right] .
 $$
-In general, the target distribution $\pi(\bm{z})$ is not a stationary solution of the previous PDE in general.
+In general, the target distribution $\pi({z})$ is not a stationary solution of the previous PDE in general.
 \end{proposition}
 \begin{proof}
-As before, the first part is a straightforward application of the Fokker-Planck equation from Section \ref{sec:fp}. For the last part, note that the difference with Proposition 2 is that the term $\frac{\partial^2}{\partial \bm{z}^2} \left[ D_K q_t(\bm{z})  \right]$ is absent now in the PDE, which prevents $\pi(\bm{z})$ from being a stationary solution in general.
+As before, the first part is a straightforward application of the Fokker-Planck equation from Section \ref{sec:fp}. For the last part, note that the difference with Proposition 2 is that the term $\frac{\partial^2}{\partial {z}^2} \left[ D_K q_t({z})  \right]$ is absent now in the PDE, which prevents $\pi({z})$ from being a stationary solution in general.
 \end{proof}
-The term $\dfrac{\partial^2}{\partial \bm{z}^2} \left[ D_K q_t(\bm{z})  \right]$ encourages the entropy in the distribution $q_t(\bm{z})$. By ignoring it, the SVGD flow achieves stationary solutions that underestimate the variance of the target distribution. On the other hand, SGLD+R, performs a correction, leading to the desired target distribution. The next example highlights this fact in a relatively simple setting.
+The term $\dfrac{\partial^2}{\partial {z}^2} \left[ D_K q_t({z})  \right]$ encourages the entropy in the distribution $q_t({z})$. By ignoring it, the SVGD flow achieves stationary solutions that underestimate the variance of the target distribution. On the other hand, SGLD+R, performs a correction, leading to the desired target distribution. The next example highlights this fact in a relatively simple setting.
 
-\paragraph{Example.} Consider a standard bi-dimensional Gaussian target, $\pi(\bm{z}) \sim \mathcal{N}(0, I)$. The initial distribution of particles is $p(\bm{z}) = q_0(\bm{z}) \sim \mathcal{N}([3,3], \mbox{diag}([0.25, 0.25]))$. We let both samplers run for $T = 200$ iterations using $L = 6$ particles, and plot their trajectories in Figure \ref{fig:comp}. Note that since SGLD+R is a valid sampler it explores a greater region of the target distribution, in comparison with SVGD, which underestimates the extension of the actual target. This phenomenon was predicted by Propositions 2 and 3. We also attach a Table, which reports estimates of the target mean, $\mu$, and marginal standard deviations, $\sigma_x$ and $\sigma_y$, respectively. Notice how SGLD+R estimates are closer to the ground truth values for the standard Gaussian target of this example.
+\paragraph{Example.} Consider a standard bi-dimensional Gaussian target, $\pi({z}) \sim \mathcal{N}(0, I)$. The initial distribution of particles is $p({z}) = q_0({z}) \sim \mathcal{N}([3,3], \mbox{diag}([0.25, 0.25]))$. We let both samplers run for $T = 200$ iterations using $L = 6$ particles, and plot their trajectories in Figure \ref{fig:comp}. Note that since SGLD+R is a valid sampler it explores a greater region of the target distribution, in comparison with SVGD, which underestimates the extension of the actual target. This phenomenon was predicted by Propositions 2 and 3. We also attach a Table, which reports estimates of the target mean, $\mu$, and marginal standard deviations, $\sigma_x$ and $\sigma_y$, respectively. Notice how SGLD+R estimates are closer to the ground truth values for the standard Gaussian target of this example.
 
 \begin{figure}[!ht]
     \centering
@@ -353,21 +463,21 @@ SGLD+R can be seen as an extension of SGD to incorporate repulsion between parti
 
 \paragraph{Momentum} This extension of SGD can be cast as an analogy to the \emph{momentum} in physics, keeping track of previous gradient to prevent oscillations which could slow down learning, \cite{qian1999momentum}. We can frame SGD with momentum as
 \begin{align*}
-    \bm{z}_{t+1} &= \bm{z}_t - \epsilon_t \bm{m}_t \\
-    \bm{m}_{t+1} &= \bm{m}_t - \epsilon_t \nabla \log p(\bm{z}_t),
+    {z}_{t+1} &= {z}_t - \epsilon_t {m}_t \\
+    {m}_{t+1} &= {m}_t - \epsilon_t \nabla \log p({z}_t),
 \end{align*}
-where the $\bm{m}_t$ are auxiliary variables.
-The previous learning rule can be adapted to our framework by considering an augmented space $\bar{\bm{z}} = (\bm{z}, \bm{m})$. Then, assuming the distribution of $\bm{m}_t$ to be a standard Gaussian, the gradient of the log-density is equal to $-\bm{m}_t$. Next, we set $\mathbf{D} = \mathbf{0}$ and $\mathbf{Q} = \begin{pmatrix}
-\mathbf{0} & -\mathbf{I} \\
-\mathbf{I} & \mathbf{0}
+where the ${m}_t$ are auxiliary variables.
+The previous learning rule can be adapted to our framework by considering an augmented space $\bar{{z}} = ({z}, {m})$. Then, assuming the distribution of ${m}_t$ to be a standard Gaussian, the gradient of the log-density is equal to $-{m}_t$. Next, we set ${D} = {0}$ and ${Q} = \begin{pmatrix}
+{0} & -{I} \\
+{I} & {0}
 \end{pmatrix}$ in (\ref{eq:sgmcmc}), arriving at the HMC sampler discussed in Section \ref{sec:infassamp}. 
 
-From this point, we can further augment the latent space, considering $L$ particles $(\bar{z}_1, \ldots, \bar{z}_L)$, to arrive at the SGDm+R sampler. If we rearrange the latent space as $(\bm{z}_1, \ldots, \bm{z}_L, \bm{m}_1, \ldots, \bm{m}_L)$, we may consider the following $\mathbf{Q_K}$ matrix the following one,
+From this point, we can further augment the latent space, considering $L$ particles $(\bar{z}_1, \ldots, \bar{z}_L)$, to arrive at the SGDm+R sampler. If we rearrange the latent space as $({z}_1, \ldots, {z}_L, {m}_1, \ldots, {m}_L)$, we may consider the following ${Q_K}$ matrix the following one,
 $$
-\mathbf{Q_K} = \left[
+{Q_K} = \left[
 \begin{array}{c|c}
 \begin{matrix}
-\bm{0} \\
+{0} \\
 \end{matrix}  & \begin{matrix}
  -\textbf{K} \\
 \end{matrix} \\
@@ -375,33 +485,33 @@ $$
 \begin{matrix}
 \textbf{K}  \\
 \end{matrix} & \begin{matrix}
- \bm{0} \\
+ {0} \\
 \end{matrix}
 \end{array}
 \right],
 $$
 where $\textbf{K} = \begin{bmatrix}
-k(\bm{z}_1, \bm{z}_1) & \ldots & k(\bm{z}_1, \bm{z}_L) \\
+k({z}_1, {z}_1) & \ldots & k({z}_1, {z}_L) \\
 \ldots & \ldots & \ldots \\
-k(\bm{z}_L, \bm{z}_1) & \ldots & k(\bm{z}_L, \bm{z}_L) \\
-\end{bmatrix}$ is the kernel matrix from SVGD. It is straightforward to see that $\mathbf{Q_K}$ is skew-symmetric. Thus we can apply again Proposition 1 to show that SGDm+R is a valid SG-MCMC sampler. The scheme is described in Algorithm \ref{alg:alg2}.
+k({z}_L, {z}_1) & \ldots & k({z}_L, {z}_L) \\
+\end{bmatrix}$ is the kernel matrix from SVGD. It is straightforward to see that ${Q_K}$ is skew-symmetric. Thus we can apply again Proposition 1 to show that SGDm+R is a valid SG-MCMC sampler. The scheme is described in Algorithm \ref{alg:alg2}.
 
 \begin{algorithm}[ht] % 
 \caption{Bayesian Inference via SGDm+R}  
 \label{alg:alg2}
 \begin{algorithmic}
-\State {\bf Input:} A target distribution with density function $\pi(\bm{z}) \propto \exp (-H(\bm{z}))$ and priors $p(\bm{z})$ and $p(\bm{m})$.
-\State {\bf Output:} A set of particles $\{\bm{z}_i\}_{i=1}^{ML}$ that approximates the target distribution.  
-\State Sample initial set of particles from prior: $\bm{z}_1^0, \bm{z}_2^0, \ldots \bm{z}_L^0 \sim p(\bm{z})$.
-\State Sample initial set of moments from prior: $\bm{m}_1^0, \bm{m}_2^0, \ldots \bm{m}_L^0 \sim p(\bm{m})$.
+\State {\bf Input:} A target distribution with density function $\pi({z}) \propto \exp (-H({z}))$ and priors $p({z})$ and $p({m})$.
+\State {\bf Output:} A set of particles $\{{z}_i\}_{i=1}^{ML}$ that approximates the target distribution.  
+\State Sample initial set of particles from prior: ${z}_1^0, {z}_2^0, \ldots {z}_L^0 \sim p({z})$.
+\State Sample initial set of moments from prior: ${m}_1^0, {m}_2^0, \ldots {m}_L^0 \sim p({m})$.
 \For{each iteration $t$}
 \State 
 \begin{align*} 
-\bm{z}_i^{t+1}  &\gets  \bm{z}_i^t - \epsilon_t \frac{1}{L}\sum_{l=1}^L\big[  k(\bm{z}_l^t, \bm{z}_i^t)  \bm{m}_l^t + \nabla_{\bm{z}_l^t} k(\bm{z}_l^t, \bm{z}_i^t)\big] \\
-\bm{m}_i^{t+1}  &\gets  \bm{m}_i^t - \epsilon_t \frac{1}{L}\sum_{l=1}^L\big[  k(\bm{z}_l^t, \bm{z}_i^t)  \nabla_{\bm{z}_l^t} H(\bm{z}_l^t) + \nabla_{\bm{z}_l^t} k(\bm{z}_l^t, \bm{z}_i^t)\big] %+ \bm{\eta}_i^t
+{z}_i^{t+1}  &\gets  {z}_i^t - \epsilon_t \frac{1}{L}\sum_{l=1}^L\big[  k({z}_l^t, {z}_i^t)  {m}_l^t + \nabla_{{z}_l^t} k({z}_l^t, {z}_i^t)\big] \\
+{m}_i^{t+1}  &\gets  {m}_i^t - \epsilon_t \frac{1}{L}\sum_{l=1}^L\big[  k({z}_l^t, {z}_i^t)  \nabla_{{z}_l^t} H({z}_l^t) + \nabla_{{z}_l^t} k({z}_l^t, {z}_i^t)\big] %+ {\eta}_i^t
 \end{align*}
-%\State where $\bm{\eta}_i^t$ is the noise for particle $i$ defined as in Eq (\ref{eq:psvgd_mat}).
-\State After a burn-in period, start collecting particles: $ \{\bm{z}_i\}_{i=1}^{NL} \gets \{\bm{z}_i\}_{i=1}^{(N-1)L} \cup \{ \bm{z}_1^{t+1}, \ldots,  \bm{z}_L^{t+1} \} $ 
+%\State where ${\eta}_i^t$ is the noise for particle $i$ defined as in Eq (\ref{eq:psvgd_mat}).
+\State After a burn-in period, start collecting particles: $ \{{z}_i\}_{i=1}^{NL} \gets \{{z}_i\}_{i=1}^{(N-1)L} \cup \{ {z}_1^{t+1}, \ldots,  {z}_L^{t+1} \} $ 
 \EndFor
 \end{algorithmic}
 \end{algorithm}
@@ -411,32 +521,32 @@ Next, we show that a similar augmentation can be used to lift more complex optim
 \paragraph{Adam} The Adam stochastic optimization algorithm has become a \emph{de facto} scheme for optimizing complex non-linear models. In addition to keeping an estimate of the average of past gradients, as in momentum, Adam also keeps track of its variances.
 To frame this method in our framework, note that the averages for the gradient can be expressed as
 $$
-\bm{m}_t = \beta_1 \bm{m}_{t-1} + (1 - \beta_1) \nabla \log p (\bm{z}_t),
+{m}_t = \beta_1 {m}_{t-1} + (1 - \beta_1) \nabla \log p ({z}_t),
 $$
 where $\beta_1, \beta_2 \in (0, 1)$ are hyperparameters; and, similarly, for the gradient variances,
 $$
-\bm{v}_t = \beta_2 \bm{v}_{t-1} + (1 - \beta_2) \mbox{diag}(\nabla \log p (\bm{z}_t)_i^2).
+{v}_t = \beta_2 {v}_{t-1} + (1 - \beta_2) \mbox{diag}(\nabla \log p ({z}_t)_i^2).
 $$
-Then, the latent state $\bm{z}$ evolves according to
+Then, the latent state ${z}$ evolves according to
 $$
-\bm{z}_{t+1} = \bm{z}_t - \epsilon_t \bm{m}_t / \sqrt{\bm{v}_t}.
+{z}_{t+1} = {z}_t - \epsilon_t {m}_t / \sqrt{{v}_t}.
 $$
-To frame it in our scheme, with the benefits of interaction between particles, we can consider an augmented space as in the momentum case, $(\bm{z}_1, \ldots, \bm{z}_L, \bm{m}_1, \ldots, \bm{m}_L)$, and adopt $\mathbf{Q_K}$ as before. The difference is that the log-density is now given by $H(\bm{z}, \bm{m}) = \prod_{l=1} ^L \left[ \log p(\bm{z}_l) + \bm{m}_l^{'} \bm{M_l}^{-1} \bm{m}_l \right]$, where $\bm{M_l}$ is the mass matrix for chain $l$, in our case given by
+To frame it in our scheme, with the benefits of interaction between particles, we can consider an augmented space as in the momentum case, $({z}_1, \ldots, {z}_L, {m}_1, \ldots, {m}_L)$, and adopt ${Q_K}$ as before. The difference is that the log-density is now given by $H({z}, {m}) = \prod_{l=1} ^L \left[ \log p({z}_l) + {m}_l^{'} {M_l}^{-1} {m}_l \right]$, where ${M_l}$ is the mass matrix for chain $l$, in our case given by
 $$
-\bm{M_l} = 
+{M_l} = 
 \begin{bmatrix}
 \sqrt{v_{1,l}} & & \\
  & \ddots & \\
   & & \sqrt{v_{d,l}} 
 \end{bmatrix}.
 $$
-Since $\nabla_{\bm{m}_l} H(\bm{z},\bm{m}) = \bm{m}_l / \sqrt{\bm{v}_l}$, we achieve the same effect of the original Adam, but on a per-chain basis. We call this sampler \emph{Adam plus noise and repulsion}, Adam+NR.
+Since $\nabla_{{m}_l} H({z},{m}) = {m}_l / \sqrt{{v}_l}$, we achieve the same effect of the original Adam, but on a per-chain basis. We call this sampler \emph{Adam plus noise and repulsion}, Adam+NR.
 
 
 
 
 
-\section{Experiments}\label{sec:experiments}
+\section{Experiments}\label{sec:experiments_sgmcmc}
 
 This Section describes the experiments developed to empirically test the proposed scheme. After the example from Section \ref{sec:relationship}, which compared SVGD and SGLD+R, we focus on confronting SGLD+R with the non-repulsive variant. First, we deal with two synthetic distributions, which offer a moderate account of complexity in the form of multimodality. In our second group of experiments, we explore a more challenging setting, testing a deep Bayesian model over several benchmark real data sets. 
 
@@ -461,7 +571,7 @@ The exact value of the first and second moments can be computed using the change
 with $n\in \mathbb{N}$. 
 Since $z>0$, to use the proposed scheme, we reparameterize using the $\log$ function. The pdf of the transformation $y = \log(z)$ can be computed using
 % \begin{equation*}
-% p(y) = \sum_{i=1}^k \pi_{i}\bm{\lambda}_i \exp(-\bm{\lambda}_i \exp(y) + y)
+% p(y) = \sum_{i=1}^k \pi_{i}{\lambda}_i \exp(-{\lambda}_i \exp(y) + y)
 % \end{equation*}
 \begin{equation*}
 p(y) = p(\log^{-1}(y))|\mbox{D} \log^{-1}(y))|.
@@ -472,7 +582,7 @@ p(y) = p(\log^{-1}(y))|\mbox{D} \log^{-1}(y))|.
 \end{align*}
 %\item \textbf{Rough Well}: $U(x) = \frac{1}{2} x^{\top}x + \eta \sum_i \cos (\frac{x_i}{\eta})  $
 \end{itemize}
-We compare two sampling methods, SGLD with $L$ parallel chains and our proposed scheme, SGLD+R. Note that the main difference between these two sampling algorithms is that for the former $\mathbf{D_K} = \mathbf{I}$, whereas the latter accounts for repulsion between particles. Tables \ref{tab:ess} and \ref{tab:ess2} report the effective sampling size metrics \cite{kass1998markov} for each method using $L=10$ particles. Note that while ESS/s are similar, the repulsive forces in SGLD+R make for a more efficient exploration, resulting in much lower estimation errors. Figures \ref{fig:moe} and \ref{fig:mog} confirm this fact. In addition, even when increasing the number of particles $L$, SGLD+R achieves lower errors than SGLD (see Fig. \ref{fig:moe100}).
+We compare two sampling methods, SGLD with $L$ parallel chains and our proposed scheme, SGLD+R. Note that the main difference between these two sampling algorithms is that for the former ${D_K} = {I}$, whereas the latter accounts for repulsion between particles. Tables \ref{tab:ess} and \ref{tab:ess2} report the effective sampling size metrics \cite{kass1998markov} for each method using $L=10$ particles. Note that while ESS/s are similar, the repulsive forces in SGLD+R make for a more efficient exploration, resulting in much lower estimation errors. Figures \ref{fig:moe} and \ref{fig:mog} confirm this fact. In addition, even when increasing the number of particles $L$, SGLD+R achieves lower errors than SGLD (see Fig. \ref{fig:moe100}).
 
 
 \begin{table}[H]
@@ -567,7 +677,7 @@ As before, we compare SGLD and SGLD+R, reporting the average root mean squared e
 
 The learning rate $\epsilon$ was chosen from a grid $\{1e-5, \ldots, 1e-3 \}$ validated on another fold. The number of iterations was set to 2000 in every experiment. As before, to make predictions we collect samples every 10 iterations after a burn-in period. 20 particles were used for each of the tested datasets.
 
-\begin{table}[H]
+\begin{table}[h]
 \centering{\small
 \scalebox{0.95}{
 \begin{tabular}{l|cc}
@@ -643,203 +753,11 @@ The model used for attack generation is a fully-connected network with three hid
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Conclusions and further work}\label{sec:conclusion}
-
-This paper shows how to generate new SG-MCMC methods, such as SGLD+R and Adam+NR, consisting of multiple chains plus repulsion between the particles. Instead of a naive parallelization, in which a particle from a chain is agnostic to the others, we showed how it is possible to adapt another method from the literature, SVGD, to account for a better exploration of the space, avoiding collapse between particles. We also showed how momentum-accelerated extensions of SGD can be used as SG-MCMC samplers, while also being compatible with the extension to repulsive forces between parallel chains. Our 
-experiments show that the proposed ideas improve efficiency when dealing 
-with large scale inference and prediction problems in presence of many 
-parameters and large data sets.
-
-Several avenues are open for further work. Here we discuss only several promising ones. First, with a very large particle regime ($L >> 100$) there is room to use approximating algorithms such as Barnes-Hutt to keep the computational cost tractable.
-Secondly, we used the RBF kernel in all our experiments, but a natural 
-issue to address would be to define a parameterized kernel $k_{\theta} (z_i, z_j)$ and learn the parameters $\theta$ on the go to optimize the ESS/s rate, using meta-learning approaches such as the one proposed in \cite{gallego2019vis} for the SGLD case.
-When dealing with shallow networks in comparatively small scale problems
-\cite{Muller} dealing with acceptance Metropolis steps was crucial, for example,
-when focusing on architecture selection; incorporating such steps
-to the proposed approaches could be beneficial.
 
 
 
-\section{Introduction}
-Bayesian inference and prediction in large, complex models, such as in 
-deep neural networks or stochastic processes, remains an elusive problem \cite{blei2017variational,insua2012bayesian,alquier2020approximate}.
-%
-%as in 
-%Accurate and efficient uncertainty estimation is becoming increasingly relevant in the Machine Learning community. As current models, such as those grounded in deep learning \cite{SCHMIDHUBER201585}, become more and more complex, traditional uncertainty estimation techniques become obsolete, thus the growing interest in developing newer approximation frameworks.
-%
-%One of the most popular and flexible paradigms to perform uncertainty estimation is provided by Bayesian statistics \cite{gelmanbda04}. Consider a joint probability model of latent variables and parameters $z$ and observations $x$,
-%$$
-%p(x,z) = p(z)p(x|z). 
-%$$
-%Under the Bayesian paradigm, the latent variables govern the distribution of the observed data. A Bayesian probabilistic model draws the latent variables or parameters from some prior distribution $p(z)$ and relates them to the observations via the likelihood probability $p(x|z)$. The machine learning and artificial intelligence communities are pervaded by models that can be expressed naturally through a joint model. Variational autoencoders (VAE) \cite{kingma2013auto} or  hidden Markov models (HMM) \cite{rabiner1989tutorial} are two relevant examples. 
-%
-%To perform Bayesian inference, we need to condition on the data to compute the posterior distribution, which we can be used to get uncertainty estimates. In complex models, this distribution 
-Variational approximations (e.g., automatic differentiation variational inference (ADVI) \cite{kucukelbir2017automatic}) tend to be biased and 
-underestimate uncertainty \cite{riquelme2018failure}. 
-On the other hand, depending on the target distribution,
-%is frequently intractable and requires approximations, such as Monte Carlo methods (e.g.,
-Markov Chain Monte Carlo (MCMC) \cite{andrieu2010particle} 
-methods, such 
-as Hamiltonian Monte Carlo (HMC) \cite{neal2011mcmc}),   
-tend to be exceedingly slow  \cite{van2018simple} {in large scale settings with large amounts of data points and/or parameters}. For this reason, in recent years, there has been increasing interest in developing more efficient posterior approximations \cite{nalisnick2016approximate,salimans2015markov,tran2015variational} and inference techniques that aim to be as general and flexible as possible {so that they can be easily used with any probabilistic model} \cite{wood2014new, ge2018t}.
-
-It is well known that the performance of a sampling method depends
-heavily on the parameterization used \cite{papaspiliopoulos2007general}. This work proposes
-a framework to automatically tune the parameters of a 
-MCMC sampler {with the aim of adapting the shape of the posterior, thus~boosting the Bayesian inference efficiency. 
- We deal with a case in which the latent variables or parameters are continuous. Our framework can also be regarded as a principled way to enhance the flexibility of  variational posterior approximation in search of an optimally tuned MCMC sampler;} thus the proposed name of our framework is {the variationally inferred sampler} (VIS).
 
 
-{
-
-The idea of preconditioning the posterior distribution to speed up the mixing time of a MCMC sampler has been explored recently in \cite{hoffmanneutra,PhysRevLett.121.260601}, where a parameterization was learned before sampling via HMC. Both papers extend seminal work in \cite{parno2014transport} by learning an efficient and expressive deep, non-linear transformation instead of a polynomial regression. However, they do not account for tuning the parameters of the sampler, as introduced in Section \ref{sec:main}, where a fully, end-to-end differentiable sampling scheme is proposed.
-
-The work presented in \cite{rezende2015variational} introduced a general
-framework for constructing more flexible variational distributions, called normalizing flows. These transformations are one of the main techniques used to improve the flexibility of current variational inference (VI) approaches and have recently pervaded the approximate Bayesian inference
-literature with developments such as continuous-time normalizing flows \cite{chen2018continuoustime} (which extend an initial simple variational posterior with a discretization of Langevin dynamics) or householder flow for mixtures of Gaussian distributions \cite{LIU201943}. However, they require a generative adversarial network (GAN) \cite{goodfellow2014generative} to learn the posterior,
-which can be unstable in high-dimensional spaces. We overcome this problem with our novel formulation; moreover, our framework is also compatible with different optimizers, rather than only those derived from Langevin dynamics \cite{10.5555/3122009.3208015}. Other recent proposals create more flexible variational posteriors based on implicit approaches typically requiring a GAN, as presented in \cite{huszar2017variational} and including unbiased implicit variational inference (UIVI)
-\cite{pmlr-v89-titsias19a} or semi-implicit variational inference (SIVI) \cite{yin2018semi}. Our variational approximation is also implicit but uses a sampling algorithm to drive the evolution of the density, combined with a Dirac delta approximation to derive an efficient variational approximation, as reported through extensive experiments in Section \ref{sec:exps}.
-
-Closely related to our framework is the work presented in \cite{hoffman2017learning}, where a variational autoencoder (VAE) is learned using HMC. We~use a similar compound distribution as the variational approximation, yet 
-our approach allows  any stochastic gradient MCMC to be embedded, %(SG-MCMC) sampler parameterized as $Q_{\eta, T}(z|z_0)$, where $z_0$ is the initial sample, $\eta$ the sampler hyperparameters and $T$ denotes the number of iterations.
- as well as facilitating the tuning of sampler parameters via gradient descent.
-Our work also relates to the recent idea of 
-sampler amortization \cite{feng2017learning}. 
-A common problem with these approaches is that they incur in an additional error---the amortization gap \cite{cremer2018inference}---which we alleviate by evolving a set of particles through a stochastic process in the latent space after learning a good initial distribution,
-meaning that %. Hence, the bias generated by 
-the initial approximation bias can be significantly reduced.
-%after several process iterations % of the process.
-A recent related article was presented in~\cite{pmlr-v97-ruiz19a},
-which also defined a compound distribution. 
-However, our focus is on efficient approximation using the reverse KL %Please define if appropriate 
-divergence, %the standard and well understood divergence used in variational inference, 
-which allows sampler parameters to be tuned and achieves superior results. Apart from optimizing this kind of divergence, % (better studied than the divergence  use),
-the~main point is that we can compute the gradients of sampler parameters %$\eta$ 
-(Section \ref{sec:tuning}), whereas in~\cite{pmlr-v97-ruiz19a} the authors only consider a parameterless sampler: % $Q_T(z|z_0)$:
-thus, our framework allows for greater flexibility, helping the user
-to tune sampler hyperparameters.
-In the Coupled Variational Bayes (CVB)~\cite{dai2018coupled} approach,
-optimization is in the dual space, whereas
-we optimize the standard
-evidence lower bound (ELBO). Note that even if the optimization was exact, the solutions would coincide, and it is not clear yet what happens in the truncated optimization case,% (finite $T$), 
-other than performing empirical experiments on given datasets. We thus feel that there is room for implicit methods that perform optimization in the primal space 
-(besides this, they are easier to implement). Moreover,
-the previous dual optimization approach requires the use of an additional neural network (see the paper on the Coupled Variational Bayes (CVB) approach
- or \cite{fang2019implicit}). This adds a large number of parameters and requires another architecture decision. With VIS, we do not need to introduce an auxiliary network, since we perform a ``non-parametric'' approach by back-propagating instead through 
-several iterations of SGLD. %Please define if appropriate 
-%Thus, the only parameters introduced are the sampler hyperparameters (the step-size in the SGLD case).
-Moreover, the lack of an auxiliary network simplifies the design choices.
-}
-
-
-%If we consider a probabilistic program to define a distribution $p(x, z)$, where $x$ are observations and $z$  denote both latent variables and parameters, then we are typically interested in answering queries involving the posterior $p(z | x)$. 
-
-{ Thus, our contributions include a flexible and consistent variational approximation to the posterior,
-embedding an initial variational approximation within a stochastic process;} %, together with 
-an analysis of its key properties; %(Section \ref{sec:main}); 
-    the provision of several strategies for ELBO
-    optimization using the previous 
-    approximation; and finally, 
-    an illustration of its power through relevant complex examples.
-    %\item An alternative ELBO function objective formulation, which is a variant of the original one when this new variational approximation is adopted. %(Section \ref{sec:rewriting}).
-    %\item A specialization to the case of Bayesian inference in state-space models.% (Section \ref{sec:ss}).
-    %\item Variance reduction and reparameterization via delayed sampling to accelerate the sampling process.
-    %\item Guide generation (special structure in the warping flow).
-
-
- 
-
-
-%BMAML: only SVGD, focus on multiple tasks, custom losses.
-
-\section{Background}
-%\section{Background}
-Consider a probabilistic model $p(x|z)$ and a prior distribution $p(z)$, where $x$ denotes the observations and $z \in \mathbb{R}^d$ the unobserved latent variables or parameters, depending on the context. Whenever necessary for disambiguation
-purposes, we shall distinguish between $z$ for latent variables and $\theta$ for parameters. Our interest is in performing inference regarding the unobserved $z$ by approximating its posterior distribution
-$$
-p(z| x) = \frac{ p(z)p(x| z) }{ \int p(z)p(x| z) dz} = %\frac{ p(z)p(x| z) }{ p(x) } = 
-\frac{p(x, z)}{p(x)}.
-$$
-
-The integral assessing the evidence $p(x) = \int p(z)p(x| z) dz$ is typically intractable. %; no general explicit expressions of the posterior are available. 
-Thus,~several~techniques have been proposed to perform approximate posterior inference~\cite{alquier2020approximate}.
-
-
-
-\iffalse
-A probabilistic program defines a probabilistic model $p(x, z)$ that factorizes as
-$$
-p(x, z) = p(x | z) \prod_{i=1}^n p(z_i | z_{<i}),
-$$
-where $n$ is the number of latent variables. The previous notation is convenient since it resembles the structure of a generic probabilistic model to sample from $p(x, z)$:
-\begin{align*}
-    z_1 &\sim p(z_1) \\
-    z_2 &\sim p(z_2 | z_{<2}) = p(z_2 | z_1) \\
-    &\ldots \\
-    z_n &\sim p(z_n | z_{<n}) \\
-    x &\sim p(x | z) \\
-    \mbox{\texttt{o}}&\mbox{\texttt{bserve }}x,
-\end{align*}
-where we have $n+1$ sampling statements and then we can condition
- on some observed data. Note that the last factor $p(x|z)$ could be also further factorized. This formulation is sufficiently flexible to describe numerous models typically used in the Machine Learning community, such as the Hidden Markov Model, whose joint probability can be expressed as
-$$
-p(x, z)
-= p(x | z) \prod_{i=1}^\tau p(z_i | z_{i-1}) = \prod_{i=1}^\tau p(x_i |z_i ) p(z_i | z_{i-1}),
-$$
-for a sequence of $\tau$ observations $x \in \mathbb{R}^\tau$,
-and $z_i$ being the hidden state of the observed $x_i$.
-
-Sampling from $p(x,z)$ is tractable as it is just required to run the program forward. However, performing inferences of the form $p(z | x)$ (or some marginal) can be cumbersome, specially in large-scale settings when the number of observations is huge, or the parameters lie in high-dimensional spaces. We next summarise fundamental approaches to deal with this issue.
-\fi
-
-%More details about this programs (infinite graph).
-
-\subsection{Inference as Optimization}\label{sec:iasopt}
-
-Variational inference (VI) \cite{kucukelbir2017automatic} tackles the problem of approximating the posterior $p(z | x)$ with a tractable parameterized distribution $q_{\phi}(z|x)$. The goal is to find the parameters $\phi$ so that the variational distribution $q_{\phi}(z|x)$  (also referred to as variational guide
-or variational approximation) can be as close as possible to the actual posterior. Closeness is typically measured through 
-the Kullback--Leibler 
-divergence $KL(q_{\phi } || p)$, reformulated into the ELBO as follows:
-\begin{equation}\label{eq:elbo}
-\mbox{ELBO}(q) = \mathbb{E}_{q_{\phi}(z|x)} \left[ \log p(x,z) - \log q_{\phi}(z|x)\right],
-\end{equation}
-\textls[-5]{This is the objective to be optimized,
-typically through stochastic gradient descent techniques. To~enhance flexibility, a standard choice
-for $q_{\phi}(z|x)$ is a Gaussian 
-distribution $\mathcal{N}(\mu_{\phi}(x), \sigma_{\phi}(x))$,
-with the mean and covariance matrix defined through a
- deep, non-linear model conditioned on observation $x$.}
-
-%Inference is then performed using a gradient-based optimization routine, leading to variational parameter updates of the form
-%\begin{align*}
-%\phi_{t+1} = \phi_t + \lambda \nabla_{\phi} \mbox{ELBO}(q),
-%\end{align*}
-%where $\lambda$ is the learning rate. Stochastic gradient descent (SGD) \cite{hoffman2013stochastic} or some variant of it, such as Adam \cite{kingma2014adam}, are used as the optimization algorithms.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Inference as Sampling}
-
-HMC \cite{neal2011mcmc} is an effective sampling method for models whose probability is pointwise computable and differentiable. %HMC uses Hamiltonian dynamics to produce minimally correlated proposals by augmenting the state space of the target distribution $p(z| x)$ with a $d-$dimensional vector $\bm{r}$. The resulting joint distribution is:
-%$$
-%p(z, \bm{r}| x) = p(z| x)p(\bm{r}),\qquad \bm{r} \sim \mathcal{N}(\bm{0}, \bm{I}).
-%$$
-%HMC employs two proposals, the first one randomizing $\bm{r}$ (to explore the state space) whereas the second one updates both $z$ and $\bm{r}$ 
-%simulating the Hamiltonian dynamics defined through 
-%$$
-%H(z, \bm{r}) = -\log p(z| x) + \bm{r}^\intercal \bm{r}/2.
-%$$
-When scalability is an issue, as proposed by the authors in \cite{welling2011bayesian}, a formulation of a continuous-time Markov process that converges to
-the target distribution $p(z | x)$ can be used, 
-% with $z \in \mathbb{R}^d$. 
-which is based~on the Euler--Maruyama discretization of Langevin dynamics
-\begin{eqnarray}\label{eq:sgmcmc}
-z_{t+1} \leftarrow z_{t} + \eta_t \nabla_{\bm{z}} \log p(x, z_t)  + \mathcal{N}(0, 2\eta_t I),
-\end{eqnarray}
-where $\eta_t$ is the step size {at time period
-$t$, and $I$ is the identity matrix}. The 
-required gradient $\nabla \log p(z_t,x)$ can be estimated using mini-batches of data. Several extensions of the original Langevin sampler have been proposed to increase its mixing speed, 
-such as in 
-\cite{li2016preconditioned,li2016high,abbati2018adageo,gallego2018stochastic}. We refer to these extensions as stochastic gradient MCMC samplers (SG-MCMC) \cite{ma2015complete}.
 
 
 
@@ -906,24 +824,26 @@ sufficient iterations, as in SG-MCMC samplers.
 This is expressed algorithmically as follows.
 
 
-Refinement phase: 
+\paragraph{Refinement phase.}\mbox{}\\
 
-Repeat the following until convergence:
+{\texttt{
+\noindent Repeat the following until convergence:
     \begin{enumerate}
     \item Sample an initial set of particles, $z_0 \sim q_{0,\phi}(z|x)$.
     \item Refine the particles through the sampler, $z_T \sim Q_{\eta, T}(z|z_0)$.
     \item Compute the ELBO objective from Equation (\ref{eq:ELBO}). %, where the last term may be approximated using any of the methods from Section $\ref{sec:approx}$.
     \item Perform automatic differentiation on the objective wrt parameters $\phi, \eta$ to update~them.
-\end{enumerate}
+\end{enumerate}}}
 
 
-Inference phase: 
+\paragraph{Inference phase.}\mbox{}\\
 
-Once good sampler parameters $\phi^*, \eta^*$ are learned,
+{\texttt{
+\noindent Once good sampler parameters $\phi^*, \eta^*$ are learned,
     \begin{enumerate}
     \item Sample an initial set of particles, $z_0 \sim q_{0,\phi^*}(z|x)$.
     \item Use the MCMC sampler $z_T \sim Q_{\eta^*, T}(z|z_0)$ as $T \rightarrow \infty$.
-    \end{enumerate}
+    \end{enumerate}}}
 
 
  Since the sampler can be run for a different number of steps depending on the phase, we use the following notation when necessary: VIS-$X$-$Y$ denotes $T = X$ iterations during the refining phase and $T=Y$ iterations during the inference phase.
@@ -1066,7 +986,7 @@ with respect to the learning rate $\eta$ from the SGLD or SGD processes to searc
 Now we assume that the latent variable $z$ takes a finite set of values.
 Could we do the same for Categorical variables?  In more detail, we have
 \begin{align*}
-z_0 &\sim q(z_0 | x) \sim \mathcal{C}at(\lambda(\bm{x})), \\
+z_0 &\sim q(z_0 | x) \sim \mathcal{C}at(\lambda({x})), \\
 z_1 &\sim Q(z_1 | z_0), \\
 &\ldots \\
 z_{T} &\sim Q(z_T | z_{T-1})
@@ -1074,13 +994,13 @@ z_{T} &\sim Q(z_T | z_{T-1})
 where $Q$ is a transition kernel. If the discrete variables can
 take $K$ values, then we can represent $Q$ as a $K\times K$ stochastic
 matrix. Note that we reuse $Q$ after every step, and this matrix 
-may be parameterized also by $\bm{x}$. Then, we could perform variable elimination to arrive at a refined guide 
+may be parameterized also by ${x}$. Then, we could perform variable elimination to arrive at a refined guide 
 $$
-q(z_T | \bm{x}) = \sum_{z_{T-1}, \ldots, z_0 } Q(z_T| z_{T-1}) \ldots q(z_0 | \bm{x}).
+q(z_T | {x}) = \sum_{z_{T-1}, \ldots, z_0 } Q(z_T| z_{T-1}) \ldots q(z_0 | {x}).
 $$
 %In order to define $Q$, we have thought of two options:
 %\begin{enumerate}
-%    \item Recall with einsum, we can compute $\nabla  \log p(z, \bm{x})$, and then use some sort of projection to the simplex (as its done in Game Theory with the sigmoid/softmax).
+%    \item Recall with einsum, we can compute $\nabla  \log p(z, {x})$, and then use some sort of projection to the simplex (as its done in Game Theory with the sigmoid/softmax).
 %    \item We define a random $Q$, and then use accept steps at each iteration. Then we need to  compute some gradient to update $Q$ (or just the initial distribution).
 %\end{enumerate}
 Note the similarity with Eq. \ref{eq:q}. Initially we have $q(z_0| \lambda(x)) \sim \mathcal{C}at(\lambda(x))$ so it should make sense that first of all we optimize $KL(p(z_0, x) || q(z_0 | \lambda(x))$, and then a refinement could be beneficial.
@@ -1308,8 +1228,8 @@ therefore~scalable.
 
 
 
-%\section{Experiments}\label{sec:exps}
-\section{Experiments}\label{sec:exps}
+%\section{Experiments}\label{sec:exps_vis}
+\section{Experiments}\label{sec:exps_vis}
 
 %We first detail the experiments. 
 
@@ -1419,7 +1339,7 @@ it was more correctly confident in its predictions.
 \caption{Prediction metrics for the HMM.}\label{tbl:preds}
 \begin{tabular}{c@{\hskip 1.2in}c@{\hskip 1.1in}c@{\hskip 1in}c}
 \toprule
-   & $\bm{T=0}$                             & $\bm{T=1}$   \\ 
+   & ${T=0}$                             & ${T=1}$   \\ 
  \midrule
     accuracy          & $0.40$ &  $0.84$ \\
     predictive entropy          & $1.414$ &  $1.056$ \\
@@ -1444,7 +1364,7 @@ In addition, we computed the interval score
 \caption{Prediction metrics for the DLM.}\label{tbl:preds_dlm}
 \begin{tabular}{c@{\hskip 1.1in}c@{\hskip 1in}c@{\hskip 1in}c}
 \toprule
-   & $\bm{T=0}$                             & $\bm{T=1}$   \\ 
+   & ${T=0}$                             & ${T=1}$   \\ 
  \midrule
     MAE          & $0.270$ &  $0.239$ \\
 
@@ -1486,8 +1406,8 @@ two distinct neural networks with the same structure as previously used, except 
 %    SIVI          & $-97.77$ &  $-121.53$ \\
 %    VAE          & $-98.29$ &  $-126.73$ \\
 %    \cline{1-3}
-    %VIS-10-20 (this paper)     & --- & $\bm{-106.90}$  \\
-%    VIS-5-10 (this paper)     & $\bm{-82.47 \pm 0.88}$ & $\bm{-107.32 \pm 1.01}$  \\
+    %VIS-10-20 (this paper)     & --- & ${-106.90}$  \\
+%    VIS-5-10 (this paper)     & ${-82.47 \pm 0.88}$ & ${-107.32 \pm 1.01}$  \\
     %VIS-0-20 (this paper)    & --- & $-121.11$  \\
 %    VIS-0-10 (this paper)     & $-98.13 \pm 0.13$ & $-120.96 \pm 0.58$  \\
     %VAE + RealNVP     & --- & ---  \\
@@ -1519,8 +1439,8 @@ Results are reported in Table \ref{tbl:vae}. To guarantee
 \midrule
     \multicolumn{3}{c}{ This paper}       \\
     \midrule
-    %VIS-10-20 (this paper)     & --- & $\bm{-106.90}$  \\
-    VIS-5-10     & {$\bm{-82.74 \pm {0.19}}$} & $\bm{-105.08 \pm 0.34}$  \\
+    %VIS-10-20 (this paper)     & --- & ${-106.90}$  \\
+    VIS-5-10     & {${-82.74 \pm {0.19}}$} & ${-105.08 \pm 0.34}$  \\
     %VIS-0-20 (this paper)    & --- & $-121.11$  \\
     VIS-0-10     & $-96.16 \pm 0.17$ & $-120.53 \pm 0.59$  \\
     %VAE + RealNVP     & --- & ---  \\
@@ -1559,7 +1479,7 @@ More concretely, we extended the VAE model, conditioning it on a discrete variab
 
 \begin{figure}[h]
 \centering
-\includegraphics[width=0.4\linewidth]{img/deep_bayes.png}
+\includegraphics[width=0.3\linewidth]{img/deep_bayes.png}
   \caption{{Probabilistic graphical model} for the deep Bayes classifier.}\label{fig:deep_bayes}
 \end{figure}
 
@@ -1615,11 +1535,11 @@ $T_{tr}$ &  $T_{te}$ & $-\mbox{ELBO}_{tr}$ & $-\mbox{ELBO}_{te}$ & $U_{te}$ (acc
 
 \begin{tabular}{c@{\hskip 1.4in}c@{\hskip 1.3in}c@{\hskip 1.4in}c}
 \toprule
-$\bm{T_{ref}}$ &  $\bm{T_{inf}}$ & \textbf{Acc. (Test)} \\
+${T_{ref}}$ &  ${T_{inf}}$ & \textbf{Acc. (Test)} \\
 \midrule
 0 & 0  & $96.5 \pm 0.5$ \% \\ 
 0 & 10 &  $97.7 \pm 0.7$ \%\\
-5 & 10 & $ \mathbf{99.8 \pm 0.2}$ \% \\
+5 & 10 & $ {99.8 \pm 0.2}$ \% \\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -1637,7 +1557,7 @@ The model is described as (simplified version)
     z_i &\sim \mathcal{C}ategorical(w)  \\
     x_i &\sim \mathcal{N}(\mu\left[z_i\right], \sigma) 
 \end{align*}
-The variational posterior is specified as $q(w, \sigma, \mu | \bm{x})$, where the discrete variables $z_i$ have been marginalized out (by using TVE in Pyro or sampling in tensorflow-probability). We compare our framework of embedding a sampler inside VI versus just using sampling or just using VI.
+The variational posterior is specified as $q(w, \sigma, \mu | {x})$, where the discrete variables $z_i$ have been marginalized out (by using TVE in Pyro or sampling in tensorflow-probability). We compare our framework of embedding a sampler inside VI versus just using sampling or just using VI.
 
 Now we list potential augmentations to the model that will be also tested in the experiments:
 \begin{enumerate}
@@ -1657,27 +1577,10 @@ Now we list potential augmentations to the model that will be also tested in the
 
 %TODO: repeat VAE experiments using VIS-FP.
 
-\section{Conclusions}
+%\section{Conclusions}
 %\section{Conclusion}
 
-In this work, we have proposed a flexible and efficient framework to perform
-large-scale Bayesian inference in probabilistic models. The scheme benefits from useful properties and can be 
-employed to efficiently perform inference with a wide class of models such as state-space time series, variational autoencoders {and variants such as the conditioned VAE for classification tasks}, defined through continuous, high-dimensional distributions.
 
-The framework can be seen as a general 
-approach to tuning MCMC sampler parameters, adapting the initial distributions and learning rate. %We believe the proposed scheme can be successfully applied to Adversarial Risk Analysis \cite{rios2009adversarial}, since MAIDs \cite{koller2003multi} are considered in that setting and it is customary to account for additional uncertainty over an attacker's influence diagram. Our framework paves the way for flexible inference and decision making under uncertainty in these settings, and we will explore this in future work.
-Key to the success and applicability of the VIS framework are the ELBO approximations based on the introduced refined variational approximation, which are computationally cheap but convenient. 
-
-Better estimates of the refined density and its gradient may be a fruitful line of research, such as the spectral estimator used in \cite{shi2018spectral}. Another alternative is to use a deterministic flow (such as SGD or SVGD), keeping
-track of the change in entropy at each iteration using the change of the variable formula, as in \cite{duvenaud2016early}. However, this requires a costly Jacobian computation, making it unfeasible to combine with our approach of back-propagation through the sampler (Section \ref{sec:tuning}) for moderately complex problems. We leave this for future exploration. {Another interesting and useful line of further research would be to tackle the case in which the latent variables $z$ are discrete. This would entail adapting the automatic differentiation techniques to be able to back-propagate the gradients through the sequences of acceptance steps necessary in Metropolis--Hastings samplers.}
-
-In order to deal with the implicit variational density, it may be worthwhile to consider optimizing the Fenchel dual of the KL divergence, as
- in \cite{fang2019implicit}. However, this requires the use of an auxiliary neural network, which may entail a large computational price compared with our simpler particle approximation.
-
-
-Lastly, probabilistic programming offers powerful tools for Bayesian modeling.
-A~PPL can be viewed as a programming language extended with random sampling and Bayesian conditioning capabilities, complemented with an inference engine that produces answers to inference, prediction and decision-making queries. Examples 
-include WinBUGS~\cite{lunn2000winbugs}, Stan \cite{carpenter2017stan} or the recent Edward \cite{tran2018simple} and Pyro \cite{bingham2018pyro} languages. We plan to adapt VIS into several PPLs to facilitate the adoption of the framework.
 
 
 

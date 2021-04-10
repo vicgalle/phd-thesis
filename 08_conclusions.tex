@@ -1,6 +1,42 @@
 
+\section{Large Scale Bayesian Inference}\label{sec:conclusion_lsb}
+
+
+This Chapter has shown how to generate new SG-MCMC methods, such as SGLD+R and Adam+NR, consisting of multiple chains plus repulsion between the particles. Instead of a naive parallelization, in which a particle from a chain is agnostic to the others, we showed how it is possible to adapt another method from the literature, SVGD, to account for a better exploration of the space, avoiding collapse between particles. We also showed how momentum-accelerated extensions of SGD can be used as SG-MCMC samplers, while also being compatible with the extension to repulsive forces between parallel chains. Our 
+experiments show that the proposed ideas improve efficiency when dealing 
+with large scale inference and prediction problems in presence of many 
+parameters and large data sets.
+
+In the second part, we have proposed a flexible and efficient framework to perform
+large-scale Bayesian inference in probabilistic models. The scheme benefits from useful properties and can be 
+employed to efficiently perform inference with a wide class of models such as state-space time series, variational autoencoders {and variants such as the conditioned VAE for classification tasks}, defined through continuous, high-dimensional distributions.
+
+The framework can be seen as a general 
+approach to tuning MCMC sampler parameters, adapting the initial distributions and learning rate. %We believe the proposed scheme can be successfully applied to Adversarial Risk Analysis \cite{rios2009adversarial}, since MAIDs \cite{koller2003multi} are considered in that setting and it is customary to account for additional uncertainty over an attacker's influence diagram. Our framework paves the way for flexible inference and decision making under uncertainty in these settings, and we will explore this in future work.
+Key to the success and applicability of the VIS framework are the ELBO approximations based on the introduced refined variational approximation, which are computationally cheap but convenient. 
+
+\subsection{Further work}
+
+Several avenues are open for further work. Here we discuss only several promising ones. First, with a very large particle regime ($L >> 100$) there is room to use approximating algorithms such as Barnes-Hutt to keep the computational cost tractable.
+Secondly, we used the RBF kernel in all our experiments, but a natural 
+issue to address would be to define a parameterized kernel $k_{\theta} (z_i, z_j)$ and learn the parameters $\theta$ on the go to optimize the ESS/s rate, using meta-learning approaches such as the one proposed in \cite{gallego2019vis} for the SGLD case.
+When dealing with shallow networks in comparatively small scale problems
+\cite{Muller} dealing with acceptance Metropolis steps was crucial, for example,
+when focusing on architecture selection; incorporating such steps
+to the proposed approaches could be beneficial.
+
+Better estimates of the refined density and its gradient may be a fruitful line of research, such as the spectral estimator used in \cite{shi2018spectral}. Another alternative is to use a deterministic flow (such as SGD or SVGD), keeping
+track of the change in entropy at each iteration using the change of the variable formula, as in \cite{duvenaud2016early}. However, this requires a costly Jacobian computation, making it unfeasible to combine with our approach of back-propagation through the sampler (Section \ref{sec:tuning}) for moderately complex problems. We leave this for future exploration. {Another interesting and useful line of further research would be to tackle the case in which the latent variables $z$ are discrete. This would entail adapting the automatic differentiation techniques to be able to back-propagate the gradients through the sequences of acceptance steps necessary in Metropolis--Hastings samplers.}
+
+In order to deal with the implicit variational density, it may be worthwhile to consider optimizing the Fenchel dual of the KL divergence, as
+ in \cite{fang2019implicit}. However, this requires the use of an auxiliary neural network, which may entail a large computational price compared with our simpler particle approximation.
+
+Lastly, probabilistic programming offers powerful tools for Bayesian modeling.
+A~PPL can be viewed as a programming language extended with random sampling and Bayesian conditioning capabilities, complemented with an inference engine that produces answers to inference, prediction and decision-making queries. Examples 
+include WinBUGS~\cite{lunn2000winbugs}, Stan \cite{carpenter2017stan} or the recent Edward \cite{tran2018simple} and Pyro \cite{bingham2018pyro} languages. We plan to adapt VIS into several PPLs to facilitate the adoption of the framework.
+
 \iffalse
-\section{Adversarial classification}
+\section{Adversarial Classification}
 
 
 Adversarial classification aims at enhancing classifiers to achieve robustness in presence of adversarial examples, as usually encountered in many security applications. The pioneering work of \cite{adversarialClassification2004} framed most later approaches to AC 
