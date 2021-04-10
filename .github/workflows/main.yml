@@ -12,5 +12,5 @@ jobs:
           root_file: phd_vga.tex
       - uses: actions/upload-artifact@v2
         with:
-          name: my-artifact
+          name: phdthesis_victorgallego
           path: phd_vga.pdf
