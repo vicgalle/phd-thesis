@@ -1,5 +1,5 @@
 
-\section{Introduction}
+\subsection{Introduction}
 
 The history of neural network (NN) models have gone 
 through several waves of popularity. The first 
@@ -54,7 +54,7 @@ interpretability and transfer
 learning of NNs and end up with a discussion.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Shallow neural networks}
+\subsection{Shallow neural networks}
 This section briefly introduces key concepts
 about shallow networks to support later discussions on current approaches.
 Our focus will be mainly on nonlinear regression 
@@ -100,7 +100,7 @@ $m\rightarrow \infty$. Our discussion focuses on $r=1$.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Classical approaches}\label{sanchez}
+\subsubsection{Classical approaches}\label{sanchez}
 
 Given $n$ observations $D=\{ (x_i, y_i), i=1,...,n \}$,
  maximum likelihood estimation (MLE) 
@@ -182,7 +182,7 @@ $$
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Bayesian approaches}\label{bayeshallow}
+\subsubsection{Bayesian approaches}\label{bayeshallow}
 We discuss now Bayesian approaches to shallow NNs.
 assuming standard priors 
 in Bayesian hierarchical modeling, see e.g.\ \cite{LavineWest}: 
@@ -283,37 +283,39 @@ The procedure runs like the described in Algorithm \ref{alg:mcmc}.
     \end{enumerate}
 }
 \fi
-{\tt
-\begin{algorithm}[H]
-Start with arbitrary $(\beta , \gamma ,\nu )$.\\
-\While{not convergence}{
-  Given current $(\gamma,\nu)$, draw  
+
+\begin{algorithm}[!ht]
+\begin{algorithmic}
+\State Start with arbitrary $(\beta , \gamma ,\nu )$.
+\While{not convergence} 
+ \State Given current $(\gamma,\nu)$, draw  
     $\beta$ from  
-    $p(\beta|\gamma,\nu,y)$ (a multivariate normal).\\
-    \For{$j=1,...,m$, marginalizing in $\beta$ and given $\nu$ }{
-    Generate a candidate $\tilde\gamma_j \sim g_j(\gamma_j)$.\\
-    Compute 
+    $p(\beta|\gamma,\nu,y)$ (a multivariate normal).
+    \For{$j=1,...,m$, marginalizing in $\beta$ and given $\nu$ } 
+    \State Generate a candidate $\tilde\gamma_j \sim g_j(\gamma_j)$.
+    \State Compute 
     $
        a(\gamma_j,\tilde\gamma_j) =
        \min\left(1,\frac{p(D |\tilde\gamma,\nu)}
                        {p(D |\gamma,\nu)}\right)
     $
-    with $\tilde\gamma = (\gamma_1,\gamma_2,\ldots,\tilde\gamma_i, ...,\gamma_m)$.\\
-    With probability $a(\gamma_j,\tilde\gamma_j)$ replace $\gamma_j$
+    with $\tilde\gamma = (\gamma_1,\gamma_2,\ldots,\tilde\gamma_i, ...,\gamma_m)$.
+    \State With probability $a(\gamma_j,\tilde\gamma_j)$ replace $\gamma_j$
     by $\tilde\gamma_j$. If not, preserve $\gamma_j$.
-    }
-    Given $\beta$ and $\gamma$, replace $\nu$
-        based on their posterior conditionals:\\
+    \EndFor
+    \State Given $\beta$ and $\gamma$, replace $\nu$
+        based on their posterior conditionals:
  $p(\mu_\beta|\beta,\sigma_\beta)$ is normal;
  $p(\mu_\gamma|\gamma,S_\gamma)$, multivariate normal;
  $p(\sigma_\beta^{-2}|\beta,\mu_\beta)$, Gamma; 
     $p(S_\gamma^{-1}|\gamma,\mu_\gamma)$, Wishart; 
     $p(\sigma^{-2}|\beta,\gamma,y)$, Gamma.
-  
- }
+    
+\EndWhile
+\end{algorithmic}
  \caption{MCMC sampler}\label{alg:mcmc}
 \end{algorithm}
-}
+
 
 
 \noindent For proposal generation distributions $g_j(\cdot)$,
@@ -402,25 +404,27 @@ with momentum variables $r$ of the same dimension as $\theta$; such
 }
 \fi
 
-{\tt
-\begin{algorithm}[H]
-Start with arbitrary $\theta_0 = (\beta _0, \gamma _0)$.\\
-\While{not convergence}{
-  Given current $\theta_t$ and $r_t \sim \mathcal{N}(0, I)$, perform one or more leapfrog integration
+
+\begin{algorithm}[!ht]
+\begin{algorithmic}
+\State Start with arbitrary $\theta_0 = (\beta _0, \gamma _0)$.
+\While{not convergence}
+  \State Given current $\theta_t$ and $r_t \sim \mathcal{N}(0, I)$, perform one or more leapfrog integration
   steps 
   \begin{align*}
   r_{t + \frac{1}{2}} &= r_t - \frac{\epsilon}{2}\nabla U(\theta_t) \\
    \theta_{t+ 1} &= \theta_t + \epsilon  r_{t + \frac{1}{2}} \\
    r_{t + 1} &= r_{t + \frac{1}{2}} - \frac{\epsilon}{2}\nabla U(\theta_{t+ 1})
     \end{align*}
-    to reach  $\theta^*$ and $r^*$.\\
-    Compute $\alpha(\theta_t, \theta^*) = \min \left\{ 1, \frac{\exp H(\theta^*, r^*)}{\exp H(\theta_t, r_t)} \right\} $.\\
-   Accept $\theta^*$ as $\theta_{t+1}$ with probability $\alpha(\theta_t, \theta^*)$, else discard it. 
+    to reach  $\theta^*$ and $r^*$.
+    \State Compute $\alpha(\theta_t, \theta^*) = \min \left\{ 1, \frac{\exp H(\theta^*, r^*)}{\exp H(\theta_t, r_t)} \right\} $.
+   \State Accept $\theta^*$ as $\theta_{t+1}$ with probability $\alpha(\theta_t, \theta^*)$, else discard it. 
   
- }
+ \EndWhile
+ \end{algorithmic}
  \caption{HMC sampler}\label{alg:hmc}
 \end{algorithm}
-}
+
 
 
 \noindent
@@ -433,7 +437,7 @@ process as  $m\rightarrow \infty$, although, in
 the limit, the output variables are independent.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Deep neural networks}
+\subsection{Deep neural networks}
 
 Training by backpropagation has been in use 
 for many years by now.
@@ -483,13 +487,13 @@ plagued earlier attempts with deep architectures using sigmoidal
 activation functions: the derivative of the logistic function is $\psi(z)' = \psi(z)(1 - \psi(z))$, with $\psi(z) = \frac{1}{1 + e^{-z}}$ and since the output of the logistic function is bounded in $\left[ 0, 1 \right]$, a concatenation of layers using this activation function makes the gradient quickly vanish to zero due to the chain rule. Alternative activation functions, such as the ReLU \cite{glorot2010understanding}, seem to alleviate this problem, in addition to having other benefits such as being faster to compute both the activation and its derivative.
 
 %%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Variants} 
+\subsubsection{Variants} 
 Beyond the above generic deep architectures 
 a few important specialised models have emerged which 
 are relevant in specific application domains,
 as we describe now. 
 %%%%%%%%%%%%
-\subsubsection{Convolutional neural networks} 
+\paragraph{Convolutional neural networks} 
 CNNs are typically used 
  in computer vision tasks and related signal processing applications.
  Stemming from the work by Le Cun and coauthors  
@@ -527,7 +531,7 @@ as with EfficientNets \cite{tan2019efficientnet}.
 
 
 %%%%%%%%%%%%
-\subsubsection{Recurrent neural networks} RNNs are typically used for sequence processing, as in natural language processing (NLP), e.g.\ \cite{hochreiter1997long} and \cite{chung2014empirical}. They have feedback connections which make the network aware of temporal dependencies in the input.
+\paragraph{Recurrent neural networks} RNNs are typically used for sequence processing, as in natural language processing (NLP), e.g.\ \cite{hochreiter1997long} and \cite{chung2014empirical}. They have feedback connections which make the network aware of temporal dependencies in the input.
 
 Let $x_t$ denote the $t$-th token (usually a word, but could even be 
 a smaller part) in the input sequence. A simple recurrent layer can be described as
@@ -556,7 +560,7 @@ the joint distribution over the sequence; in turn, RNNs keep this requirement co
 
 
 %%%%%%%%%%%%
-\subsubsection{Transformers} These architectures substitute the sequential processing from RNNs by a more efficient, parallel approach inspired by 
+\paragraph{Transformers} These architectures substitute the sequential processing from RNNs by a more efficient, parallel approach inspired by 
 attention mechanisms \cite{vaswani2017attention,bahdanau2014neural}. Their basic building components are scaled dot-product attention layers:
 let $x_i$ be the embedding\footnote{An embedding layer is a linear layer that projects a one-hot representation of words into a lower-dimensional space.} of the $i$-th token in an input sequence;
 this is multiplied by three weight matrices to obtain: 1) a query vector, $q_i = W_q x_i$; 2), 
@@ -585,7 +589,7 @@ a posteriori (MAP) estimators in
 
 
 %%%%%%%%%%%%%
-\subsubsection{Generative models} 
+\paragraph{Generative models} 
 The models from the previous paragraph belong to the discriminative family of models. Discriminative models directly learn the conditional distribution $p(y|x)$ from the data.
 Generative models, as opposed to discriminative ones, take a training set, consisting of samples from a distribution $p_{data}(x)$, and learn to represent an estimation of that distribution, resulting in another probability distribution, $p_{model}(x)$. Then, one could fit a distribution to the data by performing MLE,
 $$
@@ -601,7 +605,7 @@ Finally, the term generative models
 encompasses those models and some others, such as deep Boltzmann machines or deep belief networks, see \cite{doi:10.1146/annurev-statistics-010814-020120} for a comprehensive survey.
 
 %%%%%%%%%%%%%
-\subsubsection{Generative adversarial networks} GANS  perform density estimation in high-dimensional spaces formulating a game between two players, a generator and a discriminator \cite{goodfellow2014generative}. They belong to the family of generative models; however, GANs do not explicitly model a distribution $p_{model}$, i.e., they cannot evaluate it, only generate samples from it.
+\paragraph{Generative adversarial networks} GANS  perform density estimation in high-dimensional spaces formulating a game between two players, a generator and a discriminator \cite{goodfellow2014generative}. They belong to the family of generative models; however, GANs do not explicitly model a distribution $p_{model}$, i.e., they cannot evaluate it, only generate samples from it.
 GANs define a probabilistic graphical model containing observed variables $x$ (the input data, like an image or text) and latent variables $z$. Then, both players can be represented as two parameterized functions via NNs. Thus, the generator will be of the form $f_G(z, \theta_G)$, i.e., a NN that takes as input a latent vector and is parameterized through weights $\theta_G$. Note that the last layer will depend on the shape and range of the data $x$. Likewise, the discriminator will be a function $f_D(x, \theta_D)$ receiving a (fake or real) sample $x$ and outputting a probability for each of these two classes. Therefore, the final activation function will be 
 the sigmoid function. Each network has its own objective function. For the discriminator, the cost is
 $$
@@ -624,7 +628,7 @@ While GANs have already produced astonishing results in areas such as image gene
 in improving the diversity of samples generated by GANs.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Classical approaches}
+\subsubsection{Classical approaches}
 
 In principle, we could think of using 
 with deep NNs the approach in Section \ref{sanchez}. However,
@@ -656,7 +660,7 @@ initial $\theta$.
   \begin{enumerate}
       \item  Sample a size $l$ minibatch 
       $((x^{(1)}, y^{(1)}),..., (x^{l},y^{l})) $
-              from training set. 
+              from training set 
             \item Compute a gradient estimate
       $g_k = \frac{1}{l} \sum_{i=1}^l \nabla_{\theta} f_i(\theta_k) + \nabla_{\theta} h(\theta_k)$
       \item Update $\theta_{k+1} $ = $\theta_k -\epsilon _k g_k$
@@ -666,20 +670,21 @@ initial $\theta$.
 }
 \fi
 
-{\tt
-\begin{algorithm}[H]
-\While{stopping criterion not met}{
-  Sample a size $l$ minibatch 
+\begin{algorithm}[!ht]
+\begin{algorithmic}
+\While{stopping criterion not met}
+  \State Sample a size $l$ minibatch 
       $((x^{(1)}, y^{(1)}),..., (x^{l},y^{l})) $
-              from training set. \\
-Compute a gradient estimate
-      $g_k = \frac{1}{l} \sum_{i=1}^l \nabla_{\theta} f_i(\theta_k) + \nabla_{\theta} h(\theta_k)$\\
-    Update $\theta_{k+1} $ = $\theta_k -\epsilon _k g_k$ \\
-    $k=k+1$ \\
- }
+              from training set. 
+\State Compute a gradient estimate
+      $g_k = \frac{1}{l} \sum_{i=1}^l \nabla_{\theta} f_i(\theta_k) + \nabla_{\theta} h(\theta_k)$
+\State    Update $\theta_{k+1} $ = $\theta_k -\epsilon _k g_k$ 
+\State    $k=k+1$ 
+ \EndWhile
+\end{algorithmic}
  \caption{Stochastic gradient descent}\label{alg:sgd}
 \end{algorithm}
-}
+
 \noindent The standard Robbins-Monro conditions require
 that $\sum _k \epsilon_k = \infty$ and 
 $\sum _k \epsilon _k^2 < \infty $ for convergence to the optimum.
@@ -705,226 +710,13 @@ several techniques to improve generalization and convergence of neural networks,
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Bayesian approaches}
 
-MCMC algorithms presented in Section \ref{bayeshallow}
-have become standard in Bayesian inference \cite{french}.
-% Moreover, more recent variants such as HMC
-% and its Riemann
-%manifold variant, gain 
-%some efficiency of exploration,
-However, they entail a significant computational burden in large datasets. Indeed, 
-computing the corresponding acceptance probabilities 
- requires iterating over the whole dataset, which often does not even
- fit into memory. Thus, they 
-  do not scale well in big data settings. 
- As a consequence, two major approximations have been proposed.
-
-%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Stochastic Gradient Markov chain Monte Carlo}\label{bayesdeep} 
-
-SG-MCMC methods are based on the discretization of 
-stochastic differential equations that have the desired target 
-distribution as its limit. \cite{ma2015complete} provide a
-complete framework that encompass many earlier proposals and
-facilitate such discretization, as well as a practical tool for
-devising new samplers and testing the correctness of proposed samplers.
-
-As in Section 2.2, we aim at drawing samples from the
-posterior $p(\theta |D) \propto \exp(-U(\theta ))$,
-with potential function
-$U(\theta ) = -\sum _{x\in D} \log p(x|\theta ) + \log p(\theta )$. Define also auxiliary variables $r$,
-with $z=( \theta, r )$, and sample from $p(z|D) \propto  \exp(-H(z))$, with hamiltonian
-$H(z) = H(\theta , r) = U(\theta ) + g(\theta , r)$, such that
-$\exp(-g(\theta , r))dr = constant$. 
-Marginalizing the auxiliary variables gives us the desired distribution on $\theta $.
-
-In general, all continuous Markov processes that one might consider for sampling can be written
-as a stochastic differential equation (SDE) of the form:
-\begin{equation}
-dz = f(z)dt +
-\sqrt{ 2D(z)}dW(t),
-\end{equation}
-where $f(z)$ denotes the deterministic drift, frequently
-related to $\nabla H(z)$,
-$W(t)$  is a $d$-dimensional Wiener process, and 
-$D(z)$ is a positive semidefinite diffusion matrix. Note, though,
-that some care must be taken to choosing $f(z)$ and $D(z)$ 
-to yield the desired stationary distribution.
-\cite{ma2015complete} propose a recipe for constructing SDEs with the correct stationary distribution through 
-$f(z) = - [D(z) + Q(z)] \nabla H(z) + \Gamma (z)$, 
-and $\Gamma _i (z) = \sum _{j=1}^d 
-\frac{\partial  }{\partial z_j}(D_{ij} (z) + Q_{ij} (z) )
-$
-where $ Q(z)$ is a skew-symmetric curl matrix (representing the deterministic traversing effects seen
-in HMC procedures) and the diffusion matrix $D(z)$
-determines the strength of the Wiener process-driven diffusion.
-When 
-$D(z)$ is positive semidefinite and $Q(z)$ is skew-symmetric, 
- the convergence of the above dynamics to the desired 
-distribution follows; moreover both matrices can be adjusted to attain faster convergence to
-the posterior distribution. \cite{ma2015complete} show that by properly choosing the matrices  one can recover numerous samplers such
-as SGLD \cite{welling2011bayesian} or a corrected SG-HMC \cite{chen2014stochastic}.
-
-In practice, simulation actually relies on a discretization of the SDE, leading to a (full-data) update rule
-\begin{equation}
-z_{t+1} \leftarrow z_t - \epsilon_t \left[ ( D(z_t) + Q(z_t) )
-\nabla H(z_t) + \Gamma (z_t)\right]
-+ N (0, 2\epsilon _t D(z_t)).
-\end{equation} 
-Calculating $\nabla H(z)$ entails evaluating the gradient of $U(\theta )$
-which, with deep NN models, 
- becomes very intensive computationally as it relies on a sum
-over all data points. Instead, 
-we use a sampled data subset $S' \subset S$, with the corresponding potential for these data being 
-$U_1 (\theta ) = -\frac{|S'|}{|S|} \sum _{x \in S'}
-\log p(x|\theta ) + \log p(\theta )$, leading 
-to the approximation 
-\begin{equation}
-z_{t+1} \leftarrow z_t - \epsilon_t \left[ ( D(z_t) + Q(z_t) )
-\nabla H (z_t) + \Gamma (z_t) \right]
-+ N (0, \epsilon _t (2 D(z_t)- \epsilon_t \hat {B_t}))
-\end{equation} 
-where $\hat {B_t}$ is an estimate of the variance of the error.
-This provides the  stochastic gradient—or minibatch— variant of the sampler. 
-
-
-%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Variational Bayes} 
-
-Variational inference (VI) \cite{blei2017variational} tackles the 
- approximation of  $p(\theta | D)$ with a tractable parameterized
- distribution $q_{\phi}(\theta |D)$. The goal is to find parameters $\phi$ so that the distribution 
-$q_{\phi}(\theta |D )$  (referred to as variational guide
-or variational approximation)  is as close as possible to the actual posterior, with closeness typically measured through 
-the Kullback-Leibler 
-divergence $KL(q_{\phi } || p)$, reformulated into the ELBO
-\begin{equation}\label{eq:elbo}
-\mbox{ELBO}(q) = \mathbb{E}_{q_{\phi}(\theta |D)} \left[ \log p(D,\theta ) - \log q_{\phi}(\theta |D)\right],
-\end{equation}
-the objective to be optimized,
-usually through SGD techniques. 
-
-A standard choice
-for $q_{\phi}(\theta |D )$ is a factorized Gaussian 
-distribution $\mathcal{N}(\mu_{\phi}(D), \sigma_{\phi}(D))$,
-with  mean and covariance matrix defined through a
- deep NN conditioned on the observed data $D$.
- Note though that 
-other distributions can be adopted as long as they 
- are easily sampled and their log-density and entropy evaluated. 
-A problem is that these approximations often 
-underestimate the uncertainty. Some developments
-partly mitigate this  issue
-by  enriching the variational family include normalizing flows \cite{rezende2015variational} or the use of implicit distributions \cite{huszar2017variational}.
-
-We can actually use a more flexible approximation \cite{VIS},
- designated {\em refined variational approximation}, 
-  by embedding a sampler (Section 3.3.1) through
-\begin{equation*}\label{eq:q}
-q_{\phi,\eta}(\theta |D) = \int Q_{\eta, T}(\theta  | \theta _0)q_{0,\phi}(\theta _0|D)d\theta _0,
-\end{equation*}
-where $q_{0,\phi} (\theta | D)$ is the initial and tractable density
-$q_{\phi} (\theta | D)$.  
-The conditional distribution $Q_{\eta, T}(\theta |\theta _0)$
-designates a stochastic process parameterized by $\eta$,  
-used to evolve the original density $q_{0,\phi}(\theta |D )$
-for $T$ periods, so as to achieve greater flexibility. 
- Observe that when $T=0$, no refinement steps are performed and the refined variational approximation coincides with the original one; on the other hand, as 
- $T$ increases, the approximation will be closer to the exact posterior, assuming that $Q_{\eta, T}$ is a valid sampler
- as in Section \ref{bayesdeep}. Specific 
-forms for $Q_{\eta, T}(\theta |\theta _0)$
-are described in \cite{VIS}.
-We next maximize a refined ELBO objective, replacing in (\ref{eq:elbo}) the 
-original $q_{\phi }$ 
-by $q_{\phi, \eta}$
-\begin{equation}\label{eq:ELBO}
-\mbox{ELBO}(q_{\phi,\eta}) = \mathbb{E}_{q_{\phi, \eta}(\theta D)}
-\left[ \log p(D, \theta ) - \log q_{\phi, \eta}(\theta |D)\right]
-\end{equation}
-to optimize the divergence $KL(q_{\phi,\eta}(\theta |D) ||  p(\theta |D ))$. 
-%{\bf{The first term of Eq. (\ref{eq:ELBO})}}
-%requires only being able to sample from $q_{\phi,\eta}(z|x)$; however the second
-%one, the entropy
-%$-\mathbb{E}_{q_{\phi,\eta}(z|x)} \left[ \log q_{\phi,\eta}(z | x) \right]$, requires also evaluating the evolving, implicit density.
-%Section 3.2 describes 
-Efficient methods to approximate 
- such 
-evaluation are available in \cite{VIS}. 
-
-As a consequence, performing variational inference with the refined variational approximation can be regarded as using the original variational guide while optimizing an alternative, tighter ELBO.  
-This facilitates a framework for learning the sampler parameters $\phi, \eta$ using gradient-based optimization based 
-on two phases: first,
- refinement, sampler parameters are learnt in an optimization loop that maximizes the ELBO with the new posterior;
-after several iterations, the inference  phase 
-starts and we just let the tuned sampler run for
-sufficient iterations as used in SG-MCMC samplers. Algorithmically,
-this is expressed as in Algorithm \ref{alg:vis}.
-\iffalse
-{\tt 
-\begin{description}
-    \item[Refinement phase] Repeat until convergence:
-    \begin{enumerate}
-    \item Sample initial set of particles, $\theta _0 \sim q_{0,\phi}(\theta | D)$.
-    \item Refine particles through sampler, $\theta _T \sim Q_{\eta, T}(\theta |\theta 0)$.
-    \item Compute the ELBO objective (\ref{eq:ELBO}). 
-    \item Update parameters $\phi, \eta$ through automatic 
-    differentiation on objective.
-\end{enumerate}
-    \item[Inference phase] Based on learnt sampler parameters $\phi^*, \eta^*$:
-    \begin{enumerate}
-    \item Sample an initial set of particles, $\theta _0 \sim q_{0,\phi^*}(\theta |D)$.
-    \item Use the MCMC sampler $\theta _T \sim Q_{\eta^*, T}(\theta |\theta _0)$ as $T \rightarrow \infty$.
-    \end{enumerate}
-\end{description}
-}
-\fi
-{\tt
-\begin{algorithm}[H]
-Refinement phase: \\
-\While{not convergence}{
- Sample initial set of particles, $\theta _0 \sim q_{0,\phi}(\theta | D)$. \\
- Refine particles through sampler, $\theta _T \sim Q_{\eta, T}(\theta |\theta 0)$. \\
- Compute the ELBO objective (\ref{eq:ELBO}).  \\
- Update parameters $\phi, \eta$ through automatic 
-    differentiation on objective. \\
- }
-
-Inference phase. Based on learnt sampler parameters $\phi^*, \eta^*$:\\
-\quad Sample an initial set of particles, $\theta _0 \sim q_{0,\phi^*}(\theta |D)$. \\
-\quad  Use the MCMC sampler $\theta _T \sim Q_{\eta^*, T}(\theta |\theta _0)$ as $T \rightarrow \infty$.
- \caption{VIS sampler}\label{alg:vis}
-\end{algorithm}
-}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Ensembles} \cite{bdl} showed that deep ensembles \cite{ensemble} provide an efficient technique for approximate Bayesian marginalization, although it is not a truly Bayesian method.
-
-A regularization technique called dropout can be interpreted as performing ensembling over several models \cite{dropout}. Motivated by how dropout could be effectively used to quantify uncertainty in deep networks \cite{pmlr-v48-gal16}, several explorations have been pursued to extend ensembles for similar purposes. Deep ensembles were found to be superior to MC dropout in out-of-distribution-settings \cite{Ovadia2019CanYT}.
-Some recent techniques that should be pointed out include
-Stochastic Weight Averaging (SWA) \cite{izmailov2018averaging}, which leads to much more robust optima and better generalization, and a Bayesian treatment of the previous approach based on a Gaussian distribution,
-called SWAG \cite{NEURIPS2019_118921ef}.
-
-Stein Variational Gradient Descent (SVGD) \cite{svgd} takes a set of particles and evolves it following the gradient of the loss plus an auxiliary term that acts as a repulsion force between particles. That
-way, the particles do not collapse into the same mode, and can explore wider areas of the posterior. There is a close relationship between SVGD and SG-MCMC methods with \cite{gallego2018stochastic} 
-studying the interaction between both methods.
-
-Deep learning ensemble applications abound, for example in probabilistic wind power forecasting \cite{wang2017deep}, speech recognition \cite{deng2014ensemble}, time series forecasting \cite{qiu2014ensemble}, and medicine or bioinformatics \cite{qummar2019deep,xiao2018deep,cao2020ensemble}. However, the vast majority of these applied works only use simple ensembles, by averaging the outputs. Further benefits could be achieved by realizing a full Bayesian treatment of the problem.
-
-
-\subsubsection{Final remarks}
-Lastly, note that all of these approaches could be combined with recent heuristics to improve the convergence of SGD methods, such as the adoption of cyclical learning rates to explore more efficiently the posterior  \cite{7926641}.
-
-
-%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Examples}
+\subsection{Examples}
 We illustrate learning with deep NNs with three examples portraying
 different architectures and application domains. Code for the experiments was done using the \texttt{pytorch} library \cite{torch} and is released at \url{https://github.com/vicgalle/nn-review}.
 
 %%%%%
-\subsection{CNNs for image recognition}\label{kkvision}
+\subsubsection{CNNs for image recognition}\label{kkvision}
 
 We describe an image classification task with a standard CNN, VGG-19, showcasing the superior performance when compared to non-convolutional and non-deep approaches in this application domain. As benchmark, we use the CIFAR-10 dataset \cite{krizhevsky2014cifar},
 which consists of 60000 32x32 colour images in 10 classes. As baselines, we use a linear multinomial regression model, and a three hidden layer MLP with 200 units each with ReLU activations.
@@ -958,7 +750,7 @@ VGG-19 &  $93.29\%$
 \end{table}
 
 %%%%%%%%%%%%%%%
-\subsection{Transformer and recurrent models for sentiment analysis}
+\subsubsection{Transformer and recurrent models for sentiment analysis}
 This is an example with text to undertake sentiment analysis, classifying movie reviews with architectures tailored to NLP tasks. As benchmark, we use the IMBD movie review dataset 
 from \cite{maas-EtAl:2011:ACL-HLT2011}, in which a review in raw text must be classified into one of two classes: positive or negative
 sentiment. 
@@ -1039,87 +831,20 @@ RoBERTa &  $94.67\%$\\
 
 
 %%%%%%%%%%%%%%%%%%
-\section{Other topics}
+
+\iffalse
+
+
+\subsection{Other topics}
 We conclude with a discussion of three transversal topics in NN
 research and applications which are gaining much traction at the moment: how may we protect the predictions of deep
 learning models from malicious attacks perturbing data; how can we interpret or explain the predictions of a deep model; and, finally, how may we reuse what a deep model
 learns in a domain into another related context. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Security}
 
-As described, over the last decade
-an increasing number of processes are being automated through 
-deep NN algorithms, being 
-essential that these are robust and reliable
-if we are to
-trust operations based on their output. State-of-the-art
-algorithms, as those described above, perform extraordinarily well on standard data,  but have been
-shown to be vulnerable to adversarial examples, data instances targeted at
-fooling them \cite{goodfellow2014explaining}.
-The presence of adaptive adversaries has
-been pointed out in areas such as spam detection \cite{zeager2017adversarial}
-and computer vision \cite{goodfellow2014explaining}, among many others. 
-In those contexts, algorithms should acknowledge the presence of possible adversaries
-to protect from their data manipulations.
-As a fundamental underlying hypothesis, NN
-based systems rely on using 
-independent and identically distributed (iid) data for both training and operations. However, security aspects in deep
-learning, part of the emergent field of
-adversarial machine learning (AML),
-question such hypothesis, given the
-presence of adaptive adversaries ready to  intervene in the problem 
-to modify the data and obtain a benefit. 
 
-As a motivating example, vision algorithms (Section
-\ref{kkvision}) are at the core of many AI 
-applications such as ADSs \cite{rumanos}. 
-The simplest and most notorious attack examples to
-such algorithms  
-consist of modifications of images in such a way that the alteration becomes imperceptible to the human eye, yet drives a model trained on millions of images to misclassify the modified ones,
-with potentially relevant security consequences.
-With a relatively simple CNN model (Section 3.1.1), we are able to accurately predict 99\% of the handwritten digits in the MNIST data set.
-However, if we attack those data with the fast gradient sign method \cite{szegedy2013intriguin},
-accuracy gets reduced to 62\%. Fig.~\ref{fig:digits} provides an example of an original MNIST image and a perturbed one: to our eyes both images look like a 2, but the classifier rightly identifies a 2 in the first case, whereas it suggests a 7 after the perturbation. 
-%
-%\vspace{-0.2in}
-%
-%\hfill $\triangle$
-%
-\begin{figure}[hbt]
-\centering
-  \includegraphics[width=.6\linewidth]{figures/27}
-  \caption{Left: original image, correctly classified as a 2. Right: slightly perturbed image, wrongly classified as a 7.}
-  \label{fig:digits}
-\end{figure}
-
-Stemming from the pioneering work in adversarial classification 
-\cite{adversarialClassification2004}, the prevailing paradigm in AML models
-the confrontation between learning-based systems and adversaries through game theory. 
-This entails common knowledge assumptions 
-\cite{hargreaves2004game} which are 
-questionable in security 
-applications as adversaries try to conceal information. 
-As \cite{fan2019selective} points out, there is a need for a  framework that guarantees robustness of ML against adversarial manipulations in a principled manner. 
-
-The usual approach for robustifying models against these examples is {\em adversarial training} (AT) \cite{madry2018towards} and its 
-variants, based on solving a 
-bi-level optimisation problem whose objective function is the empirical risk of a model under worst case data perturbations. % AT approximates the inner optimisation through a projected gradient descent  
-%algorithm, ensuring that the perturbed input falls within a tolerable boundary, usually specified through some restriction on a norm distance. 
-However, recent pointers urge modellers to depart from using 
-norm based approaches \cite{carlini2019evaluating} and develop more realistic attack models.
-
-AML is a  difficult area which rapidly evolves and leads to an 
-arms race in which the community alternates cycles of proposing attacks and  of implementing defences that deal with them. However, as mentioned, it is 
-based on game theoretic ideas and strong common
-knowledge conditions. 
-\cite{AMLARA} propose a
-Bayesian decision theoretic based methodology 
-to solve AML problems, 
-adopting an ARA perspective \cite{adversarialRiskAnalysis2009,banks2015adversarial} modeling the confrontation between attackers and defenders and mitigating questionable common knowledge assumptions. \cite{math8111957} applies this ARA-based framework to  adversarial classification.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Explainability}
+\subsubsection{Explainability}
 
 Section \ref{bayeshallow} described how the parameters 
 in shallow NNs remained interpretable and this  guided
@@ -1159,7 +884,7 @@ data set; and locally extracting an explanation for a single test input
  
  
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Transfer learning}\label{sec:transfer}
+\subsubsection{Transfer learning}\label{sec:transfer}
 
 The training of huge neural models requires large amounts of labelled data, such as images, typically in the order of thousands to millions. In cases where human labelling of training data is not feasible 
 for scaling to those magnitudes, it is possible to leverage similar datasets, even not for the same task. This is called transfer learning \cite{tan2018survey,pan2009survey}, and fundamentally consists of taking a model previously trained over a massive dataset and then fine-tune the model in the final task, with a much smaller dataset. The adoption of pretrained models allows the practitioner to save in computational costs, because it significantly shortens the training time for the final dataset, and often leads to improved performance, thanks to the already learnt knowledge of the pretrained model. In addition, the quantity of labelled data can be drastically reduced by strategically choosing the data points to be annotated. Techniques developed to automatize this idea fall under the term of active learning, and the Bayesian approach offers a principled and sound framework for it, see e.g. \cite{houlsby2011bayesian}.
@@ -1172,27 +897,7 @@ have achieved the state-of-the-art in many NLP tasks.
 In this case, pretraining fundamentally consists of training the Transformer with a huge amount of unsupervised data, typically scrapped from internet from sources such as Wikipedia or Common Crawl \cite{cc:BrownMannRyderSubbiahEtAl:2020:language-models}. The pretraining task is called language modeling \cite{2008SchpJ...3.3881B}: the model has to predict the next word in a sentence (causal language modeling), or fill in the gaps from a sentence with holes (masked language modeling). Then, one can replace the final layer of the Transformer encoder for a suitable task in order to perform finetuning to the desired task.
 
 Tangential topics to transfer learning that are of increasing interest are meta-learning approaches such as model agnostic meta learning (MAML) \cite{pmlr-v70-finn17a} and its Bayesian extension \cite{NEURIPS2018_e1021d43}. Few-shot learning \cite{wang2020generalizing}, in which a model is able to learn by providing it with only few examples per class (typically, less than 50),  has also many similitude to transfer and meta-learning. Of special interest is the extreme case of zero-shot learning, with successful applications in NLP \cite{yinroth2019zeroshot}, and computer vision, with the example of the CLIP architecture \cite{radford2021learning}. 
-
+\fi
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Discussion}
-We end up this review by summarising results and suggesting a few challenges.
-After several waves of popularity, NN models seem to 
-have reached a definitive momentum because of the many relevant applications
-based on them. Most work in NNs is based on the MLE tradition.
-We have highlighted and illustrated the benefits of a Bayesian treatment of deep learning. Indeed, as we have described,
-they provide improved uncertainty estimates;
-they have enhanced generalization capabilities; 
-they have more robustness against adversarial attacks;
-they have improved capabilities for model calibration;
-and the use of sparsity-inducing priors, induce 
-improvements in learning. 
-However, efficient Bayesian integration methods in 
-deep NN are 
-still to be found, this remaining a major challenge.
-In particular their solution would facilitate the
-development of probabilistic programming \cite{gordon2014probabilistic,carpenter2017stan,wood2014new}
-as the next step for differentiable programming,
-leading to new tools for the 21st century Bayesian 
-statistics.

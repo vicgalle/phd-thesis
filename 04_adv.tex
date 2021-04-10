@@ -976,6 +976,24 @@ network architecture is shown in Section \ref{sec:scalable}. It is trained using
 
 
 \begin{figure}[!htb]
+\begin{center}
+\minipage{0.45\textwidth}
+\hspace{-0.5em}
+  \includegraphics[width=\textwidth]{figures/comparison_mnist_fgsm.png}
+   \caption{FGSM attack.}
+\endminipage\hfill
+\minipage{0.45\textwidth}
+  \includegraphics[width=\textwidth]{figures/comparison_mnist_pgdl1.png}
+   \caption{PGD attack under $\ell_1$ norm.}
+\endminipage
+\end{center}
+\caption{Robustness of a deep network for MNIST under three defence mechanisms 
+(none, AT, ARA). (a) depicts the security evaluation curves under the FGSM attack. (b) depicts the security evaluation curves under the PGD attack.}\label{fig:comparison_mnist}
+\end{figure}
+
+\iffalse
+
+\begin{figure}[!htb]
     \centering
     \begin{subfigure}[b]{0.45\textwidth}
         \includegraphics[width=\textwidth]{figures/comparison_mnist_fgsm.png}
@@ -992,6 +1010,7 @@ network architecture is shown in Section \ref{sec:scalable}. It is trained using
     \caption{Robustness of a deep network for MNIST under three defence mechanisms 
 (none, AT, ARA). (a) depicts the security evaluation curves under the FGSM attack. (b) depicts the security evaluation curves under the PGD attack.}\label{fig:comparison_mnist}
 \end{figure}
+\fi
 
 Figure \ref{fig:comparison_mnist} shows the \emph{security evaluation curves} \cite{BIGGIO2018317} for three different defences (none, AT and ARA), using two attacks at test time: FGSM and PGD. Such curves depict the accuracy of the defender model at this task ($y$-axis), under different attack intensities $\alpha$ ($x$-axis). Note how the uncertainties provided by the ARA training method substantially improve the robustness of the neural network under both attacks. From the graphics, we observe that the ARA approach provides a greater degree of robustness as the attack intensities increase. This suggests that the proposed robustification framework can scale well to both tall and wide datasets and that the introduction of uncertainties by the ARA approach is highly beneficial to increase the robustness of the defended models.
 

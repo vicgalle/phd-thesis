@@ -1,4 +1,29 @@
 
+
+\section{Introduction}
+
+\subsection{Discussion}
+We end up this review by summarising results and suggesting a few challenges.
+After several waves of popularity, NN models seem to 
+have reached a definitive momentum because of the many relevant applications
+based on them. Most work in NNs is based on the MLE tradition.
+We have highlighted and illustrated the benefits of a Bayesian treatment of deep learning. Indeed, as we have described,
+they provide improved uncertainty estimates;
+they have enhanced generalization capabilities; 
+they have more robustness against adversarial attacks;
+they have improved capabilities for model calibration;
+and the use of sparsity-inducing priors, induce 
+improvements in learning. 
+However, efficient Bayesian integration methods in 
+deep NN are 
+still to be found, this remaining a major challenge.
+In particular their solution would facilitate the
+development of probabilistic programming \cite{gordon2014probabilistic,carpenter2017stan,wood2014new}
+as the next step for differentiable programming,
+leading to new tools for the 21st century Bayesian 
+statistics.
+
+
 \section{Large Scale Bayesian Inference}\label{sec:conclusion_lsb}
 
 
@@ -35,7 +60,7 @@ Lastly, probabilistic programming offers powerful tools for Bayesian modeling.
 A~PPL can be viewed as a programming language extended with random sampling and Bayesian conditioning capabilities, complemented with an inference engine that produces answers to inference, prediction and decision-making queries. Examples 
 include WinBUGS~\cite{lunn2000winbugs}, Stan \cite{carpenter2017stan} or the recent Edward \cite{tran2018simple} and Pyro \cite{bingham2018pyro} languages. We plan to adapt VIS into several PPLs to facilitate the adoption of the framework.
 
-\iffalse
+
 \section{Adversarial Classification}
 
 
@@ -161,4 +186,3 @@ multi agent reinforcement learning: the decentralized case, in which both agents
   the creation of intermediary platforms that facilitate the connection between dominant data owners and citizens to enable data sharing
   would be key to guarantee social progress. 
   
- \fi
