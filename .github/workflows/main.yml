@@ -10,3 +10,7 @@ jobs:
         uses: dante-ev/latex-action@master
         with:
           root_file: phd_vga.tex
+      - uses: actions/upload-artifact@v2
+        with:
+          name: my-artifact
+          path: phd_vga.pdf
