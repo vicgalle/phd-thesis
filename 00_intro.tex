@@ -1,7 +1,25 @@
 
 \section{A motivation for Bayesian methods}
 
+Background from \url{https://cims.nyu.edu/~andrewgw/caseforbdl.pdf}
 
+This is mostly to share ideas of applications for (mostly) Bayesian Deep Learning, apart from the usual stuff in adversarial ML. The idea of these applications is to motivate the research in BDL and to be used as experiments in future Bayesian papers and the thesis.
+
+\begin{itemize}
+    \item Active Learning: in order to choose new points for labeling, we need to compute entropies of predictions + acquisition function (AF) as in \url{https://arxiv.org/abs/1906.08158}. With better uncertainty estimates the performance should be higher for a given AF. This should be easy to implement, since experiments are MNIST based.
+    \item The retina benchmark from \url{http://www.cs.ox.ac.uk/people/angelos.filos/publications/diabetic_retinopathy_diagnosis.pdf}.
+    \item VOED: in \url{https://arxiv.org/pdf/1903.05480.pdf} authors propose an amortized variational approximation.
+    \item VIREL: a framework similar to MERL from \url{https://arxiv.org/pdf/1811.01132.pdf}.
+    \item Deep Image Prior: apart from the prior, the Bayesian version avoids overfitting for image reconstruction tasks. \url{https://zpascal.net/cvpr2019/Cheng_A_Bayesian_Perspective_on_the_Deep_Image_Prior_CVPR_2019_paper.pdf}
+\end{itemize}
+
+\subsection{Arguments}
+
+\begin{itemize}
+    \item In defence of Bayesian DL, focusing on marginalization (in the predictive distribution): \url{https://cims.nyu.edu/~andrewgw/caseforbdl.pdf}. Related to that (specially in the critique of BNN priors, see \url{https://www.reddit.com/r/MachineLearning/comments/eqdad9/d_a_sober_look_at_bayesian_neural_networks/}
+    
+    \item \url{https://oatml.cs.ox.ac.uk/blog/2020/04/22/Beyond-Discrete-Support-in-Large-Scale-Bayesian-Deep-Learning.html} criticises discrete support methods, such as MCMC, in continual settings. But this is a setting similar to SMC, so a resampling step solves the problem...
+\end{itemize}
 
 \section{A case study in the retail sector using Bayesian time series models}\label{sec:dlms}
 \input{002_dlm}
