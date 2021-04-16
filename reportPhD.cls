@@ -543,8 +543,8 @@
 \skip\@mpfootins = \skip\footins
 \setlength\fboxsep{3\p@}
 \setlength\fboxrule{.4\p@}
-\@addtoreset {equation}{section}
-%%\@addtoreset {equation}{chapter}
+%\@addtoreset {equation}{section}
+\@addtoreset {equation}{chapter}
 \renewcommand\theequation
    {\ifnum \c@chapter>\z@ \thesection.\fi \@arabic\c@equation}
 %%   {\ifnum \c@chapter>\z@ \thechapter.\fi \@arabic\c@equation}

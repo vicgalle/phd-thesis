@@ -151,7 +151,7 @@ group-four-digits
 % Remove red border from links
 \hypersetup{colorlinks=false, pdfborder={0 0 0}}
 
-\numberwithin{equation}{section}
+%\numberwithin{equation}{section}
 \numberwithin{figure}{chapter}
 \numberwithin{table}{chapter}
 
@@ -162,6 +162,15 @@ group-four-digits
 {\Large (Contribuciones a la Inferencia Bayesiana a Gran Escala y al \\ Aprendizaje Automático Adversario) }}
 \author{Víctor Gallego Alcalá}
 \newcommand{\director}{David Ríos Insua and David Gómez-Ullate Oteiza}
+
+\renewcommand{\thealgorithm}{\arabic{chapter}.\arabic{algorithm}} 
+%\renewcommand\theequation{\thechapter.\arabic{equation}}
+
+
+
+\usepackage{chngcntr}
+\counterwithin{equation}{chapter}
+\numberwithin{equation}{chapter}
 
 \begin{document}
 
@@ -230,9 +239,9 @@ TODO
 \input{chapters/05_ararl}
 
 
+
 \chapter{Conclusions}\label{cha:conclusions}
 \input{chapters/08_conclusions}
-
 
 %\iffalse
 

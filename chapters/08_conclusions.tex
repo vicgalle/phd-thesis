@@ -2,6 +2,19 @@
 
 \section{Introduction}
 
+\subsection{Summary and future work}
+
+We have developed a data-driven approach for the management of advertising investments of a firm. First, using the firm's investment levels in advertising, we propose a formulation of the Nerlove-Arrow model via a Bayesian structural time series to predict an economic variable (global sales)  which also incorporates information from the external environment (climate, economical situation and special events). The model thus defined offers low predictive errors while maintaining interpretability and can be built in a modular fashion, which offers great flexibility to adapt it to other business scenarios. The model performs variable selection and allows to incorporate \emph{prior} information via the \emph{spike-and-slab} prior. It can handle non-gaussian deviations and also provides hints to which of the advertising channels are having positive effects upon sales. The model can be used as a basis for a decision support system by the manager of the firm, helping with the task of allocating ad investments.
+
+Possible extensions of this model include:
+
+\begin{enumerate}
+\item Use a different model to explain the influence of advertising upon sales. This model could take into account interactions between the channels or allow for different long-term effects for each of them.
+\item Develop a model-based strategy for long-run temporal and cross-sectional budget allocation.
+\item Model each restaurant individually instead of using total aggregated sales. For this approach to be sound, it would entail to use both  local values of the ambient variables $X_i$ and some of the investment  channels $u_i$ (e.g. \texttt{OOH}).
+\item Include in the model the effect of special discounts, promotions and coupons, since these are probably highly correlated with some of the channels, specially \texttt{ONLINE} and \texttt{SEARCH}.
+\end{enumerate}
+
 \subsection{Discussion}
 We end up this review by summarising results and suggesting a few challenges.
 After several waves of popularity, NN models seem to 
@@ -48,7 +61,8 @@ issue to address would be to define a parameterized kernel $k_{\theta} (z_i, z_j
 When dealing with shallow networks in comparatively small scale problems
 \cite{Muller} dealing with acceptance Metropolis steps was crucial, for example,
 when focusing on architecture selection; incorporating such steps
-to the proposed approaches could be beneficial.
+to the proposed approaches could be beneficial. 
+If many more particles are  used, one could approximate the expectation in (\ref{eq:svgd_mat}) using subsampling at each iteration, as proposed by the authors of SVGD, or by using more sophisticated approaches from the molecular dynamics literature, such as the Barnes-Hutt algorithm, \cite{barnes1986hierarchical}, to arrive at an efficient $\mathcal{O}(L \log L)$ computational burden at a negligible approximation error.
 
 Better estimates of the refined density and its gradient may be a fruitful line of research, such as the spectral estimator used in \cite{shi2018spectral}. Another alternative is to use a deterministic flow (such as SGD or SVGD), keeping
 track of the change in entropy at each iteration using the change of the variable formula, as in \cite{duvenaud2016early}. However, this requires a costly Jacobian computation, making it unfeasible to combine with our approach of back-propagation through the sampler (Section \ref{sec:tuning}) for moderately complex problems. We leave this for future exploration. {Another interesting and useful line of further research would be to tackle the case in which the latent variables $z$ are discrete. This would entail adapting the automatic differentiation techniques to be able to back-propagate the gradients through the sequences of acceptance steps necessary in Metropolis--Hastings samplers.}

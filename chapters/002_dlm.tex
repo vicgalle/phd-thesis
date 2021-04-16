@@ -16,7 +16,7 @@ In this section we use the formalism of Bayesian structural time-series models t
 \subsection{Theoretical background and model definition}
 
 
-\subsubsection{The Nerlove-Arrow model}
+\paragraph{The Nerlove-Arrow model.}
 
 
 Numerous formulations of aggregate advertising response models exist in the marketing literature, e.g. \cite{little1979aggregate}. The model of Nerlove and Arrow \cite{nerlove1962optimal} extends the Dorfman-Steiner model to cover the situation in which present advertising expenditures affect future demand for products; it is parsimonious and is considered as a standard in the quantitative marketing community. We use it as our starting point.
@@ -30,7 +30,7 @@ where $u(t)$ is the advertising spending rate (e.g., euros or gross rating point
 
 Several extensions and modifications have been proposed to this simple model: it can include a limit for potential costumers \cite{vidale1957operations}, a non-linear response function to advertise expenditures \cite{little1975brandaid}, wear-in and wear-out effects of advertising \cite{naik1998planning},  interactions between different advertising channels \cite{bass2007wearout}, among other. Still, for most of the tasks, the  Nerlove-Arrow model remains as a simple and solid starting point. 
 
-\subsubsection{Bayesian structural time series models}
+\paragraph{Bayesian structural time series models.}
 
 
 \emph{Structural time series models} or \emph{state-space models} provide a general formulation that  allows a unified treatment of virtually any linear time series model through the general algorithms of the Kalman filter and the associated smoother. Several handbooks \cite{durbin2012time, petris2009dynamic, sarkka2013bayesian, west1998bayesian} discuss this topic in depth, so  we will not develop the corresponding theory. We will however present the most salient features that concern our modelling problem. For further details, the reader may check the aforementioned handbooks. 
@@ -60,11 +60,11 @@ The specification of the state-space system is completed by assuming that the in
 The Bayesian approach offers several advantages compared to classical methods. For instance, it is natural to incorporate external information through the prior distributions. In particular, this will be materialized in Section \ref{sec:s_s} where expert information can be incorporated through the spike and slab prior. Another useful advantage is that, due to the Bayesian nature of the model, it is straightforward to obtain predictive intervals through the predictive distribution (see Section \ref{s:MCMC}).
 
 
-\subsubsection{Model specification}\label{sec:model}
+\paragraph{Model specification.}\label{sec:model}
 
 
 
-\paragraph{State-space formulation.}
+%\paragraph{State-space formulation.}
 
 
 The continuous-time Nerlove-Arrow model must be first cast in discrete time so as to formulate our model in state-space. From equation (\ref{eq:NA}), we get:
@@ -115,7 +115,7 @@ Note that the $q_i$ are constant over time and that the matrix $G_t$ depends on 
 \end{description}
 
 
-\subsubsection{Modularity and additional structure}
+\paragraph{Modularity and additional structure.}
 
 The above model is very flexible in the sense that it can be defined \emph{modularly},  in as much as the different hidden states evolve independently of the others (\emph{i.e.} the evolution matrix can be cast in block-diagonal form). This greatly simplifies their implementation and allows for simple building-blocks with characteristic behavior. Typical blocks specify trend and seasonal components ---\,which can be helpful to discover additional patterns in the time series--- or explanatory variables that can be added to further reduce the uncertainty in the model and bridge the gap between time series and regression models. Via the \emph{superposition principle} \cite[Chapter 3]{petris2009dynamic} we could include additional blocks in our model:
 
@@ -146,7 +146,7 @@ $$
 The manager of the firm may elicit these $\pi_i$ in various ways. A reasonable choice when detailed prior information is unavailable is to set all $\pi_i = \pi$. Then, we may specify an expected number of non-zero coefficients by setting $\pi = k/p$, where $p$ is the total number of regressors. Another possibility is to set $\pi_i = 1$ if the manager believes that the $i-$th regressor is crucial for the model. %For instance, the manager may impose her business knowledge and experience from past campaigns by setting $\pi_i = 1$ for the key variables.
 %For further information regarding the spike and slab prior specification see \cite{george1997approaches}.
 
-\subsubsection{Model estimation and forecasting}\label{s:MCMC}
+\paragraph{Model estimation and forecasting}\label{s:MCMC}
 
 Model parameters can be estimated using Markov Chain Monte Carlo simulation, as described in Chapter 4 of \cite{petris2009dynamic} or \cite{scott2014predicting}. We follow the same scheme.
 
@@ -180,7 +180,7 @@ In this manner, we allow the model to predict occasional larger deviations, whic
 
 \subsection{Case Study. Data and parameter estimation}
 
-\subsubsection{Data analysis}
+\paragraph{Data analysis.}
 
 
 \begin{figure}[h]
@@ -215,7 +215,7 @@ A handful of other predictors $X_t$ which are also known to affect sales will be
 \item Special events: holidays (\texttt{Hols}) and important sporting events (\texttt{Sport\_EV}).
 \end{itemize}
 
-\subsubsection{Experimental setup}
+\paragraph{Experimental setup.}
 
 Following the notation in Section \ref{sec:model}, we consider three model variants for the particular dataset in increasing order of complexity:
 
@@ -320,7 +320,7 @@ Having built good predictive models, we inspect them more closely with the aim o
 \end{tabular} \caption{Expected value and standard error of coefficients $q_i$. Statistically significant coefficients appear in bold.}\label{tab:1}
 \end{table}
 
-\begin{table}[H]
+\begin{table}[h]
 \centering
 \begin{tabular}{ |l|c|c|c|c|c| }
   \hline
@@ -342,7 +342,7 @@ Having built good predictive models, we inspect them more closely with the aim o
 
 % Mover tablas debajo, aunque primero grafica del error.
 
-\begin{figure}[H]
+\begin{figure}[h]
 \centering
 \includegraphics[scale=0.6]{figures/inc_probas2.png}
 \caption{Selection probabilities in the MCMC simulation for each predictor variable in the three models. The color code shows variables positively (white) or negatively (black) correlated with sales. }\label{fig:inc_probas}
@@ -397,7 +397,7 @@ Next, we turn our attention to the investment variables across different adverti
 
 %Comparison of models: no regressors; linear relationships; black-box model (cumulative absolute error)
 
-\subsubsection{Budget allocation. Model-based solutions}\label{section: budget allocation}
+\paragraph{Budget allocation. Model-based solutions.}\label{section: budget allocation}
 
 We propose a model which can be used as a decision support system for the manager, helping her in adopting the  investment strategy in advertising. The company is interested in maximizing the expected sales for the next period, subject to a budget constraint for the advertising channels and also a risk constraint, i.e., the variance of the predicted sales must be under a certain threshold.
 This optimization problem based on one-step-ahead forecasts can be formulated as a non linear, but convex, problem that depends on the parameter $\sigma^2$:
@@ -429,18 +429,7 @@ For normally distributed errors, the predicted sales on the period also follow a
 
 The above optimization problem may not need to be solved by exhaustively searching over the space of possible channel investments. In a typical business setting, the manager would consider a discrete set of $S$ investment strategies that are easy to interpret, so she may perform $S$ simulations of the predictive distribution and use the above strategy to discard the Pareto suboptimal strategies.
 
-\subsection{Summary and future work}
 
-We have developed a data-driven approach for the management of advertising investments of a firm. First, using the firm's investment levels in advertising, we propose a formulation of the Nerlove-Arrow model via a Bayesian structural time series to predict an economic variable (global sales)  which also incorporates information from the external environment (climate, economical situation and special events). The model thus defined offers low predictive errors while maintaining interpretability and can be built in a modular fashion, which offers great flexibility to adapt it to other business scenarios. The model performs variable selection and allows to incorporate \emph{prior} information via the \emph{spike-and-slab} prior. It can handle non-gaussian deviations and also provides hints to which of the advertising channels are having positive effects upon sales. The model can be used as a basis for a decision support system by the manager of the firm, helping with the task of allocating ad investments.
-
-Possible extensions of this model include:
-
-\begin{enumerate}
-\item Use a different model to explain the influence of advertising upon sales. This model could take into account interactions between the channels or allow for different long-term effects for each of them.
-\item Develop a model-based strategy for long-run temporal and cross-sectional budget allocation.
-\item Model each restaurant individually instead of using total aggregated sales. For this approach to be sound, it would entail to use both  local values of the ambient variables $X_i$ and some of the investment  channels $u_i$ (e.g. \texttt{OOH}).
-\item Include in the model the effect of special discounts, promotions and coupons, since these are probably highly correlated with some of the channels, specially \texttt{ONLINE} and \texttt{SEARCH}.
-\end{enumerate}
 
 \iffalse
 \subsection{Large scale approaches to Bayesian inference in DLMs}

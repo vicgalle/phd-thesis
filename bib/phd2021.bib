@@ -121,6 +121,27 @@
  publisher = {McGraw-Hill, Inc.},
 }
 
+@book{kirk2004optimal,
+  title={Optimal control theory: an introduction},
+  author={Kirk, Donald E},
+  year={2004},
+  publisher={Courier Corporation}
+}
+
+@incollection{DIEDERICH200113917,
+title = {Sequential Decision Making},
+editor = {Neil J. Smelser and Paul B. Baltes},
+booktitle = {International Encyclopedia of the Social and Behavioral Sciences},
+publisher = {Pergamon},
+address = {Oxford},
+pages = {13917-13922},
+year = {2001},
+isbn = {978-0-08-043076-8},
+doi = {https://doi.org/10.1016/B0-08-043076-7/00636-7},
+url = {https://www.sciencedirect.com/science/article/pii/B0080430767006367},
+author = {A. Diederich}
+}
+
 @book{french2000statistical,
   title={{Statistical Decision Theory}},
   author={French, Simon and Rios Insua, David},
@@ -3084,6 +3105,15 @@ year = {2009},
 @InProceedings{pmlr-v48-gal16, title = {Dropout as a Bayesian Approximation: Representing Model Uncertainty in Deep Learning}, author = {Yarin Gal and Zoubin Ghahramani}, booktitle = {Proceedings of The 33rd International Conference on Machine Learning}, pages = {1050--1059}, year = {2016}, editor = {Maria Florina Balcan and Kilian Q. Weinberger}, volume = {48}, series = {Proceedings of Machine Learning Research}, address = {New York, New York, USA}, month = {20--22 Jun}, publisher = {PMLR}, pdf = {http://proceedings.mlr.press/v48/gal16.pdf}, url = {http://proceedings.mlr.press/v48/gal16.html}, abstract = {Deep learning tools have gained tremendous attention in applied machine learning. However such tools for regression and classification do not capture model uncertainty. In comparison, Bayesian models offer a mathematically grounded framework to reason about model uncertainty, but usually come with a prohibitive computational cost. In this paper we develop a new theoretical framework casting dropout training in deep neural networks (NNs) as approximate Bayesian inference in deep Gaussian processes. A direct result of this theory gives us tools to model uncertainty with dropout NNs – extracting information from existing models that has been thrown away so far. This mitigates the problem of representing uncertainty in deep learning without sacrificing either computational complexity or test accuracy. We perform an extensive study of the properties of dropout’s uncertainty. Various network architectures and non-linearities are assessed on tasks of regression and classification, using MNIST as an example. We show a considerable improvement in predictive log-likelihood and RMSE compared to existing state-of-the-art methods, and finish by using dropout’s uncertainty in deep reinforcement learning.} }
 
 
+@article{kaelbling1996reinforcement,
+  title={Reinforcement learning: A survey},
+  author={Kaelbling, Leslie Pack and Littman, Michael L and Moore, Andrew W},
+  journal={Journal of artificial intelligence research},
+  volume={4},
+  pages={237--285},
+  year={1996}
+}
+
 
 
 @article{cao2020ensemble,
@@ -5082,16 +5112,6 @@ year = {2016}
   year={2005}
 }
 
-@article{kaelbling1996reinforcement,
-  title={Reinforcement learning: A survey},
-  author={Kaelbling, Leslie Pack and Littman, Michael L and Moore, Andrew W},
-  journal={Journal of artificial intelligence research},
-  volume={4},
-  pages={237--285},
-  year={1996}
-}
-
-
 
 @article{rochet2006two,
   title={Two-sided markets: a progress report},
@@ -5115,6 +5135,70 @@ year = {2016}
 }
 
 
+@article{10.2307/1266125,
+ ISSN = {00401706},
+ URL = {http://www.jstor.org/stable/1266125},
+ abstract = {This paper is concerned with the dual problem of generating and analyzing data in experimental investigations in which the goal is to develop a suitable mechanistic model. The problem is first distinguished from that of response surface methodology. With regard to the analysis of data, topics that are discussed include the behavior of estimated constants with an inadequate model, a diagnostic technique for model-building, and the importance of visual scrutiny of data. With regard to the generation of data, the concept of placing a model in jeopardy is discussed. Designs for model discrimination and for parameter estimation are considered.},
+ author = {G. E. P. Box and William G. Hunter},
+ journal = {Technometrics},
+ number = {1},
+ pages = {23--42},
+ publisher = {Taylor \& Francis},
+ title = {The Experimental Study of Physical Mechanisms},
+ volume = {7},
+ year = {1965}
+}
+
+
+
+@article{doi:10.1080/00401706.1962.10490015,
+author = { G.   E.P.   Box  and  William G.   Hunter },
+title = {A Useful Method For Model-Building},
+journal = {Technometrics},
+volume = {4},
+number = {3},
+pages = {301-318},
+year  = {1962},
+publisher = {Taylor & Francis},
+doi = {10.1080/00401706.1962.10490015},
+
+URL = { 
+        https://www.tandfonline.com/doi/abs/10.1080/00401706.1962.10490015
+    
+},
+eprint = { 
+        https://www.tandfonline.com/doi/pdf/10.1080/00401706.1962.10490015
+    
+}
+
+}
+
+@article{conant1959understanding,
+  title={On Understanding Science an Historical Approach. With a New Foreword by the Author},
+  author={Conant, James Bryant},
+  year={1959}
+}
+
+@inproceedings{garipov2018loss,
+  title={Loss Surfaces, Mode Connectivity, and Fast Ensembling of DNNs},
+  author={Garipov, Timur and Izmailov, Pavel and Podoprikhin, Dmitrii and Vetrov, Dmitry P and Wilson, Andrew Gordon},
+  booktitle={Advances in Neural Information Processing Systems},
+  year={2018}
+}
+
+@article{ZOLNA2020102969,
+title = {Classifier-agnostic saliency map extraction},
+journal = {Computer Vision and Image Understanding},
+volume = {196},
+pages = {102969},
+year = {2020},
+issn = {1077-3142},
+doi = {https://doi.org/10.1016/j.cviu.2020.102969},
+url = {https://www.sciencedirect.com/science/article/pii/S1077314220300461},
+author = {Konrad Zolna and Krzysztof J. Geras and Kyunghyun Cho},
+keywords = {Saliency map, Convolutional neural networks, Image classification, Weakly supervised localization},
+abstract = {Currently available methods for extracting saliency maps identify parts of the input which are the most important to a specific fixed classifier. We show that this strong dependence on a given classifier hinders their performance. To address this problem, we propose classifier-agnostic saliency map extraction, which finds all parts of the image that any classifier could use, not just one given in advance. We observe that the proposed approach extracts higher quality saliency maps than prior work while being conceptually simple and easy to implement. The method sets the new state of the art result for localization task on the ImageNet data, outperforming all existing weakly-supervised localization techniques, despite not using the ground truth labels at the inference time. The code reproducing the results is available at https://github.com/kondiz/casme.}
+}
 
 @book{sutton2012reinforcement,
   title={Reinforcement learning: An introduction},

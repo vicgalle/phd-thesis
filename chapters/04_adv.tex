@@ -5,7 +5,7 @@
 
 %Classification is one of the most widely used instances of supervised  learning, with applications in numerous areas such as spam detection \cite{spam};  credit scoring, \cite{scoring}; computer vision \cite{chen2015handbook}; autonomous driving systems \cite{gal} and genomics \cite{genom}, to name but a few. In recent years, the field has experienced an enormous growth becoming a major research area in statistics and machine learning \cite{efron2016computer}.
 
-Classification is a major research area with important applications  in security and cybersecurity, including fraud detection \cite{bolton2002statistical}: phishing detection \cite{rakesh}, terrorism \cite{terror} or cargo screening \cite{cargo}. An increasing number of processes are being automated through classification algorithms; it is essential that these are robust to trust key operations based on their output. State-of-the-art classifiers perform extraordinarily well on standard data, but they have been shown to be vulnerable to adversarial examples, that is, data instances targeted at fooling the underlying algorithms. Ref. \cite{comiter} provides an excellent introduction from a policy perspective, pointing out the potentially enormous security impacts that such attacks may have over systems for filter content, predictive policing or autonomous driving, to name but a few. 
+Classification is a major research area with important applications  in security and cybersecurity, including fraud detection \cite{bolton2002statistical}: phishing detection \cite{rakesh}, terrorism \cite{terror} or cargo screening \cite{cargo}. An increasing number of processes are being automated through classification algorithms, being essential that these are robust to trust key operations based on their output. State-of-the-art classifiers perform extraordinarily well on standard data, but they have been shown to be vulnerable to adversarial examples, that is, data instances targeted at fooling the underlying algorithms. Ref. \cite{comiter} provides an excellent introduction from a policy perspective, pointing out the potentially enormous security impacts that such attacks may have over systems for filter content, predictive policing or autonomous driving, to name but a few. 
 
 Most research in classification has focused on obtaining more accurate algorithms, largely ignoring the eventual presence of adversaries who actively manipulate data to fool the classifier in pursue of a benefit. Consider 
 spam detection: as classification algorithms are incorporated to such task,
@@ -101,7 +101,6 @@ in complex environments
 we are sometimes only able to approximate the posterior mode $\hat {\beta}$,
 then using $p_C(y | \hat {\beta} , x )$.
 \end{itemize}
-
 In any case, and whatever the learning approach adopted, we shall use the notation $p_C (y |x)$. 
 
 The second stage is {\em operational}.
@@ -134,7 +133,7 @@ In general, the
 utility is characterised as
 a $2 \times 2$ matrix, whose $ij$-th entry 
 represents the utility that the classifier
-receives for classifying an instance of true label $j$ as of being of {\bf class} $i$. This essentially balances the relative importance of false positives and negatives. Consider the case of autonomous driving systems. 
+receives for classifying an instance of true label $j$ as of being of class $i$. This essentially balances the relative importance of false positives and negatives. Consider the case of autonomous driving systems. 
 In it, proper classification of identified objects is of
 major 
 importance. Misclassification errors increase the 
@@ -169,7 +168,7 @@ may incur in gross mistakes if she classifies based on features $x'$, instead of
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Attacks to spam detection systems let us focus on attacks to standard classifiers used in spam detection. Experiments are carried out with the UCI Spam Data Set \cite{spambase1999}.
+\paragraph{Example.} Attacks to spam detection systems let us focus on attacks to standard classifiers used in spam detection. Experiments are carried out with the UCI Spam Data Set \cite{spambase1999}.
 This set contains data from 4601 emails, out of which $39.4 \%$ are spam. For classification purposes, we represent each email through 54 binary variables indicating the presence (1) or absence (0) of 54 designated words in a dictionary.
 
 Table \ref{tab:cleanVSattack} presents the performance
@@ -328,9 +327,8 @@ where $\mathcal{X}'$ is the set of possible instances leading to the observed on
 %
 \end{enumerate}
 %
-
 The procedure could continue for more stages.
-However, \cite{adversarialClassification2004} considers it sufficient to use these three.
+However, \cite{adversarialClassification2004} considers sufficient to use these three.
 
 
 As presented (and the authors actually stress this
@@ -705,10 +703,7 @@ is not classified as a 0 (more specifically, as an 8) even if it looks as such t
   \caption{Ten MNIST examples (top) and their perturbations (bottom). Predicted class shown for each~example.}
   \label{fig:10samples}
 \end{figure}
-
-%\pagebreak 
-
-Globally, accuracy gets reduced to around 50\% (see Figure \ref{fig:comparison_mnist}a, curve NONE far right). This suggests a very important performance degradation due to the attack. Section \ref{sec:exp_scalabl} continues this example to evaluate the robustification procedure we introduce in Section  \ref{sec:uncs}
+Globally, accuracy gets reduced to around 50\% (see Figure \ref{fig:comparison_mnist}a, curve NONE far right). This suggests a very important performance degradation due to the attack. Section \ref{sec:exp_scalabl} continues this example to evaluate the robustification procedure we introduce in Section  \ref{sec:uncs}. \\
 
 The computational difficulties entailed by 
 the approach in Section \ref{sec:ac_acra} stem from the following issue:
@@ -899,7 +894,7 @@ received instance.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Case Study}
+\section{Case Studies}
 \label{sec:conEx}
 
 We use the spam classification dataset from Section \ref{sec:att_class} 
@@ -1016,4 +1011,9 @@ Figure \ref{fig:comparison_mnist} shows the \emph{security evaluation curves} \c
 
 
 
+
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Summary}
+
+In this chapter, we stated the important problem of developing defences that protect ML models against malicious and intentional attacks and increase their robustness. We have surveyed how game theoretical approaches provide both a coherent and sound framework to develop defence mechanism, however they are not realistic since they are pervaded by common knowledge assumptions. We adopted ideas from Adversarial Risk Analysis to model several sources of uncertainty, and proposed an enhanced robustification method. Experiments in spam detection and image classification show the benefits of the introduced framework.
