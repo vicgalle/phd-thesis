@@ -1,10 +1,10 @@
 \section{Introduction}
 
-This Chapter presents two applications at the intersection of machine learning (reinforcement learning, RL, in particular) and game theory. 
+This chapter presents a framework at the intersection of machine learning (reinforcement learning, RL, in particular) and game theory, with applications to security and the problem of data sharing. 
 The first one introduces Threatened Markov Decision Processes (TMDPs) 
 as  a framework to support an agent against potential opponents
 in a RL context as well as schemes 
-resulting in a novel learning approach to deal with TMDPs. Sections \ref{sec:background} to \ref{sec:exps_ararl} are dedicated to this application.
+resulting in a novel learning approach to deal with TMDPs. Sections \ref{sec:background} to \ref{sec:exps_ararl} are dedicated to this novel multiagent RL framework.
 On the other hand, the second one formalizes the interactions between data producers and consumers as a dynamic game. We call it the data sharing game, leveraging the theory about the Iterated Prisoner's Dilemma and RL. Sections \ref{sec:ds} to \ref{sec:sols} are dedicated to this issue.
 We continue by giving a brief introduction for each of the two components. Then, the discussion follows with the details of each of the two. Finally, in Section \ref{sec:final} we conclude with some remarks and avenues for future research.
 
@@ -108,56 +108,6 @@ to deep RL settings.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\subsection{A motivation to data sharing games}
-
-As recently discussed \cite{wolfram}, {\em data, as the intangible asset par excellence in the 21st century, is the most disputed raw material at global scale}. Ours is a data-driven society and economy,
-with  data guiding most business actions and decisions. 
-This is becoming even more important as
-many business processes are articulated through a 
-cycle of sensing-processing-acting. Indeed, Big Data is the
-consequence of a digitized world where people, objects and operations are fully instrumented and interconnected, producing all sorts of data, both machine-readable (numbers and labels, known as
-structured) and human-readable (text, audio or video, known as unstructured).
-As data acquisition grows at sub-second speed, the capability to monetize
-them arises through the ability to derive new synthetic data. 
-Thus, considered as an asset, data create markets and enhance 
-competition. Unfortunately, they are creating bad practices as well.
-See \cite{share} for an early discussion 
-as well as the 
-recent European directives and legislative initiatives to 
-promote public-private data partnerships, e.g. \cite{europe1}.
-
-This is the main reason for analyzing {\em data sharing 
-games} with mechanisms that could foster cooperation to guarantee and promote social progress.
-%, which as we demonstrate, is the best social strategy to achieve this goal, our aim for this paper.
-%
-%Within the specific domain of 
-Data sharing problems have been the object of several contributions and studied
-from different perspectives. For example,
- \cite{kamhoua2012game} proposes a game theoretic approach to help users determine their optimal policy in terms of sharing data in online social networks,
- based on a confrontation between a user (aimed at sharing certain information and hiding the rest) and an attacker (aimed at exposing the user's PI
- or concealing the information the user is willing to share). This
-  is modelled through a zero-sum Markov game; a  Markov equilibrium is computed and the corresponding Markov strategies are used to give advice to users.%; note though 
- %that standard common knowledge assumptions \cite{varoufakis} are considered.
- The work of \cite{figueiredo2017data} reviews the impact of data sharing in science and society and presents guidelines to improve the efficiency of 
- data sharing processes,
- quoting \cite{pronk}, who provide a game theoretical analysis suggesting 
- that sharing data with the community can be the most profitable and stable strategy. Similarly, \cite{dehez2013data} consider a setting in which 
- a group of firms must decide whether to cooperate in 
- a project that requires the combination of data held by several of them; the authors  address the question of how to compensate the firms for the data they
- contribute with,
- framing the problem as a transferable utility game and characterizing its Shapley value as a compensation mechanism. 
-  
-Our approach models interactions between 
-citizens and data owners  
-inspired by the iterated prisoner's dilemma (IPD) \cite{axelrod84}. This is an elegant incarnation of the problem of how to achieve agents` cooperation in competitive settings. Other authors have used similar models in other socio-technical problems as in politics 
-\cite{brams},  security \cite{kunreuther}, and cybersecurity \cite{etesami2019dynamic}, among others. Our approach to model agent's behavior is different and relies on multi-agent reinforcement learning (MARL) arguments \cite{gallego2019opponent,gallego2019reinforcement}. Reinforcement learning (RL) has been successfully applied to games that are repeated over time, thus making it possible for agents to optimize their strategies \cite{lanctot2017unified,chasparis2012distributed}. %The work of \cite{SHAFRAN2012354} also discusses the use of RL in iterated games such as Prisoner's Dilemma, although they do not focus on the issue of incentivizing cooperation between the players. 
-Through RL we are able 
-to identify relevant mechanisms to promote cooperation.
-
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
 
 
 
@@ -381,7 +331,7 @@ maximizing $\psi(a_i)$.
  estimating the probabilities with the empirical frequencies of the opponent past plays
  %(the relative frequencies of the number of times the opponent
  %has chosen any action),
- with $Q(a_i, b_j)$ updated according to the stateless version of \eqref{eq:lr}.
+ with $Q(a_i, b_j)$ updated according to the stateless version of Eq. (\eqref{eq:lr}).
 We refer to this variant as
 FP$Q$-learning.\footnote{Observe that although inspired by FP,
 it is not the same scheme, since only one of the players (the DM) uses it to 
@@ -910,7 +860,7 @@ would remain exploitable by another opponent. We argue that the FP$Q$-learner di
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\subsection{AI Safety Gridworlds and Markov Security Games against misspecified %adversary}\label{s:sg}
 %\subsection{AI SAFETY GRIDWORLDS}
-\subsection{Advantages of modelling adversaries}\label{s:sg}
+\subsection{The advantages of modelling adversaries}\label{s:sg}
 
 We demonstrate first that  by
 explicitly modelling the behaviour of adversaries, 
@@ -951,7 +901,7 @@ represents the DM's initial state, gray cells represent the walls of the room.  
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Stateless Variant}\label{sec:statv}
+\paragraph{Stateless Variant.}\label{sec:statv}
 
 Consider a simplified initial setting with a single state and
 two actions. As in  \cite{leike2017ai}, the adaptive
@@ -1065,7 +1015,7 @@ similar results qualitatively.
  \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Facing more powerful adversaries}
+\paragraph{Facing more powerful adversaries.}
 
 So far, the DM has interacted against an exponential smoother
 adversary. This may be exploited if the DM is a level-2 agent.
@@ -1131,7 +1081,7 @@ actually facing. The DM keeps estimates of the probabilities $P_{L1Q}$ and $P_{L
 %We could apply to some robot locomotion tasks under adversaries, such as the settings introduced in \cite{bansal2017emergent}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Spatial Variant}
+\paragraph{Spatial Variant.}
 
 
 We now compare the independent $Q$-learner and a level-$2$ $Q$-learner against the
@@ -1250,7 +1200,7 @@ This experiment showcases the suitability of the framework to deal with multiple
 %    \item L2 and L1 against exponential smoother?.
 %\end{itemize}
 
-\subsection{Experiments with function approximation}\label{sec:cg}
+\subsection{Experiments with parametric Q-values using function approximation}\label{sec:cg}
 
 We run a battery of experiments to showcase 
 how our framework is actually compatible with variants in which $Q$-values are approximated with a parametric function, in particular a deep learning model, as in Section \ref{sec:approx}.
@@ -1292,9 +1242,63 @@ Note we also used a multi-layer NN to parameterize the $Q$-functions, but we did
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Data sharing: categories, agents and strategies}\label{sec:ds}
+\section{An application to data sharing}\label{sec:ds}
 %In order to understand how to reach such solution, 
 Next, we will move the second application introduced at the beginning of the chapter.
+
+\subsection{A motivation to data sharing games}
+
+As recently discussed \cite{wolfram}, {\em data, as the intangible asset par excellence in the 21st century, is the most disputed raw material at global scale}. Ours is a data-driven society and economy,
+with  data guiding most business actions and decisions. 
+This is becoming even more important as
+many business processes are articulated through a 
+cycle of sensing-processing-acting. Indeed, Big Data is the
+consequence of a digitized world where people, objects and operations are fully instrumented and interconnected, producing all sorts of data, both machine-readable (numbers and labels, known as
+structured) and human-readable (text, audio or video, known as unstructured).
+As data acquisition grows at sub-second speed, the capability to monetize
+them arises through the ability to derive new synthetic data. 
+Thus, considered as an asset, data create markets and enhance 
+competition. Unfortunately, they are creating bad practices as well.
+See \cite{share} for an early discussion 
+as well as the 
+recent European directives and legislative initiatives to 
+promote public-private data partnerships, e.g. \cite{europe1}.
+
+This is the main reason for analyzing {\em data sharing 
+games} with mechanisms that could foster cooperation to guarantee and promote social progress.
+%, which as we demonstrate, is the best social strategy to achieve this goal, our aim for this paper.
+%
+%Within the specific domain of 
+Data sharing problems have been the object of several contributions and studied
+from different perspectives. For example,
+ \cite{kamhoua2012game} proposes a game theoretic approach to help users determine their optimal policy in terms of sharing data in online social networks,
+ based on a confrontation between a user (aimed at sharing certain information and hiding the rest) and an attacker (aimed at exposing the user's PI
+ or concealing the information the user is willing to share). This
+  is modelled through a zero-sum Markov game; a  Markov equilibrium is computed and the corresponding Markov strategies are used to give advice to users.%; note though 
+ %that standard common knowledge assumptions \cite{varoufakis} are considered.
+ The work of \cite{figueiredo2017data} reviews the impact of data sharing in science and society and presents guidelines to improve the efficiency of 
+ data sharing processes,
+ quoting \cite{pronk}, who provide a game theoretical analysis suggesting 
+ that sharing data with the community can be the most profitable and stable strategy. Similarly, \cite{dehez2013data} consider a setting in which 
+ a group of firms must decide whether to cooperate in 
+ a project that requires the combination of data held by several of them; the authors  address the question of how to compensate the firms for the data they
+ contribute with,
+ framing the problem as a transferable utility game and characterizing its Shapley value as a compensation mechanism. 
+  
+Our approach models interactions between 
+citizens and data owners  
+inspired by the iterated prisoner's dilemma (IPD) \cite{axelrod84}. This is an elegant incarnation of the problem of how to achieve agents` cooperation in competitive settings. Other authors have used similar models in other socio-technical problems as in politics 
+\cite{brams},  security \cite{kunreuther}, and cybersecurity \cite{etesami2019dynamic}, among others. Our approach to model agent's behavior is different and relies on multi-agent reinforcement learning (MARL) arguments \cite{gallego2019opponent,gallego2019reinforcement}. Reinforcement learning (RL) has been successfully applied to games that are repeated over time, thus making it possible for agents to optimize their strategies \cite{lanctot2017unified,chasparis2012distributed}. %The work of \cite{SHAFRAN2012354} also discusses the use of RL in iterated games such as Prisoner's Dilemma, although they do not focus on the issue of incentivizing cooperation between the players. 
+Through RL we are able 
+to identify relevant mechanisms to promote cooperation.
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+
+
+
+\subsection{Context}
 Before modeling interactions between data consumers and producers, it is convenient to understand the data categories available. 
 Even though admittedly with a blurry frontier, 
 from a legal standpoint, there are two main types:
@@ -1451,7 +1455,7 @@ In the long run, this erodes public and private services quality and creativity.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{A model for the data sharing game}\label{sec:models}
+\subsection{A model for the data sharing game}\label{sec:models}
 %%%%%%%%%%
 %\subsection{Model formulation}
 
@@ -1566,10 +1570,10 @@ serving as a common medium of exchange that can be transferred between agents, s
 
 
 %%%%%%%%%%%%%%%%%%%%%%%
-\section{Three solutions via Reinforcement Learning}\label{sec:sols}
+\subsection{Three solutions via Reinforcement Learning}\label{sec:sols}
 
 
-\subsection{The decentralized case}\label{sec:decentralized}
+\paragraph{The decentralized case.}\label{sec:decentralized}
 Our first approach models the interaction between both agents as an IPD.  We first fix the strategy of the DDO, assume that the citizen models the DDO behaviour and simulate interactions between
 both agents 
 %acting under a fixed model 
@@ -1618,14 +1622,14 @@ longer memory.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Experiments}
+\paragraph{Experiments for the decentralized setting.}
 
 We simulate the previous IPD under different strategies 
 for the DDO and measure the impact over social utility. For each scheme, we display the social utility  attained over time by the agents. In all experiments, 
 the citizen is modelled as an FPM agent (with memory-1). The discount factor was set to 0.96. 
 
 %%%%%%%%%%%%%
-\paragraph{Selfish DDO} 
+\subparagraph{Selfish DDO.} 
 When we assume a DDO playing always defect, our simulation confirms that this strategy will force 
 the citizen to play defect and sell wrong data, not having incentives to abandon
 such strategy. 
@@ -1649,7 +1653,7 @@ always defecting and thus choose also to defect, as shown in Figure \ref{fig:nas
 the social utility achieves its minimum value. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%
-\paragraph{A Tit for Tat DDO}
+\subparagraph{A Tit for Tat DDO.}
 We next model the DDO as a player using the Tit for Tat (TfT) strategy
 (it will first cooperate and, then, subsequently replicate the opponent's previous action: if the opponent was previously cooperative, the agent is cooperative; if not, it defects).
 This policy has been widely used in the IPD, because of its simplicity and effectiveness \cite{axelrod84}. A recent experimental study 
@@ -1669,7 +1673,7 @@ This policy has been widely used in the IPD, because of its simplicity and effec
 if the citizen had no memory about previous actions, the policy of the DDO could not be learnt and mutual cooperation would not be achieved.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
-\paragraph{Random behaviour among citizens}
+\subparagraph{Random behaviour among citizens.}
  Previously,  all citizens were assumed to
  act according to the FPM model.
  However, 
@@ -1686,7 +1690,7 @@ if the citizen had no memory about previous actions, the policy of the DDO could
 %\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%
-\paragraph{A forgiving DDO}
+\subparagraph{A forgiving DDO.}
 A possible solution for this decrease in social utility consists of forcing the DDO to eventually forgive the Citizen and play cooperate, regardless of
 her previous actions. We model this as follows: with probability $p$ the DDO will cooperate, whereas with probability $1-p$ he will play TFT. 
 %
@@ -1721,7 +1725,7 @@ Note, though, that there exists a limit value for the forgiving rate such that, 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Taxation through a regulator}\label{sec:regulator}
+\paragraph{Taxation through a Regulator.}\label{sec:regulator}
 
 Let us discuss an alternative solution to promote cooperation introducing a third player, a Regulator (R, it). Its objective is to nudge the behaviour of the other players through utility transfer, based on taxes.   Appendix \ref{one-shot}
 discusses a one-shot version identifying its equilibria.
@@ -1788,7 +1792,7 @@ be optimized; for simplicity, we just use expression (\ref{eq:su}).
 %    this framework could also be implementable in real-life settings: R creates a market in which players share information, paying or receiving a certain quantity of money which is dynamically adjusted with the current tax policy.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsubsection{Experiments}
+\paragraph{Experiments for the Regulator setting.}
 
 This experiment 
 illustrates %the performance of the general 
@@ -1889,7 +1893,7 @@ Results are shown in Figure \ref{fig:ru}.
 %end{itemize}
 
 
-\subsection{Introducing incentives}\label{sec:incentives}
+\paragraph{Introducing incentives.}\label{sec:incentives}
 
 
 In order to further stimulate cooperative behavior, we introduce incentives to the players via the Regulator: if both players cooperate at a given turn, they will receive an extra amount $I$ of utility,
@@ -1923,4 +1927,6 @@ We hypothesize that the underlying tax system from Section \ref{sec:regulator} i
 
 
 
+\section{Summary}
 
+TODO

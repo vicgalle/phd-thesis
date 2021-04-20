@@ -2,30 +2,18 @@
 
 \section{Introduction}
 
-\subsection{Summary and future work}
 
-We have developed a data-driven approach for the management of advertising investments of a firm. First, using the firm's investment levels in advertising, we propose a formulation of the Nerlove-Arrow model via a Bayesian structural time series to predict an economic variable (global sales)  which also incorporates information from the external environment (climate, economical situation and special events). The model thus defined offers low predictive errors while maintaining interpretability and can be built in a modular fashion, which offers great flexibility to adapt it to other business scenarios. The model performs variable selection and allows to incorporate \emph{prior} information via the \emph{spike-and-slab} prior. It can handle non-gaussian deviations and also provides hints to which of the advertising channels are having positive effects upon sales. The model can be used as a basis for a decision support system by the manager of the firm, helping with the task of allocating ad investments.
-
-Possible extensions of this model include:
-
-\begin{enumerate}
-\item Use a different model to explain the influence of advertising upon sales. This model could take into account interactions between the channels or allow for different long-term effects for each of them.
-\item Develop a model-based strategy for long-run temporal and cross-sectional budget allocation.
-\item Model each restaurant individually instead of using total aggregated sales. For this approach to be sound, it would entail to use both  local values of the ambient variables $X_i$ and some of the investment  channels $u_i$ (e.g. \texttt{OOH}).
-\item Include in the model the effect of special discounts, promotions and coupons, since these are probably highly correlated with some of the channels, specially \texttt{ONLINE} and \texttt{SEARCH}.
-\end{enumerate}
-
-\subsection{Discussion}
-We end up this review by summarising results and suggesting a few challenges.
+We end up this thesis by summarising results and suggesting a few challenges.
 After several waves of popularity, NN models seem to 
 have reached a definitive momentum because of the many relevant applications
 based on them. Most work in NNs is based on the MLE tradition.
 We have highlighted and illustrated the benefits of a Bayesian treatment of deep learning. Indeed, as we have described,
 they provide improved uncertainty estimates;
 they have enhanced generalization capabilities; 
-they have more robustness against adversarial attacks;
+they have more robustness against adversarial attacks.
+We also note that, although not studied in this thesis, 
 they have improved capabilities for model calibration;
-and the use of sparsity-inducing priors, induce 
+and the use of sparsity-inducing priors, could further induce 
 improvements in learning. 
 However, efficient Bayesian integration methods in 
 deep NN are 
@@ -39,8 +27,9 @@ statistics.
 
 \section{Large Scale Bayesian Inference}\label{sec:conclusion_lsb}
 
+\subsection{Summary}
 
-This Chapter has shown how to generate new SG-MCMC methods, such as SGLD+R and Adam+NR, consisting of multiple chains plus repulsion between the particles. Instead of a naive parallelization, in which a particle from a chain is agnostic to the others, we showed how it is possible to adapt another method from the literature, SVGD, to account for a better exploration of the space, avoiding collapse between particles. We also showed how momentum-accelerated extensions of SGD can be used as SG-MCMC samplers, while also being compatible with the extension to repulsive forces between parallel chains. Our 
+This chapter has shown how to generate new SG-MCMC methods, such as SGLD+R and Adam+NR, consisting of multiple chains plus repulsion between the particles. Instead of a naive parallelization, in which a particle from a chain is agnostic to the others, we showed how it is possible to adapt another method from the literature, SVGD, to account for a better exploration of the space, avoiding collapse between particles. We also showed how momentum-accelerated extensions of SGD can be used as SG-MCMC samplers, while also being compatible with the extension to repulsive forces between parallel chains. Our 
 experiments show that the proposed ideas improve efficiency when dealing 
 with large scale inference and prediction problems in presence of many 
 parameters and large data sets.
@@ -77,6 +66,7 @@ include WinBUGS~\cite{lunn2000winbugs}, Stan \cite{carpenter2017stan} or the rec
 
 \section{Adversarial Classification}
 
+\subsection{Summary}
 
 Adversarial classification aims at enhancing classifiers to achieve robustness in presence of adversarial examples, as usually encountered in many security applications. The pioneering work of \cite{adversarialClassification2004} framed most later approaches to AC 
 within the standard game theoretic paradigm, in spite of the unrealistic common knowledge assumptions about shared beliefs and preferences required, actually even questioned by those authors. After reviewing them, and analysing  their assumptions, we have presented two formal probabilistic approaches for AC based on ARA that mitigate 
@@ -95,6 +85,7 @@ This tension between the need to robustify algorithms against attacks (training 
 
 
 %Also, we have provided empirical evidence supporting the robustness of the ACRA framework to imprecisions in the assumptions made about the adversary. In particular, ACRA has been shown to be more robust than its common knowledge, purely game theoretic counterpart. Finally, we have presented computational enhancements that have significantly improved ACRA performance, allowing us to solve large problems and use it in operational settings.
+\subsection{Further work}
 
 Our framework may be extended in several ways. First, we could adapt the proposed approach to situations in which there is repeated play of the AC game, introducing the possibility of learning the adversarial utilities and probabilities in a Bayesian way. Learning over opponent types has been explored with success in reinforcement learning scenarios, \cite{gallego2019opponent}. This could be extended to the classification setting. Besides exploratory ones, attacks over the training data \cite{biggio2012poisoning} may be relevant in certain contexts. 
 %In addition, we have just considered the case in which the attacker performs intentional attacks. % In some problems, there could be also random attacks. The proposed framework could be easily adapted to take those into account as well as to the case in which there are several attackers. 
@@ -130,6 +121,7 @@ approaches.
 %\section{CONCLUSIONS AND FURTHER WORK}
 
 %\subsection{A discussion for TMDPs}
+\subsection{Summary}
 
 We have introduced TMDPs, a reformulation of MDPs to 
  support decision makers who confront opponents that interfere 
@@ -149,17 +141,7 @@ Empirical evidence is provided via extensive experiments, with encouraging resul
 Indeed, the proposed scheme is
 model agnostic, so we expect it to be usable in both shallow and deep multi-agent RL settings, such as the ones pioneered by \cite{mnih2015human}. This is a desirable key property of our framework, which implies that it can be adopted in a wide array of relevant settings and configurations.
 
-Several lines of work are possible for further research. First of all, in the experiments, we have just considered DMs up to level-3,
-though the extension to higher order adversaries is relevant. %In recent years $Q$-learning has benefited from advances from the deep learning community, with breakthroughs such as the
-%\emph{deep $Q$-network} (DQN) which achieved super-human performance in control
-%tasks such as the Atari games \cite{mnih2015human}, or as inner blocks inside
-%systems that play Go \cite{silver2017mastering}. Integrating these advances into
-%the TMDP setting is another possible research path.as presented here. 
-In addition, rather than trying to learn opponent $Q$-values, we could
-use policy gradient methods \cite{baxter2000direct} to expand our proposal.
-It also might be interesting to explore similar expansions to semi-MDPs, 
-in order to perform hierarchical RL or allow for time-dependent rewards 
-and transitions between states.
+
 
 
 
@@ -200,3 +182,17 @@ multi agent reinforcement learning: the decentralized case, in which both agents
   the creation of intermediary platforms that facilitate the connection between dominant data owners and citizens to enable data sharing
   would be key to guarantee social progress. 
   
+
+\subsection{Further work}
+
+Several lines of work are possible for further research. First of all, in the experiments, we have just considered DMs up to level-3,
+though the extension to higher order adversaries is relevant. %In recent years $Q$-learning has benefited from advances from the deep learning community, with breakthroughs such as the
+%\emph{deep $Q$-network} (DQN) which achieved super-human performance in control
+%tasks such as the Atari games \cite{mnih2015human}, or as inner blocks inside
+%systems that play Go \cite{silver2017mastering}. Integrating these advances into
+%the TMDP setting is another possible research path.as presented here. 
+In addition, rather than trying to learn opponent $Q$-values, we could
+use policy gradient methods \cite{baxter2000direct} to expand our proposal.
+It also might be interesting to explore similar expansions to semi-MDPs, 
+in order to perform hierarchical RL or allow for time-dependent rewards 
+and transitions between states.
