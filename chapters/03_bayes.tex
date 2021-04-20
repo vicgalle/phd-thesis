@@ -1420,7 +1420,7 @@ Results are reported in Table \ref{tbl:vae}. To guarantee
  fair comparison, we trained the VIS-5-10 variant for 10 epochs, whereas all the other variants were trained for 15 epochs (fMNIST) or 20 epochs (MNIST), so that the VAE's performance was comparable to that reported in \cite{pmlr-v89-titsias19a}. Although VIS was trained for fewer epochs, by increasing the number $T$ of MCMC iterations, we dramatically improved the test log-likelihood. In terms of computational complexity, the~average time per epoch using $T=5$ was 10.46 s, whereas with no refinement ($T=0$), the time was 6.10 s (which was the reason behind our decision to train the refined variant for fewer epochs): a moderate increase in computing time may be worth the dramatic increase in log-likelihood while not introducing new parameters into the model, except for the learning rate $\eta$.
  
  
- \begin{table}[H]
+ \begin{table}[!ht]
 \centering
 
 \caption{Test log-likelihood on binarized MNIST and fMNIST. Bold numbers indicate the best results. UIVI: unbiased implicit variational inference; SIVI: semi-implicit variational inference; VAE: variational autoencoder; VCD: variational contrastive divergence; HMC-DLGM: Hamiltonian Monte Carlo for Deep Latent Gaussian Models; VIS: variationally inferred sampler.}\label{tbl:vae} %
@@ -1474,7 +1474,7 @@ In the final experiments, we investigated whether VIS can deal with more general
 %Influence diagrams \cite{howard2005influence} are popular representations of decision analysis problems, there being a long history on bridging the gap between influence diagrams and probabilistic graphical models (see \cite{doi:10.1287/opre.36.4.589}, for instance), so developing better tools for Bayesian inference can be transferred to solve influence diagrams.
 We explored the flexibility of the proposed scheme to solve inference problems in an experiment with a classification task in a high-dimensional setting %As dataset we use the MNIST \cite{lecun1998gradient} handwritten digit classification task is chosen, in which grey-scale $28 \times 28$ images have to be classified in one of the ten classes $\mathcal{Y} = \lbrace 0, 1, \ldots, 9 \rbrace$.
 with the MNIST dataset.
-More concretely, we extended the VAE model, conditioning it on a discrete variable\linebreak $y \in \mathcal{Y} = \lbrace 0, 1, \ldots, 9 \rbrace$, leading to a conditional VAE (cVAE). The cVAE defined a decoder distribution $p_\theta(x | z, y)$ on an input space $x \in \mathbb{R}^D$ given a class label $y \in \mathcal{Y}$, latent variables $z \in \mathbb{R}^d$ 
+More concretely, we extended the VAE model, conditioning it on a discrete variable $y \in \mathcal{Y} = \lbrace 0, 1, \ldots, 9 \rbrace$, leading to a conditional VAE (cVAE). The cVAE defined a decoder distribution $p_\theta(x | z, y)$ on an input space $x \in \mathbb{R}^D$ given a class label $y \in \mathcal{Y}$, latent variables $z \in \mathbb{R}^d$ 
 \textls[-15]{and parameters $\theta$. Figure \ref{fig:deep_bayes} depicts the corresponding {probabilistic graphic model}. Additional details regarding the model architecture and hyperparameters are given in Appendix~\ref{sec:detail}.}
 
 

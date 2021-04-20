@@ -4,14 +4,14 @@
 The history of neural network (NN) models have gone 
 through several waves of popularity. The first 
 one starts with the introduction of the perceptron
-by \cite{rosenblatt1958perceptron} and its training algorithm 
+by \parencite{rosenblatt1958perceptron} and its training algorithm 
 for classification in linearly separable problems.
 Limitations brought up by 
-\cite{minsky} somehow reduced the enthusiasm
+\parencite{minsky} somehow reduced the enthusiasm
 about these models by the early 70's.
 The next period of success coincides with the emergence
 of results presenting NNs as universal
-approximators, e.g.\ \cite{cybenko1989approximation}. Yet 
+approximators, e.g.\ \parencite{cybenko1989approximation}. Yet 
 technical issues and the emergence of other paradigms like 
 support vector machines led, essentially,
 to a new stalmate by the early 2000's. Finally, several of the 
@@ -20,15 +20,15 @@ availability of faster computational tools,
 improved algorithms and the emergence of
 large annotated datasets. These produced outstanding 
 applied developments leading, over the last decade, to the current boom 
-surrounding deep NNs \cite{deeplearningbook}. 
+surrounding deep NNs \parencite{deeplearningbook}. 
 
 This paper overviews  
 recent advances in NNs. 
 There are numerous reviews with various emphasis 
-including physical \cite{cirac}, computational \cite{chollet}, mathematical \cite{maths} and pedagogical \cite{teach} pùrposes, 
+including physical \parencite{cirac}, computational \parencite{chollet}, mathematical \parencite{maths} and pedagogical \parencite{teach} pùrposes, 
 notwithstanding  those concerning different  application areas, 
-from autonomous driving systems (ADS) \cite{rumanos} to
-drug design \cite{hessler}, to name but a few. 
+from autonomous driving systems (ADS) \parencite{rumanos} to
+drug design \parencite{hessler}, to name but a few. 
 Our emphasis is on statistical
 aspects and, more specifically, on Bayesian approaches
 to NN models for reasons that will become 
@@ -87,7 +87,7 @@ Let us designate with $\beta=(\beta_1,\ldots,\beta_m)$ and $\gamma=(\gamma_1,\ld
 will be considered a hyperparameter. Clearly, the model
 is linear in $\beta$ but non-linear in  
 $\gamma$. Interest in this type of models stems from 
-results such as those of \cite{cybenko1989approximation}
+results such as those of \parencite{cybenko1989approximation}
 who presents them as universal approximators,
 in the sense that any continuous function in the 
 $r$-dimensional unit cube 
@@ -111,7 +111,7 @@ leading to the classical non-linear least squares problem
   \sum_{j=1}^m \beta_j \psi(x_i'\gamma_j) \right)^2 
  \end{equation}
 
-\noindent Quite early, researchers paid attention to the introduction of regularisers, such as weight decay $\ell_2$ penalization \cite{krogh1992simple}, so as to improve model 
+\noindent Quite early, researchers paid attention to the introduction of regularisers, such as weight decay $\ell_2$ penalization \parencite{krogh1992simple}, so as to improve model 
 generalization, leading to the modified optimisation problem
 \begin{equation}\label{kkdbak}
  \min  g(\beta ,\gamma) = f (\beta ,\gamma ) +
@@ -122,7 +122,7 @@ additional term is
 $h(\beta , \gamma )= \lambda _1 \sum \beta_i ^2 +
 \lambda _2 \sum \sum \gamma _{ji} ^2$. 
 
-Typically problems (\ref{pdt}) and (\ref{kkdbak}) are solved via steepest gradient descent \cite{meza} through iterations of the type
+Typically problems (\ref{pdt}) and (\ref{kkdbak}) are solved via steepest gradient descent \parencite{meza} through iterations of the type
 \[
    (\beta, \gamma )_{k+1}=
    (\beta, \gamma )_{k}- \eta \nabla g (  (\beta, \gamma )_{k} ),
@@ -143,7 +143,7 @@ $(\beta ,\gamma )$. In particular, this adopts the form
     chain rule of calculus %take advantage of the 
     %above structure to 
     facilitates efficient estimation of the gradients 
-    via backpropagation, e.g. \cite{rumelhart1986learning}.
+    via backpropagation, e.g. \parencite{rumelhart1986learning}.
     
     A problem entailed by NN model estimation is the highly multimodal nature of
     the log-likelihood for three reasons:
@@ -162,13 +162,13 @@ this is very demanding computationally in this domain.
 
 Finally, note that the same kind of NN models 
 may be used for nonlinear auto-regressions in
-time series analysis \cite{menchero} and 
+time series analysis \parencite{menchero} and 
 non-parametric 
-regression \cite{insuamuller}. Moreover,
+regression \parencite{insuamuller}. Moreover,
 similar models may be used for classification purposes,
 although this 
  requires modifying the likelihood
-\cite{bishop} to e.g.\
+\parencite{bishop} to e.g.\
 \begin{equation}
     p(y | x, \beta, \gamma) = Mult(n=1, 
     p_1 (x, \beta, \gamma) , \ldots, p_K (x, \beta, \gamma) ),
@@ -185,7 +185,7 @@ $$
 \paragraph{Bayesian approaches.}\label{bayeshallow}
 We discuss now Bayesian approaches to shallow NNs.
 assuming standard priors 
-in Bayesian hierarchical modeling, see e.g.\ \cite{LavineWest}: 
+in Bayesian hierarchical modeling, see e.g.\ \parencite{LavineWest}: 
 $  \beta_i      \sim  N(\mu_\beta,\sigma_\beta^2)$
 and 
   $\gamma_i     \sim  N(\mu_\gamma,S_\gamma^2)$,
@@ -211,15 +211,15 @@ Initial attempts to perform Bayesian analysis
 of NNs, adopted
 arguments based on the asymptotic normality of the posterior, 
 as in  
-\cite{mckay} and \cite{buntineweigend}. However these methods
+\parencite{mckay} and \parencite{buntineweigend}. However these methods
 fail if they are dominated by  
 less important modes. %; moreover, some of the 
 %hypothesis underlying asymptotics are doubtful 
 %in the NN context.
- \cite{buntineweigend} mitigate this by finding several modes and
+ \parencite{buntineweigend} mitigate this by finding several modes and
 basing inference on weighted mixtures of the corresponding normal approximations, but we return to the same issue as some
 important local modes might have been left out. An alternative view was argued
-by \cite{mckay}: inference from such schemes is 
+by \parencite{mckay}: inference from such schemes is 
  considered as approximate
 posterior inference in a submodel defined by constraining the
 parameters to a neighborhood of the particular local mode. Depending on
@@ -227,11 +227,11 @@ the emphasis of the analysis, this might be reasonable, especially if in a final
 implementation our aim is to set the parameters at specific values,
 the usual scenario in deep learning. We prefer
 though to propagate the uncertainty in parameters, since this allows
-better predictions, e.g. \cite{raftery}. 
+better predictions, e.g. \parencite{raftery}. 
 
 For this, an efficient 
 Markov chain Monte Carlo (MCMC) scheme
-may be used \cite{muller1998issues}. It 
+may be used \parencite{muller1998issues}. It 
  samples from the posterior conditionals when available (steps 3, 9), and use
 Metropolis steps (4-8), otherwise. To fight potential inefficiencies due to
 multimodality, two features are built in 
@@ -245,7 +245,7 @@ The key observation is that,
 given
  $\gamma $,
 we actually have a standard hierarchical normal linear
-model \cite{french}. This facilitates sampling from the posterior marginals of the $\beta $ weights (step 3)
+model \parencite{french}. This facilitates sampling from the posterior marginals of the $\beta $ weights (step 3)
  and hyperparameters (step 9) and 
  allows marginalizing the model with respect
  to the $\beta$'s
@@ -325,7 +325,7 @@ adopted. % with $c=0.1$ work in
 %applications. 
 Appropriate values for $c$ can be found by trying
 a few alternative choices until acceptance rates around
- 0.25 are achieved \cite{gamerman}. 
+ 0.25 are achieved \parencite{gamerman}. 
 
 Combined with model augmentation to a variable architecture,
  this leads to a useful scheme
@@ -361,12 +361,12 @@ becomes
                 \label{eq:model-var}
 \end{eqnarray*}
 Learning is done through a reversible jump sampler
-\cite{green} embedding our first algorithm.
+\parencite{green} embedding our first algorithm.
 As a consequence, we perform inference
 about the architecture based on the distribution of 
  $p(m|D)$. 
 
- \cite{neal2012bayesian} proposes using an 
+ \parencite{neal2012bayesian} proposes using an 
 algorithm merging conventional Metropolis-Hastings chains with sampling
 techniques based on dynamic simulation, the currently popular
 Hamiltonian Monte Carlo (HMC) approaches.
@@ -428,7 +428,7 @@ with momentum variables $r$ of the same dimension as $\theta$; such
 
 
 \noindent
-\cite{neal2012bayesian} also shows that
+\parencite{neal2012bayesian} also shows that
 for a broad class of priors over the parameters 
 $(\beta ,\gamma )$, the distribution of functions
 generated by the NN model (\ref{kantora})
@@ -443,7 +443,7 @@ Training by backpropagation has been in use
 for many years by now.
 The decade of the 2010's saw major developments
 leading to 
-the boom around deep learning \cite{deeplearningbook}
+the boom around deep learning \parencite{deeplearningbook}
 or inference and prediction with deep NNs. 
 Such advances include:
 the availability of fast GPU kernels and routines
@@ -482,9 +482,9 @@ Modern architectures do not longer require the
 $f_l$ functions to be sigmoidal (like the  
 logistic functions in (\ref{kantora})) and include  
 the rectified linear unit (ReLU), the leaky ReLU
-or the exponential LU. In particular, these functions mitigate the vanishing gradient problem \cite{kolen2001gradient} that 
+or the exponential LU. In particular, these functions mitigate the vanishing gradient problem \parencite{kolen2001gradient} that 
 plagued earlier attempts with deep architectures using sigmoidal
-activation functions: the derivative of the logistic function is $\psi(z)' = \psi(z)(1 - \psi(z))$, with $\psi(z) = \frac{1}{1 + e^{-z}}$ and since the output of the logistic function is bounded in $\left[ 0, 1 \right]$, a concatenation of layers using this activation function makes the gradient quickly vanish to zero due to the chain rule. Alternative activation functions, such as the ReLU \cite{glorot2010understanding}, seem to alleviate this problem, in addition to having other benefits such as being faster to compute both the activation and its derivative.
+activation functions: the derivative of the logistic function is $\psi(z)' = \psi(z)(1 - \psi(z))$, with $\psi(z) = \frac{1}{1 + e^{-z}}$ and since the output of the logistic function is bounded in $\left[ 0, 1 \right]$, a concatenation of layers using this activation function makes the gradient quickly vanish to zero due to the chain rule. Alternative activation functions, such as the ReLU \parencite{glorot2010understanding}, seem to alleviate this problem, in addition to having other benefits such as being faster to compute both the activation and its derivative.
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 %\subsubsection{Variants} 
@@ -497,12 +497,12 @@ as we describe now.
 CNNs are typically used 
  in computer vision tasks and related signal processing applications.
  Stemming from the work by Le Cun and coauthors  
-  \cite{lecun89, lecun98} and their original 
+  \parencite{lecun89, lecun98} and their original 
   LeNet5 design, they achieved major
- successes  in  competitions \cite{krizhevsky2017imagenet}
+ successes  in  competitions \parencite{krizhevsky2017imagenet}
  leading to architectures like 
- AlexNet       \cite{NIPS2012_c399862d}, VGGNet \cite{simonyan2014very} or
- GoogleNet \cite{szegedy2015going}, reaching 
+ AlexNet       \parencite{NIPS2012_c399862d}, VGGNet \parencite{simonyan2014very} or
+ GoogleNet \parencite{szegedy2015going}, reaching 
  superhuman performance in 
  image recognition tasks.
  
@@ -520,18 +520,18 @@ CNNs are typically used
  The use of the convolution may be viewed as introducing an inﬁnitely strong prior probability distribution over the parameters of a linear layer, in the sense that the prior places zero probability mass over certain parameters, imposing that the weights for one hidden unit must be identical to the weights of its neighbor, yet shifted in space. In a 
   similar spirit, pooling can be regarded as placing an inﬁnitely strong prior about the function having to be invariant to small translations. If this assumption is also held in the dataset, it can vastly improve the statistical eﬃciency of the network.
  
- An important related development are residual networks \cite{he2016deep}. These alleviate the problem of vanishing gradients as the depth increases by also connecting the output from the previous layer to the following one, via the identity function. They thus 
+ An important related development are residual networks \parencite{he2016deep}. These alleviate the problem of vanishing gradients as the depth increases by also connecting the output from the previous layer to the following one, via the identity function. They thus 
  entail a layer of the form 
 $$
 z_{l+1} = f_{CNN,l}(z_l, \gamma_l) + z_l ,
 $$
 where $f_{CNN,l}$ is the convolutional layer at depth $l$. Current advances in CNNs pursue model scaling, suggesting that carefully balancing network depth, width, and resolution can lead to improved performance,
-as with EfficientNets \cite{tan2019efficientnet}.
+as with EfficientNets \parencite{tan2019efficientnet}.
 
 
 
 %%%%%%%%%%%%
-\paragraph{Recurrent neural networks} RNNs are typically used for sequence processing, as in natural language processing (NLP), e.g.\ \cite{hochreiter1997long} and \cite{chung2014empirical}. They have feedback connections which make the network aware of temporal dependencies in the input.
+\paragraph{Recurrent neural networks} RNNs are typically used for sequence processing, as in natural language processing (NLP), e.g.\ \parencite{hochreiter1997long} and \parencite{chung2014empirical}. They have feedback connections which make the network aware of temporal dependencies in the input.
 
 Let $x_t$ denote the $t$-th token (usually a word, but could even be 
 a smaller part) in the input sequence. A simple recurrent layer can be described as
@@ -542,26 +542,26 @@ with the output at that time-step given by
 $$
 y_t = \psi(W_y h_t + b_y),
 $$
-where $\psi$ is a non-linear activation function, such as the logistic or the hyperbolic tangent functions. This is the Elman network \cite{cruse2006neural}. Note that weights are shared between different time-steps. In a similar vein to the infinitely strong prior from CNNs, this parameter sharing allows the network searching for patterns independently of their position in the sequence, yet also taking into account information from previous positions thanks to its feedback loop.
+where $\psi$ is a non-linear activation function, such as the logistic or the hyperbolic tangent functions. This is the Elman network \parencite{cruse2006neural}. Note that weights are shared between different time-steps. In a similar vein to the infinitely strong prior from CNNs, this parameter sharing allows the network searching for patterns independently of their position in the sequence, yet also taking into account information from previous positions thanks to its feedback loop.
 
 For training purposes, all of the previous loops must be unrolled back in time, and then perform the usual gradient descent routine.
-This is called \emph{backpropagation through time} \cite{58337}.
+This is called \emph{backpropagation through time} \parencite{58337}.
 Backpropagating through long sequences may lead to problems
 of either vanishing or exploding gradients. Thus, 
 simple architectures like Elman's cannot be applied to long inputs, as those arising in NLP. 
 As a consequence, gating architectures which improve the stability have been proposed, and successfully applied in real-life tasks,
 such as long 
-short-term memory (LSTM) \cite{hochreiter1997long} and gated recurrent unit (GRU) networks \cite{cho2014learning}. 
-External memory-augmented RNNs have also been proposed to tackle symbolic reasoning tasks, such as the neural Turing machine \cite{graves2014neural} or the differentiable neural computer \cite{graves2016hybrid}.
+short-term memory (LSTM) \parencite{hochreiter1997long} and gated recurrent unit (GRU) networks \parencite{cho2014learning}. 
+External memory-augmented RNNs have also been proposed to tackle symbolic reasoning tasks, such as the neural Turing machine \parencite{graves2014neural} or the differentiable neural computer \parencite{graves2016hybrid}.
 
 From a statistical point of view, RNNs describe directed graphical models similar to those of hidden Markov models (HMMs), but more efficiently parameterized. Assuming that each (discrete) token in the input can take $k$ different values, a HMM for sequences of length $T$ requires $\mathcal{O}(k^T)$ parameters to represent
-the joint distribution over the sequence; in turn, RNNs keep this requirement constant, independently of the length of the input, thanks to parameter sharing. A fruitful line of research aims to bridge the gap between classical Markov models and neural parameterizations, as in deep Kalman filters \cite{krishnan2015deep} or deep Markov models \cite{krishnan2016structured}. In the realm of memory-augmented RNNs, special attention should be given to the Kanerva machine \cite{wu2018kanerva}, a generative distributed memory updated in a Bayesian fashion.
+the joint distribution over the sequence; in turn, RNNs keep this requirement constant, independently of the length of the input, thanks to parameter sharing. A fruitful line of research aims to bridge the gap between classical Markov models and neural parameterizations, as in deep Kalman filters \parencite{krishnan2015deep} or deep Markov models \parencite{krishnan2016structured}. In the realm of memory-augmented RNNs, special attention should be given to the Kanerva machine \parencite{wu2018kanerva}, a generative distributed memory updated in a Bayesian fashion.
 
 
 
 %%%%%%%%%%%%
 \paragraph{Transformers} These architectures substitute the sequential processing from RNNs by a more efficient, parallel approach inspired by 
-attention mechanisms \cite{vaswani2017attention,bahdanau2014neural}. Their basic building components are scaled dot-product attention layers:
+attention mechanisms \parencite{vaswani2017attention,bahdanau2014neural}. Their basic building components are scaled dot-product attention layers:
 let $x_i$ be the embedding\footnote{An embedding layer is a linear layer that projects a one-hot representation of words into a lower-dimensional space.} of the $i$-th token in an input sequence;
 this is multiplied by three weight matrices to obtain: 1) a query vector, $q_i = W_q x_i$; 2), 
  a key vector $k_i = W_k x_i$;
@@ -575,17 +575,17 @@ computed as a normalized dot product between the key and query vectors. Thus, th
 
 Each layer of a transformer model usually comprises several 
 parallel layers, enabling the net to pay attention to different parts of the input simultaneously. Attention layers are alternated with  feed-forward layers in what is designated an encoder block. These 
- can be stacked until the final layer, outputting the probabilities for classification tasks. If the task requires producing outputs that are variable in length, as in automatic translation or summarization, decoder layers must be used, which replicate the work of encoders until output generation, in a similar spirit to the seq2seq models initiated a few years before with recurrent architectures \cite{sutskever2014sequence}.
+ can be stacked until the final layer, outputting the probabilities for classification tasks. If the task requires producing outputs that are variable in length, as in automatic translation or summarization, decoder layers must be used, which replicate the work of encoders until output generation, in a similar spirit to the seq2seq models initiated a few years before with recurrent architectures \parencite{sutskever2014sequence}.
 
 Since transformer-based models are more amenable to parallelization,
  they have been trained over massive datasets in the NLP domain, leading to architectures such as Bidirectional 
-Encoder Representations for Transformers (BERT) \cite{devlin2018bert}
+Encoder Representations for Transformers (BERT) \parencite{devlin2018bert}
 or the series of Generative
-pre-trained Transformer (GPT) models \cite{radford2018improving, radford2019language, brown2020language}. Current research avenues aim to scale such models to increasingly longer sequences \cite{tay2020long} or studying the societal and environmental issues of training gargantuan-scale models over potentially biased textual data \cite{bender2021dangers}.
+pre-trained Transformer (GPT) models \parencite{radford2018improving, radford2019language, brown2020language}. Current research avenues aim to scale such models to increasingly longer sequences \parencite{tay2020long} or studying the societal and environmental issues of training gargantuan-scale models over potentially biased textual data \parencite{bender2021dangers}.
 
 From a Bayesian point of view, recent evidence suggests that transformers may be viewed as maximum 
 a posteriori (MAP) estimators in 
- Gaussian mixture models \cite{movellan2020probabilistic}. Further research is necessary in this direction, since we hypothesize that the Bayesian framing may help in searching for more efficient attention kernels or the adoption of sparsity-inducing priors, which could help in keeping the size of the larger architectures under control.
+ Gaussian mixture models \parencite{movellan2020probabilistic}. Further research is necessary in this direction, since we hypothesize that the Bayesian framing may help in searching for more efficient attention kernels or the adoption of sparsity-inducing priors, which could help in keeping the size of the larger architectures under control.
 
 
 %%%%%%%%%%%%%
@@ -595,17 +595,17 @@ Generative models, as opposed to discriminative ones, take a training set, consi
 $$
 \max_{\theta} \sum_{i=1}^n \log p_{model} (x_i | \theta),
 $$
-or MAP estimation if a prior over the parameters $\theta$ is also placed. Fully visible belief networks \cite{10.5555/2998828.2998922} are a class of models that can be optimized this way. They are computationally tractable since they decompose the probability of any given $d-$dimensional input as $p(x | \theta) = \prod_{i=1}^d p(x_i | x_1 , \ldots x_{i-1}, \theta)$. Current architectures that fall into this category include WaveNet \cite{oord2016wavenet} and pixel recurrent neural networks \cite{pmlr-v48-oord16}. Normalizing flows can also make the distribution more flexible by means of stacking a series of suitably computable transformations \cite{pmlr-v37-rezende15}.
+or MAP estimation if a prior over the parameters $\theta$ is also placed. Fully visible belief networks \parencite{10.5555/2998828.2998922} are a class of models that can be optimized this way. They are computationally tractable since they decompose the probability of any given $d-$dimensional input as $p(x | \theta) = \prod_{i=1}^d p(x_i | x_1 , \ldots x_{i-1}, \theta)$. Current architectures that fall into this category include WaveNet \parencite{oord2016wavenet} and pixel recurrent neural networks \parencite{pmlr-v48-oord16}. Normalizing flows can also make the distribution more flexible by means of stacking a series of suitably computable transformations \parencite{pmlr-v37-rezende15}.
 
-Another important family of models are called autoencoders \cite{autoencoders}. They perform dimensionality reduction 
-using a sequence of non-linear transformations \cite{baldi2012autoencoders}: they can be regarded as a non-linear extension of principal component analysis, by stacking linear projections alternated with non-linear activation functions such as the ReLU. 
-Of relevant interest are their probabilistic counterparts, variational autoencoders (VAEs) \cite{kingma2013auto}. However, these models do not have a tractable density function, and one must resort to approximation techniques. Usually, variational methods (Section 3.2.2) are adopted and, instead, practitioners optimize a lower bound of the model likelihood function.
+Another important family of models are called autoencoders \parencite{autoencoders}. They perform dimensionality reduction 
+using a sequence of non-linear transformations \parencite{baldi2012autoencoders}: they can be regarded as a non-linear extension of principal component analysis, by stacking linear projections alternated with non-linear activation functions such as the ReLU. 
+Of relevant interest are their probabilistic counterparts, variational autoencoders (VAEs) \parencite{kingma2013auto}. However, these models do not have a tractable density function, and one must resort to approximation techniques. Usually, variational methods (Section 3.2.2) are adopted and, instead, practitioners optimize a lower bound of the model likelihood function.
 
 Finally, the term generative models 
-encompasses those models and some others, such as deep Boltzmann machines or deep belief networks, see \cite{doi:10.1146/annurev-statistics-010814-020120} for a comprehensive survey.
+encompasses those models and some others, such as deep Boltzmann machines or deep belief networks, see \parencite{doi:10.1146/annurev-statistics-010814-020120} for a comprehensive survey.
 
 %%%%%%%%%%%%%
-\paragraph{Generative adversarial networks} GANS  perform density estimation in high-dimensional spaces formulating a game between two players, a generator and a discriminator \cite{goodfellow2014generative}. They belong to the family of generative models; however, GANs do not explicitly model a distribution $p_{model}$, i.e., they cannot evaluate it, only generate samples from it.
+\paragraph{Generative adversarial networks} GANS  perform density estimation in high-dimensional spaces formulating a game between two players, a generator and a discriminator \parencite{goodfellow2014generative}. They belong to the family of generative models; however, GANs do not explicitly model a distribution $p_{model}$, i.e., they cannot evaluate it, only generate samples from it.
 GANs define a probabilistic graphical model containing observed variables $x$ (the input data, like an image or text) and latent variables $z$. Then, both players can be represented as two parameterized functions via NNs. Thus, the generator will be of the form $f_G(z, \theta_G)$, i.e., a NN that takes as input a latent vector and is parameterized through weights $\theta_G$. Note that the last layer will depend on the shape and range of the data $x$. Likewise, the discriminator will be a function $f_D(x, \theta_D)$ receiving a (fake or real) sample $x$ and outputting a probability for each of these two classes. Therefore, the final activation function will be 
 the sigmoid function. Each network has its own objective function. For the discriminator, the cost is
 $$
@@ -621,9 +621,9 @@ The vast literature on GANs is usually devoted to the previous problem. One appr
 $$
 \mathcal{L}_D(\theta_D, \theta_G) = -\dfrac{1}{2} \mathbb{E}_{x} \log f_D(f_G(z, \theta_G), \theta_D).
 $$
-More principled approaches are based on optimal transport, by minimising a Wasserstein distance between fake generated data and real data examples \cite{arjovsky2017wasserstein}. In \cite{nowozin2016f}, GANs are trained using variational divergence minimization, with the possibility of choosing any $f$-divergence \cite{CIT-004}.
+More principled approaches are based on optimal transport, by minimising a Wasserstein distance between fake generated data and real data examples \parencite{arjovsky2017wasserstein}. In \parencite{nowozin2016f}, GANs are trained using variational divergence minimization, with the possibility of choosing any $f$-divergence \parencite{CIT-004}.
 
-While GANs have already produced astonishing results in areas such as image generation \cite{Karras2019stylegan2,brock2018large}, they are still pervaded by problems such as training instabilities or mode collapse, in which the generator gets stuck on a mode and the samples generated thus lack diversity. A probabilistic approach to deal with this problem was introduced in \cite{dieng2019prescribed}, using a regularizer based on the entropy. We expect that the adoption of Bayesian methods,
+While GANs have already produced astonishing results in areas such as image generation \parencite{Karras2019stylegan2,brock2018large}, they are still pervaded by problems such as training instabilities or mode collapse, in which the generator gets stuck on a mode and the samples generated thus lack diversity. A probabilistic approach to deal with this problem was introduced in \parencite{dieng2019prescribed}, using a regularizer based on the entropy. We expect that the adoption of Bayesian methods,
  such as efficient SG-MCMC samplers (Section 3.3.1), will be helpful
 in improving the diversity of samples generated by GANs.
 
@@ -646,8 +646,8 @@ expense.
 Fortunately, these computational demands are mitigated
 through the use of classical stochastic gradient descent
 (SGD)
-methods \cite{robbins}
-to perform the estimation \cite{bottou2010large}. SGD is the current workhorse of large-scale optimization and 
+methods \parencite{robbins}
+to perform the estimation \parencite{bottou2010large}. SGD is the current workhorse of large-scale optimization and 
 allows training deep NNs over large datasets by mini-batching: rather than going through the whole batch at each stage, just pick a small sample
 (mini batch) of observations and do the corresponding
 gradient estimation by backpropagation. This is reflected in the Algorithm \ref{alg:sgd}, which departs from an
@@ -692,7 +692,7 @@ $\sum _k \epsilon _k^2 < \infty $ for convergence to the optimum.
 Recent work has explored ways to 
 speed up convergence towards the local optimum, 
 leading to several SGD variants, including the 
- addition of a momentum, as in AdaGrad, Adadelta or Adam \cite{kingma2014adam}, which we briefly review. The essence of these methods is to take into account not only a moving average of the gradients, but also an estimate of its variance, so as to dynamically adapt the learning rate. For example, in Adam, 
+ addition of a momentum, as in AdaGrad, Adadelta or Adam \parencite{kingma2014adam}, which we briefly review. The essence of these methods is to take into account not only a moving average of the gradients, but also an estimate of its variance, so as to dynamically adapt the learning rate. For example, in Adam, 
   parameters are updated via 
 $$
 \theta_{k+1} = \theta_k - \frac{\epsilon}{\sqrt{\hat{v}_k} + \eta} \hat{m}_k,
@@ -706,23 +706,23 @@ The authors propose default values of $\beta_1 = 0.9$, $\beta_2 = 0.999$ and $\e
 
 
 Let us finally mention 
-several techniques to improve generalization and convergence of neural networks, such as dropout \cite{srivastava2014dropout}, batch normalization \cite{ioffe2015batch} or weight initialization \cite{glorot2010understanding}.
+several techniques to improve generalization and convergence of neural networks, such as dropout \parencite{srivastava2014dropout}, batch normalization \parencite{ioffe2015batch} or weight initialization \parencite{glorot2010understanding}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Examples}
 We illustrate learning with deep NNs with three examples portraying
-different architectures and application domains. Code for the experiments was done using the \texttt{pytorch} library \cite{torch} and is released at \url{https://github.com/vicgalle/nn-review}.
+different architectures and application domains. Code for the experiments was done using the \texttt{pytorch} library \parencite{torch} and is released at \url{https://github.com/vicgalle/nn-review}.
 
 %%%%%
 \paragraph{CNNs for image recognition.}\label{kkvision}
 
-We describe an image classification task with a standard CNN, VGG-19, showcasing the superior performance when compared to non-convolutional and non-deep approaches in this application domain. As benchmark, we use the CIFAR-10 dataset \cite{krizhevsky2014cifar},
+We describe an image classification task with a standard CNN, VGG-19, showcasing the superior performance when compared to non-convolutional and non-deep approaches in this application domain. As benchmark, we use the CIFAR-10 dataset \parencite{krizhevsky2014cifar},
 which consists of 60000 32x32 colour images in 10 classes. As baselines, we use a linear multinomial regression model, and a three hidden layer MLP with 200 units each with ReLU activations.
 
 All models are trained for 200 epochs\footnote{An epoch is defined as a pass over the full training dataset.} and minibatches of 128 samples, using SGD with learning rate of 0.1 and  momentum of 0.9.
-The learning rate is adapted with the cosine annealing scheme in  \cite{loshchilov2016sgdr}. We place Gaussian priors over all parameters (thus equivalent to $\ell_2$ regularization) and use SWA on top of the SGD optimizer, to make predictions using an ensemble of several particles, in a Bayesian way.
+The learning rate is adapted with the cosine annealing scheme in  \parencite{loshchilov2016sgdr}. We place Gaussian priors over all parameters (thus equivalent to $\ell_2$ regularization) and use SWA on top of the SGD optimizer, to make predictions using an ensemble of several particles, in a Bayesian way.
 
 \begin{figure}[hbt]
 \centering
@@ -752,7 +752,7 @@ VGG-19 &  $93.29\%$
 %%%%%%%%%%%%%%%
 \paragraph{Transformer and recurrent models for sentiment analysis.}
 This is an example with text to undertake sentiment analysis, classifying movie reviews with architectures tailored to NLP tasks. As benchmark, we use the IMBD movie review dataset 
-from \cite{maas-EtAl:2011:ACL-HLT2011}, in which a review in raw text must be classified into one of two classes: positive or negative
+from \parencite{maas-EtAl:2011:ACL-HLT2011}, in which a review in raw text must be classified into one of two classes: positive or negative
 sentiment. 
 
 The recurrent model consists of a LSTM network with two layers, each with hidden dimension of 256 plus a dropout of 0.5 serving as a regularizer. We also consider a simple Transformer-based model, with two encoder layers, of hidden dimension 10 plus similar dropout. For both models, the input sequence is represented as a list of one-hot encoded vectors, representing the presence of a word from a vocabulary of the 5000 most common tokens. This representation is embedded into a space of 100 dimensions
@@ -760,7 +760,7 @@ The recurrent model consists of a LSTM network with two layers, each with hidden
 %The input sequence is represented as a list of one-hot encoded vectors, representing the presence of a word from a vocabulary of the most common 5000 tokens. This discrete representation is embedded into a space of 100 dimensions (16 dimensions in the Transformer case) by means of an affine transformation, before applying the architecture-specific layers. 
 %Both models are trained using the Adam optimizer with a constant learning rate of 0.001.
 
-We also consider a bigger, transformer-based model consisting of the recent RoBERTa architecture \cite{liu2019roberta}, 
+We also consider a bigger, transformer-based model consisting of the recent RoBERTa architecture \parencite{liu2019roberta}, 
 initially pretrained on a big corpus of unsupervised raw  English text, and then fine tuned for two epochs on the IMDB training set. As we 
  discuss in Section \ref{sec:transfer}, pretraining with data from different tasks or domains can crucially improve the performance of Transformers, since this helps in building better representations of written language.
 
@@ -868,35 +868,35 @@ There are various approaches to the problem as
 thoroughly reviewed in ****** (2020).
 One possibility is to use interpretable models,
  easily comprehensible for humans,
-as cogently argued by \cite{rudin2019stop} who claims 
+as cogently argued by \parencite{rudin2019stop} who claims 
 that in many contexts we may perform with such models 
 almost as well as with deep models.
  While using interpretable models might be appropriate for some
   contexts, they come at the cost of flexibility, accuracy, and usability.
   Alternatively, sometimes an interpretable surrogate model of the black box model is generated to gain interpretability, either globally or locally around
-some test input, as with LIME \cite{ribeiro2016model} or SHAP \cite{lundberg2017unified}.
+some test input, as with LIME \parencite{ribeiro2016model} or SHAP \parencite{lundberg2017unified}.
 Finally, there are attempts to create methods for explaining 
 black box models with two main broad strategies: globally
 extracting an explanation from a model that is representative for some specific
 data set; and locally extracting an explanation for a single test input 
  and the corresponding prediction.
-  \cite{samek2017explainable} describe different methods for visualizing and explaining deep learning models like the Layer-wise relevance propagation (LRP). 
+  \parencite{samek2017explainable} describe different methods for visualizing and explaining deep learning models like the Layer-wise relevance propagation (LRP). 
  
  
  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Transfer learning}\label{sec:transfer}
 
 The training of huge neural models requires large amounts of labelled data, such as images, typically in the order of thousands to millions. In cases where human labelling of training data is not feasible 
-for scaling to those magnitudes, it is possible to leverage similar datasets, even not for the same task. This is called transfer learning \cite{tan2018survey,pan2009survey}, and fundamentally consists of taking a model previously trained over a massive dataset and then fine-tune the model in the final task, with a much smaller dataset. The adoption of pretrained models allows the practitioner to save in computational costs, because it significantly shortens the training time for the final dataset, and often leads to improved performance, thanks to the already learnt knowledge of the pretrained model. In addition, the quantity of labelled data can be drastically reduced by strategically choosing the data points to be annotated. Techniques developed to automatize this idea fall under the term of active learning, and the Bayesian approach offers a principled and sound framework for it, see e.g. \cite{houlsby2011bayesian}.
+for scaling to those magnitudes, it is possible to leverage similar datasets, even not for the same task. This is called transfer learning \parencite{tan2018survey,pan2009survey}, and fundamentally consists of taking a model previously trained over a massive dataset and then fine-tune the model in the final task, with a much smaller dataset. The adoption of pretrained models allows the practitioner to save in computational costs, because it significantly shortens the training time for the final dataset, and often leads to improved performance, thanks to the already learnt knowledge of the pretrained model. In addition, the quantity of labelled data can be drastically reduced by strategically choosing the data points to be annotated. Techniques developed to automatize this idea fall under the term of active learning, and the Bayesian approach offers a principled and sound framework for it, see e.g. \parencite{houlsby2011bayesian}.
 
 Transfer learning has enjoyed extraordinary success in fields
-such as computer vision and natural language processing. With image data \cite{girshick2014rich,NIPS2014_375c7134}, it is common to pretrain a CNN on a huge dataset (typically Imagenet, \cite{deng2009imagenet}, with over 1M images from 1000 categories) and then use the CNN either as an initialization (this can be regarded as specifying a Bayesian prior from the previous task) or as a feature extractor for the custom task. Typically, one removes the last layer of the pretrained CNN (that which projects the hidden representation to the 1000 logits for Imagenet), and places another linear layer with softmax activations for the task of interest, or takes the hidden representation to use with another classifier, such as a support vector machine or a random forest \cite{sharif2014cnn}. The Deep Image Prior is also an interesting example as it shows that a randomly-initialized neural network can be used as a handcrafted prior with excellent results in standard inverse problems such as denoising, super-resolution, and inpainting \cite{ulyanov2020deep}.
+such as computer vision and natural language processing. With image data \parencite{girshick2014rich,NIPS2014_375c7134}, it is common to pretrain a CNN on a huge dataset (typically Imagenet, \parencite{deng2009imagenet}, with over 1M images from 1000 categories) and then use the CNN either as an initialization (this can be regarded as specifying a Bayesian prior from the previous task) or as a feature extractor for the custom task. Typically, one removes the last layer of the pretrained CNN (that which projects the hidden representation to the 1000 logits for Imagenet), and places another linear layer with softmax activations for the task of interest, or takes the hidden representation to use with another classifier, such as a support vector machine or a random forest \parencite{sharif2014cnn}. The Deep Image Prior is also an interesting example as it shows that a randomly-initialized neural network can be used as a handcrafted prior with excellent results in standard inverse problems such as denoising, super-resolution, and inpainting \parencite{ulyanov2020deep}.
 
-Transfer learning with textual data has gained traction more recently, with the advent of gargantuan-sized language models. Models such as BERT \cite{devlin2018bert}, or the family of GPT models \cite{radford2018improving,radford2019language,cc:BrownMannRyderSubbiahEtAl:2020:language-models}
+Transfer learning with textual data has gained traction more recently, with the advent of gargantuan-sized language models. Models such as BERT \parencite{devlin2018bert}, or the family of GPT models \parencite{radford2018improving,radford2019language,cc:BrownMannRyderSubbiahEtAl:2020:language-models}
 have achieved the state-of-the-art in many NLP tasks. 
-In this case, pretraining fundamentally consists of training the Transformer with a huge amount of unsupervised data, typically scrapped from internet from sources such as Wikipedia or Common Crawl \cite{cc:BrownMannRyderSubbiahEtAl:2020:language-models}. The pretraining task is called language modeling \cite{2008SchpJ...3.3881B}: the model has to predict the next word in a sentence (causal language modeling), or fill in the gaps from a sentence with holes (masked language modeling). Then, one can replace the final layer of the Transformer encoder for a suitable task in order to perform finetuning to the desired task.
+In this case, pretraining fundamentally consists of training the Transformer with a huge amount of unsupervised data, typically scrapped from internet from sources such as Wikipedia or Common Crawl \parencite{cc:BrownMannRyderSubbiahEtAl:2020:language-models}. The pretraining task is called language modeling \parencite{2008SchpJ...3.3881B}: the model has to predict the next word in a sentence (causal language modeling), or fill in the gaps from a sentence with holes (masked language modeling). Then, one can replace the final layer of the Transformer encoder for a suitable task in order to perform finetuning to the desired task.
 
-Tangential topics to transfer learning that are of increasing interest are meta-learning approaches such as model agnostic meta learning (MAML) \cite{pmlr-v70-finn17a} and its Bayesian extension \cite{NEURIPS2018_e1021d43}. Few-shot learning \cite{wang2020generalizing}, in which a model is able to learn by providing it with only few examples per class (typically, less than 50),  has also many similitude to transfer and meta-learning. Of special interest is the extreme case of zero-shot learning, with successful applications in NLP \cite{yinroth2019zeroshot}, and computer vision, with the example of the CLIP architecture \cite{radford2021learning}. 
+Tangential topics to transfer learning that are of increasing interest are meta-learning approaches such as model agnostic meta learning (MAML) \parencite{pmlr-v70-finn17a} and its Bayesian extension \parencite{NEURIPS2018_e1021d43}. Few-shot learning \parencite{wang2020generalizing}, in which a model is able to learn by providing it with only few examples per class (typically, less than 50),  has also many similitude to transfer and meta-learning. Of special interest is the extreme case of zero-shot learning, with successful applications in NLP \parencite{yinroth2019zeroshot}, and computer vision, with the example of the CLIP architecture \parencite{radford2021learning}. 
 \fi
 
 

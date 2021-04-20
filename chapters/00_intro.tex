@@ -1,15 +1,15 @@
 
 \section{A motivation for Bayesian methods}
 
-Statistical decision making \cite{french2000statistical} is a fundamental block of modern machine learning and statistics research and practice,
-providing fundamental tools for analyzing the vast amount of data that have become available in science, government, industry, and everyday life. Over the last century, many problems have been solved (at least partially) with probabilistic models \cite{bishop2006pattern}, such as classifying email as spam, identifying patterns in genetic sequences, recommending similar movies or performing automatic translation between two languages. For each of these applications, a statistical model was fitted to the data, and then solve the task at hand. Since the previous applications are incredibly diverse, each model came from a different research community. But there is a common theme shared amongst them: \emph{the need to make a decision using the model}. Thus, statistical decision theory has emerged as a powerful framework to reason between different scientific areas \cite{french2000statistical}.
+Statistical decision making \parencite{french2000statistical} is a fundamental block of modern machine learning and statistics research and practice,
+providing fundamental tools for analyzing the vast amount of data that have become available in science, government, industry, and everyday life. Over the last century, many problems have been solved (at least partially) with probabilistic models \parencite{bishop2006pattern}, such as classifying email as spam, identifying patterns in genetic sequences, recommending similar movies or performing automatic translation between two languages. For each of these applications, a statistical model was fitted to the data, and then solve the task at hand. Since the previous applications are incredibly diverse, each model came from a different research community. But there is a common theme shared amongst them: \emph{the need to make a decision using the model}. Thus, statistical decision theory has emerged as a powerful framework to reason between different scientific areas \parencite{french2000statistical}.
 
-We believe that building and using probabilistic models is not a single-step task, but rather an iterative process, closely resembling the scientific method \cite{conant1959understanding}. First, propose a simple model based on the kinds of latent structure that your prior knowledge make you believe exists in the data. Then, given a data set, use an inference
+We believe that building and using probabilistic models is not a single-step task, but rather an iterative process, closely resembling the scientific method \parencite{conant1959understanding}. First, propose a simple model based on the kinds of latent structure that your prior knowledge make you believe exists in the data. Then, given a data set, use an inference
 method to approximate the posterior distribution, the conditional distribution of the hidden parameters
 given the data. Lastly,
-use that posterior to test the model against new, test data. If not satisfied, we criticise and revise it, and we modify the model, iterating all over again. This is called the Box's loop \cite{doi:10.1080/00401706.1962.10490015,10.2307/1266125}. It focuses on the scientific method, producing new knowledge nature by iterative experimental design, data collection,
+use that posterior to test the model against new, test data. If not satisfied, we criticise and revise it, and we modify the model, iterating all over again. This is called the Box's loop \parencite{doi:10.1080/00401706.1962.10490015,10.2307/1266125}. It focuses on the scientific method, producing new knowledge nature by iterative experimental design, data collection,
 model formulation, and model criticism.
-Amongst all the different paradigms in statistics, the one that is closest to the previous approach to knowledge discovery is Bayesian analysis \cite{gelman2013bayesian,insua2012bayesian}, and that will be the one adopted in these thesis.
+Amongst all the different paradigms in statistics, the one that is closest to the previous approach to knowledge discovery is Bayesian analysis \parencite{gelman2013bayesian,insua2012bayesian}, and that will be the one adopted in these thesis.
 
 
 Lastly, in the past years we have witnessed the success of neural networks and deep learning, achieving state of the art results in many different tasks. A brief introduction to deep learning will appear in Section \ref{sec:deep_intro}, but let us advance a few things here. Bayesian analysis is specially compelling for this kind of models, mostly because the object of interest  is now the predictive distribution:
@@ -19,8 +19,8 @@ $$
 with $x$ being a sample to be classified, $y$ the predicted label, $\mathcal{D}$ is the training dataset, and $\theta$ the parameters of a neural network. The previous marginalization equation expresses epistemic uncertainty, that is, uncertainty over which configuration of parameters (hypothesis) is correct, given limited data. If the posterior $p(\theta| \mathcal{D})$ is sharply peaked, it makes no difference using a Bayesian approach versus the standard maximum likelihood or maximum a posteriori estimations, since just a single point mass may be a reasonable approximation to the posterior. However, neural networks are typically very underspecified by the training data available (a state of the art NN might have millions of parameters for just thousands of data points), and will thus have diffuse likelihood distributions $p(\mathcal{D}|\theta)$, leading to flatter posteriors.
 
 Indeed, there are large valleys in the loss landscape of
-neural networks \cite{garipov2018loss}, over which parameters incur very little loss, but give rise to different high performing
-functions which make meaningfully different predictions on the test dataset. The work of \cite{ZOLNA2020102969}
+neural networks \parencite{garipov2018loss}, over which parameters incur very little loss, but give rise to different high performing
+functions which make meaningfully different predictions on the test dataset. The work of \parencite{ZOLNA2020102969}
 also demonstrates the variety of well-performing solutions that can be expressed by a neural network
 posterior, as it is highly flexible. In this cases, we desire to perform a Bayesian model average, since it leads to an ensemble of diverse yet good models, achieving better generalization capabilities and performance stability capabilities than classical training.
 
@@ -36,7 +36,7 @@ posterior, as it is highly flexible. In this cases, we desire to perform a Bayes
 %\subsubsection{Bayesian approaches}
 
 MCMC algorithms such as the ones presented in Section \ref{s:MCMC} or \ref{bayeshallow} 
-have become standard in Bayesian inference \cite{french}.
+have become standard in Bayesian inference \parencite{french}.
 % Moreover, more recent variants such as HMC
 % and its Riemann
 %manifold variant, gain 
@@ -53,7 +53,7 @@ computing the corresponding acceptance probabilities
 
 SG-MCMC methods are based on the discretization of 
 stochastic differential equations that have the desired target 
-distribution as its limit. \cite{ma2015complete} provide a
+distribution as its limit. \parencite{ma2015complete} provide a
 complete framework that encompass many earlier proposals and
 facilitate such discretization, as well as a practical tool for
 devising new samplers and testing the correctness of proposed samplers.
@@ -79,7 +79,7 @@ $W(t)$  is a $d$-dimensional Wiener process, and
 $D(z)$ is a positive semidefinite diffusion matrix. Note, though,
 that some care must be taken to choosing $f(z)$ and $D(z)$ 
 to yield the desired stationary distribution.
-\cite{ma2015complete} propose a recipe for constructing SDEs with the correct stationary distribution through 
+\parencite{ma2015complete} propose a recipe for constructing SDEs with the correct stationary distribution through 
 $f(z) = - [D(z) + Q(z)] \nabla H(z) + \Gamma (z)$, 
 and $\Gamma _i (z) = \sum _{j=1}^d 
 \frac{\partial  }{\partial z_j}(D_{ij} (z) + Q_{ij} (z) )
@@ -91,8 +91,8 @@ When
 $D(z)$ is positive semidefinite and $Q(z)$ is skew-symmetric, 
  the convergence of the above dynamics to the desired 
 distribution follows; moreover both matrices can be adjusted to attain faster convergence to
-the posterior distribution. \cite{ma2015complete} show that by properly choosing the matrices  one can recover numerous samplers such
-as SGLD \cite{welling2011bayesian} or a corrected SG-HMC \cite{chen2014stochastic}.
+the posterior distribution. \parencite{ma2015complete} show that by properly choosing the matrices  one can recover numerous samplers such
+as SGLD \parencite{welling2011bayesian} or a corrected SG-HMC \parencite{chen2014stochastic}.
 
 In practice, simulation actually relies on a discretization of the SDE, leading to a (full-data) update rule
 \begin{equation}
@@ -114,13 +114,13 @@ z_{t+1} \leftarrow z_t - \epsilon_t \left[ ( D(z_t) + Q(z_t) )
 + N (0, \epsilon _t (2 D(z_t)- \epsilon_t \hat {B_t}))
 \end{equation} 
 where $\hat {B_t}$ is an estimate of the variance of the error.
-This provides the  stochastic gradient—or minibatch— variant of the sampler. Note also that all of these approaches could be combined with recent heuristics to improve the convergence of SG-MCMC methods, such as the adoption of cyclical step sizes to explore more efficiently the posterior  \cite{7926641}.
+This provides the  stochastic gradient—or minibatch— variant of the sampler. Note also that all of these approaches could be combined with recent heuristics to improve the convergence of SG-MCMC methods, such as the adoption of cyclical step sizes to explore more efficiently the posterior  \parencite{7926641}.
 
 
 %%%%%%%%%%%%%%%%%%%%%
 \paragraph{Variational Bayes.} 
 
-Variational inference (VI) \cite{blei2017variational} tackles the 
+Variational inference (VI) \parencite{blei2017variational} tackles the 
  approximation of  $p(\theta | D)$ with a tractable parameterized
  distribution $q_{\phi}(\theta |D)$. The goal is to find parameters $\phi$ so that the distribution 
 $q_{\phi}(\theta |D )$  (referred to as variational guide
@@ -144,10 +144,10 @@ other distributions can be adopted as long as they
 A problem is that these approximations often 
 underestimate the uncertainty. Some developments
 partly mitigate this  issue
-by  enriching the variational family include normalizing flows \cite{rezende2015variational} or the use of implicit distributions \cite{huszar2017variational}.
+by  enriching the variational family include normalizing flows \parencite{rezende2015variational} or the use of implicit distributions \parencite{huszar2017variational}.
 
 \iffalse
-We can actually use a more flexible approximation \cite{VIS},
+We can actually use a more flexible approximation \parencite{VIS},
  designated {\em refined variational approximation}, 
   by embedding a sampler (Section 3.3.1) through
 \begin{equation*}\label{eq:q}
@@ -163,7 +163,7 @@ for $T$ periods, so as to achieve greater flexibility.
  $T$ increases, the approximation will be closer to the exact posterior, assuming that $Q_{\eta, T}$ is a valid sampler
  as in Section \ref{bayesdeep}. Specific 
 forms for $Q_{\eta, T}(\theta |\theta _0)$
-are described in \cite{VIS}.
+are described in \parencite{VIS}.
 We next maximize a refined ELBO objective, replacing in (\ref{eq:elbo}) the 
 original $q_{\phi }$ 
 by $q_{\phi, \eta}$
@@ -179,7 +179,7 @@ to optimize the divergence $KL(q_{\phi,\eta}(\theta |D) ||  p(\theta |D ))$.
 %Section 3.2 describes 
 Efficient methods to approximate 
  such 
-evaluation are available in \cite{VIS}. 
+evaluation are available in \parencite{VIS}. 
 
 As a consequence, performing variational inference with the refined variational approximation can be regarded as using the original variational guide while optimizing an alternative, tighter ELBO.  
 This facilitates a framework for learning the sampler parameters $\phi, \eta$ using gradient-based optimization based 
@@ -228,18 +228,18 @@ Inference phase. Based on learnt sampler parameters $\phi^*, \eta^*$:\\
 
 \fi
 %%%%%%%%%%%%%%%%%%%%%%%
-\paragraph{Ensembles.} \cite{bdl} showed that deep ensembles \cite{ensemble} provide an efficient technique for approximate Bayesian marginalization, although it is not a truly Bayesian method.
+\paragraph{Ensembles.} \parencite{bdl} showed that deep ensembles \parencite{ensemble} provide an efficient technique for approximate Bayesian marginalization, although it is not a truly Bayesian method.
 
-A regularization technique called dropout can be interpreted as performing ensembling over several models \cite{dropout}. Motivated by how dropout could be effectively used to quantify uncertainty in deep networks \cite{pmlr-v48-gal16}, several explorations have been pursued to extend ensembles for similar purposes. Deep ensembles were found to be superior to MC dropout in out-of-distribution-settings \cite{Ovadia2019CanYT}.
+A regularization technique called dropout can be interpreted as performing ensembling over several models \parencite{dropout}. Motivated by how dropout could be effectively used to quantify uncertainty in deep networks \parencite{pmlr-v48-gal16}, several explorations have been pursued to extend ensembles for similar purposes. Deep ensembles were found to be superior to MC dropout in out-of-distribution-settings \parencite{Ovadia2019CanYT}.
 Some recent techniques that should be pointed out include
-Stochastic Weight Averaging (SWA) \cite{izmailov2018averaging}, which leads to much more robust optima and better generalization, and a Bayesian treatment of the previous approach based on a Gaussian distribution,
-called SWAG \cite{NEURIPS2019_118921ef}.
+Stochastic Weight Averaging (SWA) \parencite{izmailov2018averaging}, which leads to much more robust optima and better generalization, and a Bayesian treatment of the previous approach based on a Gaussian distribution,
+called SWAG \parencite{NEURIPS2019_118921ef}.
 
-Stein Variational Gradient Descent (SVGD) \cite{svgd} takes a set of particles and evolves it following the gradient of the loss plus an auxiliary term that acts as a repulsion force between particles. That
-way, the particles do not collapse into the same mode, and can explore wider areas of the posterior. There is a close relationship between SVGD and SG-MCMC methods with \cite{gallego2018stochastic} 
+Stein Variational Gradient Descent (SVGD) \parencite{svgd} takes a set of particles and evolves it following the gradient of the loss plus an auxiliary term that acts as a repulsion force between particles. That
+way, the particles do not collapse into the same mode, and can explore wider areas of the posterior. There is a close relationship between SVGD and SG-MCMC methods with \parencite{gallego2018stochastic} 
 studying the interaction between both methods.
 
-Deep learning ensemble applications abound, for example in probabilistic wind power forecasting \cite{wang2017deep}, speech recognition \cite{deng2014ensemble}, time series forecasting \cite{qiu2014ensemble}, and medicine or bioinformatics \cite{qummar2019deep,xiao2018deep,cao2020ensemble}. However, the vast majority of these applied works only use simple ensembles, by averaging the outputs. Further benefits could be achieved by realizing a full Bayesian treatment of the problem.
+Deep learning ensemble applications abound, for example in probabilistic wind power forecasting \parencite{wang2017deep}, speech recognition \parencite{deng2014ensemble}, time series forecasting \parencite{qiu2014ensemble}, and medicine or bioinformatics \parencite{qummar2019deep,xiao2018deep,cao2020ensemble}. However, the vast majority of these applied works only use simple ensembles, by averaging the outputs. Further benefits could be achieved by realizing a full Bayesian treatment of the problem.
 
 In Chapter 2 we will further review these approaches and propose two frameworks to further scale up Bayesian inference in challenging settings.
 %\paragraph{Final remarks}
@@ -262,10 +262,10 @@ if we are to
 trust operations based on their output. State-of-the-art
 algorithms, as those described above, perform extraordinarily well on standard data,  but have been
 shown to be vulnerable to adversarial examples, data instances targeted at
-fooling them \cite{goodfellow2014explaining}.
+fooling them \parencite{goodfellow2014explaining}.
 The presence of adaptive adversaries has
-been pointed out in areas such as spam detection \cite{zeager2017adversarial}
-and computer vision \cite{goodfellow2014explaining}, among many others. 
+been pointed out in areas such as spam detection \parencite{zeager2017adversarial}
+and computer vision \parencite{goodfellow2014explaining}, among many others. 
 In those contexts, algorithms should acknowledge the presence of possible adversaries
 to protect from their data manipulations.
 As a fundamental underlying hypothesis, NN
@@ -279,13 +279,13 @@ to modify the data and obtain a benefit.
 
 As a motivating example, vision algorithms (Section
 \ref{kkvision}) are at the core of many AI 
-applications such as ADSs \cite{rumanos}. 
+applications such as ADSs \parencite{rumanos}. 
 The simplest and most notorious attack examples to
 such algorithms  
 consist of modifications of images in such a way that the alteration becomes imperceptible to the human eye, yet drives a model trained on millions of images to misclassify the modified ones,
 with potentially relevant security consequences.
 With a relatively simple CNN model (Section 3.1.1), we are able to accurately predict 99\% of the handwritten digits in the MNIST data set.
-However, if we attack those data with the fast gradient sign method \cite{szegedy2013intriguin},
+However, if we attack those data with the fast gradient sign method \parencite{szegedy2013intriguin},
 accuracy gets reduced to 62\%. Fig.~\ref{fig:digits} provides an example of an original MNIST image and a perturbed one: to our eyes both images look like a 2, but the classifier rightly identifies a 2 in the first case, whereas it suggests a 7 after the perturbation. 
 %
 %\vspace{-0.2in}
@@ -299,29 +299,29 @@ accuracy gets reduced to 62\%. Fig.~\ref{fig:digits} provides an example of an o
   \label{fig:digits}
 \end{figure}
 Stemming from the pioneering work in adversarial classification 
-\cite{adversarialClassification2004}, the prevailing paradigm in AML models
+\parencite{adversarialClassification2004}, the prevailing paradigm in AML models
 the confrontation between learning-based systems and adversaries through game theory. 
 This entails common knowledge assumptions 
-\cite{hargreaves2004game} which are 
+\parencite{hargreaves2004game} which are 
 questionable in security 
 applications as adversaries try to conceal information. 
-As \cite{fan2019selective} points out, there is a need for a  framework that guarantees robustness of ML against adversarial manipulations in a principled manner. 
+As \parencite{fan2019selective} points out, there is a need for a  framework that guarantees robustness of ML against adversarial manipulations in a principled manner. 
 
-The usual approach for robustifying models against these examples is {\em adversarial training} (AT) \cite{madry2018towards} and its 
+The usual approach for robustifying models against these examples is {\em adversarial training} (AT) \parencite{madry2018towards} and its 
 variants, based on solving a 
 bi-level optimisation problem whose objective function is the empirical risk of a model under worst case data perturbations. % AT approximates the inner optimisation through a projected gradient descent  
 %algorithm, ensuring that the perturbed input falls within a tolerable boundary, usually specified through some restriction on a norm distance. 
 However, recent pointers urge modellers to depart from using 
-norm based approaches \cite{carlini2019evaluating} and develop more realistic attack models.
+norm based approaches \parencite{carlini2019evaluating} and develop more realistic attack models.
 
 AML is a  difficult area which rapidly evolves and leads to an 
 arms race in which the community alternates cycles of proposing attacks and  of implementing defences that deal with them. However, as mentioned, it is 
 based on game theoretic ideas and strong common
 knowledge conditions. 
-\cite{AMLARA} propose a
+\parencite{AMLARA} propose a
 Bayesian decision theoretic based methodology 
 to solve AML problems, 
-adopting an ARA perspective \cite{adversarialRiskAnalysis2009,banks2015adversarial} modeling the confrontation between attackers and defenders and mitigating questionable common knowledge assumptions. \cite{math8111957} applies this ARA-based framework to  adversarial classification. Chapter 3 examines these issues.
+adopting an ARA perspective \parencite{adversarialRiskAnalysis2009,banks2015adversarial} modeling the confrontation between attackers and defenders and mitigating questionable common knowledge assumptions. \parencite{math8111957} applies this ARA-based framework to  adversarial classification. Chapter 3 examines these issues.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -330,9 +330,9 @@ adopting an ARA perspective \cite{adversarialRiskAnalysis2009,banks2015adversari
 
 \subsection{Large scale competitive decision making}
 
-In real life scenarios, decision makers rarely have to take a single action. Instead, multiple decisions must be made, with the former actions making a causal impact on the later ones. For example, in the case study from Section \ref{sec:dlms}, the decision maker might desire to plan ahead for a year the budget allocations of all the advertising channels. Thus, we have to raid into the realm of sequential decision making \cite{french2000statistical,DIEDERICH200113917}. There are many frameworks to tackle this problem, such as optimal control theory \cite{kirk2004optimal}. Since this thesis is also focused on Machine Learning, we adopt the framework of Reinforcement Learning (RL) to deal with sequential decisions while making the decision maker able to learn with her experiences \cite{sutton2012reinforcement,kaelbling1996reinforcement}. RL differs from supervised learning in not needing labelled input/output pairs be presented, and in not needing sub-optimal actions to be explicitly corrected. Instead the focus is on finding a balance between exploration (of uncharted experiences) and exploitation (of current knowledge).
+In real life scenarios, decision makers rarely have to take a single action. Instead, multiple decisions must be made, with the former actions making a causal impact on the later ones. For example, in the case study from Section \ref{sec:dlms}, the decision maker might desire to plan ahead for a year the budget allocations of all the advertising channels. Thus, we have to raid into the realm of sequential decision making \parencite{french2000statistical,DIEDERICH200113917}. There are many frameworks to tackle this problem, such as optimal control theory \parencite{kirk2004optimal}. Since this thesis is also focused on Machine Learning, we adopt the framework of Reinforcement Learning (RL) to deal with sequential decisions while making the decision maker able to learn with her experiences \parencite{sutton2012reinforcement,kaelbling1996reinforcement}. RL differs from supervised learning in not needing labelled input/output pairs be presented, and in not needing sub-optimal actions to be explicitly corrected. Instead the focus is on finding a balance between exploration (of uncharted experiences) and exploitation (of current knowledge).
 
-However, RL typically only deals with one agent (the decision maker), taking actions against her environment, which is assumed to be stationary. Realistic settings have to take into account the presence of other rational agents. These can be potential collaborators to cooperate, but also could be adversaries. For instance, in the case study from Section \ref{sec:dlms} we could have modeled competitors also taking decisions that in a way, also affect the expected sales of the supported franchise. Under this dynamic, non-stationary environment, traditional RL techniques dramatically fail, and it is a necessity to develop novel frameworks that acknowledge the presence of other players. This is the realm of multi-agent Reinforcement Learning (MARL), which usually takes grounding in game-theoretical approaches \cite{marl_over,lanctot2017unified}. Game Theory has also its own drawbacks, whereas Adversarial Risk Analysis (ARA) offers a more realistic view, leveraging Bayesian ideas \cite{Banks}.
+However, RL typically only deals with one agent (the decision maker), taking actions against her environment, which is assumed to be stationary. Realistic settings have to take into account the presence of other rational agents. These can be potential collaborators to cooperate, but also could be adversaries. For instance, in the case study from Section \ref{sec:dlms} we could have modeled competitors also taking decisions that in a way, also affect the expected sales of the supported franchise. Under this dynamic, non-stationary environment, traditional RL techniques dramatically fail, and it is a necessity to develop novel frameworks that acknowledge the presence of other players. This is the realm of multi-agent Reinforcement Learning (MARL), which usually takes grounding in game-theoretical approaches \parencite{marl_over,lanctot2017unified}. Game Theory has also its own drawbacks, whereas Adversarial Risk Analysis (ARA) offers a more realistic view, leveraging Bayesian ideas \parencite{Banks}.
 Chapter 4 deals with some of these issues.
 
 

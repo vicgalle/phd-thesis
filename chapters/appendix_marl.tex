@@ -9,7 +9,7 @@ $$
 In our setting, the DM does not observe the full state since she does
 not know the action $b$ taken by her adversary. However, if she knows his policy $p(b|s)$, or has a good estimate of it, she can take advantage of this information.
 
-Assume for now that we know the opponent's action $b$. The $Q$-function would satisfy the following recursive update \cite{sutton2012reinforcement}, when the DM is acting under a policy $\pi$,
+Assume for now that we know the opponent's action $b$. The $Q$-function would satisfy the following recursive update \parencite{sutton2012reinforcement}, when the DM is acting under a policy $\pi$,
 
 \begin{eqnarray*}
 Q^\pi (s,a,b) &=  \sum_{s'} \sum_{b'} p(s', b' |s,a,b) \left[ R_{ss'}^{ab} +  \mathbb{E}_{\pi(a'|s',b')} \left[ Q^\pi(s',a',b') \right] \right],\\
@@ -51,7 +51,7 @@ We prove that $\| \mathcal{H}q_1 - \mathcal{H}q_2 \|_{\infty} \leq \gamma \| q_1
 \end{flalign*}
 \end{proof}
 Then, using the proposed learning rule (\ref{eq:lr}), we would converge
-to the optimal $Q$ for each of the opponent actions. The proof follows directly from the standard $Q$-learning convergence proof, see e.g. \cite{melo2001convergence}, and making use of Lemma 1.
+to the optimal $Q$ for each of the opponent actions. The proof follows directly from the standard $Q$-learning convergence proof, see e.g. \parencite{melo2001convergence}, and making use of Lemma 1.
 However, at the time of making the decision, we do not know what action
 he would take. Thus, we average over the possible opponent
 actions, weighting each of the actions by $p(b|s)$, as in \eqref{eq:lr2}.

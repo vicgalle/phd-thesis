@@ -3,9 +3,9 @@
 
 % Same as ACRA
 
-%Classification is one of the most widely used instances of supervised  learning, with applications in numerous areas such as spam detection \cite{spam};  credit scoring, \cite{scoring}; computer vision \cite{chen2015handbook}; autonomous driving systems \cite{gal} and genomics \cite{genom}, to name but a few. In recent years, the field has experienced an enormous growth becoming a major research area in statistics and machine learning \cite{efron2016computer}.
+%Classification is one of the most widely used instances of supervised  learning, with applications in numerous areas such as spam detection \parencite{spam};  credit scoring, \parencite{scoring}; computer vision \parencite{chen2015handbook}; autonomous driving systems \parencite{gal} and genomics \parencite{genom}, to name but a few. In recent years, the field has experienced an enormous growth becoming a major research area in statistics and machine learning \parencite{efron2016computer}.
 
-Classification is a major research area with important applications  in security and cybersecurity, including fraud detection \cite{bolton2002statistical}: phishing detection \cite{rakesh}, terrorism \cite{terror} or cargo screening \cite{cargo}. An increasing number of processes are being automated through classification algorithms, being essential that these are robust to trust key operations based on their output. State-of-the-art classifiers perform extraordinarily well on standard data, but they have been shown to be vulnerable to adversarial examples, that is, data instances targeted at fooling the underlying algorithms. Ref. \cite{comiter} provides an excellent introduction from a policy perspective, pointing out the potentially enormous security impacts that such attacks may have over systems for filter content, predictive policing or autonomous driving, to name but a few. 
+Classification is a major research area with important applications  in security and cybersecurity, including fraud detection \parencite{bolton2002statistical}: phishing detection \parencite{rakesh}, terrorism \parencite{terror} or cargo screening \parencite{cargo}. An increasing number of processes are being automated through classification algorithms, being essential that these are robust to trust key operations based on their output. State-of-the-art classifiers perform extraordinarily well on standard data, but they have been shown to be vulnerable to adversarial examples, that is, data instances targeted at fooling the underlying algorithms. Ref. \parencite{comiter} provides an excellent introduction from a policy perspective, pointing out the potentially enormous security impacts that such attacks may have over systems for filter content, predictive policing or autonomous driving, to name but a few. 
 
 Most research in classification has focused on obtaining more accurate algorithms, largely ignoring the eventual presence of adversaries who actively manipulate data to fool the classifier in pursue of a benefit. Consider 
 spam detection: as classification algorithms are incorporated to such task,
@@ -17,25 +17,25 @@ change them with synonyms; or they add good words (frequent in legitimate emails
 Consequently, classification algorithms in critical AI-based systems must be robust against adversarial data manipulations. To this end, they have to take into account possible modifications of input data
 due to adversaries.~The subfield of
 classification that seeks for algorithms with robust behaviour against adversarial perturbations is known as adversarial classification (AC)
-and  was pioneered by \cite{adversarialClassification2004}.
+and  was pioneered by \parencite{adversarialClassification2004}.
 %should take into account possible modifications on the behaviour of adversaries so as to be robust against adversarial data manipulations. %
 %As a fundamental underlying hypothesis, algorithms rely on the use of independent and identically distributed (iid) data for both the training and test phases. However, security aspects in classification, which form part of the field of adversarial machine learning (AML), questions such iid data hypothesis due to the presence of  adversaries ready to modify the data to obtain a benefit, and, thus, making the training and test distributions differ.
 Stemming from their work, the prevailing paradigm 
-when modelling the confrontation between classification systems and adversaries has been game theory, see recent reviews by \cite{BIGGIO2018317} and \cite{doi:10.1002/widm.1259}. This entails well-known common knowledge hypothesis \cite{Antos,gameTheoryACriticalIntroduction2004} according to which agents share information about their beliefs and preferences. From a fundamental point of view, this is 
+when modelling the confrontation between classification systems and adversaries has been game theory, see recent reviews by \parencite{BIGGIO2018317} and \parencite{doi:10.1002/widm.1259}. This entails well-known common knowledge hypothesis \parencite{Antos,gameTheoryACriticalIntroduction2004} according to which agents share information about their beliefs and preferences. From a fundamental point of view, this is 
 not sustainable in  application areas such as security or cybersecurity,
 as participants try to
 hide and conceal information.  
 
-After reviewing key developments in game-theoretic approaches to AC in Sections \ref{sec:ac_acr} and \ref{sec:ac_ac}, we cover novel techniques based on adversarial risk analysis (ARA) in Sections  \ref{sec:ac_acra} and \ref{sec:scalable}  \cite{adversarialRiskAnalysis2009}. Their key advantage is that they do not assume strong common knowledge hypothesis concerning belief and preference sharing, as with standard game theoretic approaches to AML. In this, we unify, expand
-and improve upon earlier work in \cite{naveiro2018adversarial} and
-\cite{gallego2020protecting}.
+After reviewing key developments in game-theoretic approaches to AC in Sections \ref{sec:ac_acr} and \ref{sec:ac_ac}, we cover novel techniques based on adversarial risk analysis (ARA) in Sections  \ref{sec:ac_acra} and \ref{sec:scalable}  \parencite{adversarialRiskAnalysis2009}. Their key advantage is that they do not assume strong common knowledge hypothesis concerning belief and preference sharing, as with standard game theoretic approaches to AML. In this, we unify, expand
+and improve upon earlier work in \parencite{naveiro2018adversarial} and
+\parencite{gallego2020protecting}.
 Our focus will be on binary classification
  problems in face only of {\em exploratory attacks}, defined to have influence over operational data but not over training ones. In addition, we restrict our attention to attacks affecting only malicious instances, denominated \textit{integrity-violation attacks}, the usual context in most security scenarios. We assume that the attacker will, at least, try to modify every malicious instance before the
 classifier actually observes it. 
 Moreover, attacks will be assumed to be {\em deterministic},
 in that we can predict for sure the results of their 
 application over a given instance.
-Refs.~\cite{AdversarialMachineLearning2011} and \cite{Barreno2006} provide taxonomies of attacks against classifiers. %italics necessary?
+Refs.~\parencite{AdversarialMachineLearning2011} and \parencite{Barreno2006} provide taxonomies of attacks against classifiers. %italics necessary?
 %
 We first consider approaches in which learning about the adversary is performed in the
 operational phase, studying how to robustify generative classifiers against attacks. In certain applications, these  could be very demanding from a computational perspective; for those cases, we present in Section \ref{sec:scalable} an  
@@ -51,18 +51,18 @@ with spam detection and image processing examples.
 \subsection{Binary Classification Algorithms}\label{sec2.1}
 
 In binary classification settings, an agent that we call classifier ($C$, she)
-may receive instances belonging to one of two possible  classes denoted, in our context, as malicious ($y=y_1$) or innocent ($y=y_2$).  Instances have  features $x \in \mathbb{R}^d$ whose distribution informs about their class $y$.  Most classification approaches can be typically broken down in two separate stages, the training and operational phases \cite{bishop2006pattern}.
+may receive instances belonging to one of two possible  classes denoted, in our context, as malicious ($y=y_1$) or innocent ($y=y_2$).  Instances have  features $x \in \mathbb{R}^d$ whose distribution informs about their class $y$.  Most classification approaches can be typically broken down in two separate stages, the training and operational phases \parencite{bishop2006pattern}.
 %
 %Features are $d$-dimensional vectors of categorical, ordinal or continuous variables.
 %
 
 The first one is used to learn the distribution $p_C(y|x)$, modelling the classifier's beliefs about the  instance class $y$ given its features $x$. 
 Frequently, a distinction is introduced 
-between {\em generative} and {\em discriminative} models. % \cite{bishop2006pattern}. 
+between {\em generative} and {\em discriminative} models. % \parencite{bishop2006pattern}. 
    In the first case, models $p_C(x|y)$ and $p_C (y)$ are learnt from training data; based on them,
 $p_C(y|x)$ is deduced through Bayes formula. Typical examples include 
-Naive Bayes \cite{rish2001empirical} and (conditional) variational autoencoders %\cite{lopez2017conditional}. %
- \cite{kingma2014semi}.
+Naive Bayes \parencite{rish2001empirical} and (conditional) variational autoencoders %\parencite{lopez2017conditional}. %
+ \parencite{kingma2014semi}.
 %
 %uncertainty about the objects' types is modelled through parametric distributions $ p_C(y_i|\beta,x), i=1, 2$. In particular,
 In discriminative cases, $p_C(y|x)$ is directly learnt from data.
@@ -72,9 +72,9 @@ $f_\beta : \mathbb{R}^d \rightarrow \mathbb{R}^2 $
 so that the prediction is given through 
 $p_C(y|x,\beta) = \mbox{softmax} (f_\beta (x))[y]$: when $f_\beta (x) = \beta' x$, we recover the logistic regression
 model 
-\cite{mccullagh1989generalized}; 
+\parencite{mccullagh1989generalized}; 
 if $f_\beta$ is  a sequence of linear transformations alternating certain nonlinear activation functions,   %, such as Rectified Linear Units (ReLU),
- we obtain a feed-forward neural network \cite{bishop2006pattern}. 
+ we obtain a feed-forward neural network \parencite{bishop2006pattern}. 
  Learning depends then on the underlying
 methodology adopted.
 %
@@ -82,7 +82,7 @@ methodology adopted.
 \item In frequentist approaches, training data $\mathcal{D}$ is 
 typically used to construct a (possibly regularised) maximum likelihood estimate $\hat{\beta}$, and $p_C(y | \hat{ \beta }, x )$ is employed for classification. Parametric
 differentiable models are amenable to training with \emph{stochastic gradient descent}
-(SGD) \cite{bottou2008tradeoffs}  %through parameter updates of the form
+(SGD) \parencite{bottou2008tradeoffs}  %through parameter updates of the form
 %$$
 %\beta_{t+1} = \beta_t + \eta \frac{1}{|\mathcal{B}|} \sum_{x \in \mathcal{B}} %\nabla_\beta \log p_C(y|x, \beta_t),
 %$$
@@ -91,7 +91,7 @@ of samples at each iteration.
 This facilitates, e.g.,  training 
 deep neural networks with large amounts of
 high-dimensional data as 
-with images or text data \cite{10.5555/3086952}.
+with images or text data \parencite{10.5555/3086952}.
 \item In Bayesian approaches, a prior $p_C (\beta)$ is used to compute the posterior $p_C (\beta | \mathcal{D} )$, given the data $\mathcal{D}$, and the predictive distribution
 \begin{equation}\label{MIERDA}
 p_C (y | x, \mathcal{D})= \int p_C(y | \beta , x ) p_C (\beta | \mathcal{D} ) d\beta 
@@ -106,7 +106,7 @@ In any case, and whatever the learning approach adopted, we shall use the notati
 The second stage is {\em operational}.
 The agent makes class assignment decisions based on $p_C (y |x)$. % $y_C$ perceiving some utility $u_C(y_C,y)$. 
 This may be formulated through the influence diagram (ID)
-\cite{evaluatingInfluenceDiagrams1986} in Figure \ref{fig:classification}. {In it, square nodes describe decisions; circle nodes, uncertainties; hexagonal nodes refer to the associated utilities. Arcs pointing to decision nodes are dashed and represent information available when the corresponding decisions are made. Arcs pointing to chance and value nodes suggest conditional dependence.}%Footnote was move here, please check.
+\parencite{evaluatingInfluenceDiagrams1986} in Figure \ref{fig:classification}. {In it, square nodes describe decisions; circle nodes, uncertainties; hexagonal nodes refer to the associated utilities. Arcs pointing to decision nodes are dashed and represent information available when the corresponding decisions are made. Arcs pointing to chance and value nodes suggest conditional dependence.}%Footnote was move here, please check.
 %\begin{center}
 \begin{figure}[H]
 \centering
@@ -144,7 +144,7 @@ likelihood of incorrect forecasts of an object’s behaviour and an inaccurate a
 %This is nothing but an affine transformation of the predictive function of the classifier, so this generalization can be straightforwardly adapted in our framework.}
 
 Recall, anyway, that there are classification techniques, such as those based on SVMs, that rather than breaking classification in training and operational stages, directly learn a function that maps features $x$ into labels $y$. Should we like to apply the methodologies described below to this type of classifiers, we would need to produce estimates of $p_C(y|x)$ using their outputs. This can be achieved using calibration techniques such as 
-\cite{platt1999probabilistic} scaling.
+\parencite{platt1999probabilistic} scaling.
 
  
 
@@ -168,15 +168,15 @@ may incur in gross mistakes if she classifies based on features $x'$, instead of
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\paragraph{Example.} Attacks to spam detection systems let us focus on attacks to standard classifiers used in spam detection. Experiments are carried out with the UCI Spam Data Set \cite{spambase1999}.
+\paragraph{Example.} Attacks to spam detection systems let us focus on attacks to standard classifiers used in spam detection. Experiments are carried out with the UCI Spam Data Set \parencite{spambase1999}.
 This set contains data from 4601 emails, out of which $39.4 \%$ are spam. For classification purposes, we represent each email through 54 binary variables indicating the presence (1) or absence (0) of 54 designated words in a dictionary.
 
 Table \ref{tab:cleanVSattack} presents the performance
-of four standard classifiers ({\em  Naive Bayes, logistic regression, neural net} and {\em  random forest}) based on a 0--1 utility function, against tainted and untainted data. The neural network model is a two layer one. The logistic regression is applied with L1 regularisation; {this  is equivalent to performing maximum a posteriori estimation in a logistic regression model with a Laplace prior \cite{park2008bayesian}}. % Footnote was move here, please check.
-Means and standard deviations of accuracies are estimated via repeated hold-out validation over ten repetitions~\cite{kim2009estimating}.
-%Note that SVMs do not produce estimates of $p_C(y_c|x)$ directly. To generate such probabilistic outputs we use Platt scaling \cite{platt1999probabilistic}. 
+of four standard classifiers ({\em  Naive Bayes, logistic regression, neural net} and {\em  random forest}) based on a 0--1 utility function, against tainted and untainted data. The neural network model is a two layer one. The logistic regression is applied with L1 regularisation; {this  is equivalent to performing maximum a posteriori estimation in a logistic regression model with a Laplace prior \parencite{park2008bayesian}}. % Footnote was move here, please check.
+Means and standard deviations of accuracies are estimated via repeated hold-out validation over ten repetitions~\parencite{kim2009estimating}.
+%Note that SVMs do not produce estimates of $p_C(y_c|x)$ directly. To generate such probabilistic outputs we use Platt scaling \parencite{platt1999probabilistic}. 
 %
-%Consider classification with Support Vector Machines (SVM) \cite{moguerza}, based %on the $\ell_1$ and $\ell_2$ norms.  A 5-fold cross validation was undertaken to %choose the best value for the SVM parameter $C \in \{2^{-12}, 2^{-11}, \dots, %2^{11}, 2^{12}\}$ with a clean dataset. Results are reported in Table %\ref{tab:SVMcleanVSattack}. The accuracy (ACC) and the area under the curve (AUC) %are means over the five iterations; $C^*$ reports the smallest value $C$ for which %ACC and AUC coincid.
+%Consider classification with Support Vector Machines (SVM) \parencite{moguerza}, based %on the $\ell_1$ and $\ell_2$ norms.  A 5-fold cross validation was undertaken to %choose the best value for the SVM parameter $C \in \{2^{-12}, 2^{-11}, \dots, %2^{11}, 2^{12}\}$ with a clean dataset. Results are reported in Table %\ref{tab:SVMcleanVSattack}. The accuracy (ACC) and the area under the curve (AUC) %are means over the five iterations; $C^*$ reports the smallest value $C$ for which %ACC and AUC coincid.
 % \pagebreak 
 % \begin{table}[htbp]
 % 	\centering
@@ -231,7 +231,7 @@ Means and standard deviations of accuracies are estimated via repeated hold-out 
 As exemplified, an adversary unaware classifier may be fooled into issuing wrong classifications leading to severe performance deterioration. Strategies to mitigate this problem are thus needed. These may be based on 
 building models of the attacks likely to be undertaken by the adversaries and enhancing classification algorithms to be robust against such attacks.% We focus on Bayesian classification approaches but the ideas extend to classical ones.
 
-For this, the ID describing the classification problem (Figure \ref{fig:classification}) is augmented to incorporate adversarial decisions, leading to a biagent influence diagram (BAID) \cite{Banks},
+For this, the ID describing the classification problem (Figure \ref{fig:classification}) is augmented to incorporate adversarial decisions, leading to a biagent influence diagram (BAID) \parencite{Banks},
  Figure \ref{fig:jointProblem}. { In it, grey nodes refer to elements solely affecting $A$'s decision; white nodes to issues solely pertaining to $C$'s decision; striped nodes affect both agents' 
 decisions}. %Footnote was move here, please check.
 We only describe the new elements. 
@@ -259,11 +259,11 @@ expected utility). % Footnote was move here, please check.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Adversarial Classification. The Pioneering Model.%Reference citations are not allowed in the title. Please move it the main text.
 }
-Dalvi et al. \cite{adversarialClassification2004} provided a pioneering approach to enhance classification algorithms when an adversary is present, calling it adversarial classification (AC).
+Dalvi et al. \parencite{adversarialClassification2004} provided a pioneering approach to enhance classification algorithms when an adversary is present, calling it adversarial classification (AC).
  Because of its importance,
 we briefly review it, using our notation. 
 The authors view the problem as a game between a classifier $C$ and an adversary $A$,
-%. The classifier aims at finding an optimal classification strategy against $A$'s optimal attacking strategy. However, computing Nash equilibria \cite{ozdaglar2011network} in such general games becomes overly complex. Therefore, they propose 
+%. The classifier aims at finding an optimal classification strategy against $A$'s optimal attacking strategy. However, computing Nash equilibria \parencite{ozdaglar2011network} in such general games becomes overly complex. Therefore, they propose 
 using the following forward myopic proposal.
 
 
@@ -272,7 +272,7 @@ using the following forward myopic proposal.
 %\begin{equation} \label{dalviC}
 %    \argmax_{y_c} \sum_{i=1}^2 u(y_c, y_i) p_C(y_i |x)
 %\end{equation}
-Ref. \cite{adversarialClassification2004} focuses on  a utility sensitive Naive Bayes algorithm \cite{elkan2001foundations}.
+Ref. \parencite{adversarialClassification2004} focuses on  a utility sensitive Naive Bayes algorithm \parencite{elkan2001foundations}.
 \item Then, assuming that \textit{A} has complete information about the classifier's elements (a common knowledge
 assumption)
 and that $C$ is not aware of his presence, the authors 
@@ -328,7 +328,7 @@ where $\mathcal{X}'$ is the set of possible instances leading to the observed on
 \end{enumerate}
 %
 The procedure could continue for more stages.
-However, \cite{adversarialClassification2004} considers sufficient to use these three.
+However, \parencite{adversarialClassification2004} considers sufficient to use these three.
 
 
 As presented (and the authors actually stress this
@@ -343,14 +343,14 @@ typical of AC.
 \subsection{Other Adversarial Classification Game-Theoretic Developments}\label{sec:other_AC}
 
 In spite of this, stemming from 
-\cite{adversarialClassification2004}, AC has been predated by game-theoretic approaches, as reviewed in \cite{biggio2014security} or \cite{li2014feature}.
-Subsequent attempts have focused on analysing attacks over classification algorithms and assessing their robustness against them, %, e.g.\ \cite{adversarialLearning2005}, \cite{Barreno2006} or \cite{zhou2012adversarial}.
+\parencite{adversarialClassification2004}, AC has been predated by game-theoretic approaches, as reviewed in \parencite{biggio2014security} or \parencite{li2014feature}.
+Subsequent attempts have focused on analysing attacks over classification algorithms and assessing their robustness against them, %, e.g.\ \parencite{adversarialLearning2005}, \parencite{Barreno2006} or \parencite{zhou2012adversarial}.
 under various assumptions about the adversary. Regarding attacks, these have been classified as {\em white box}, when
 the adversary knows every aspect of the defender's system
 like the data used, the algorithms and the entire feature space; 
 {\em black box}, that assume limited capabilities for the adversary, e.g., he is able to send membership queries to the classification system as in
-\cite{adversarialLearning2005}; and, finally,
-{\em gray box}, which are in between the previous ones, as in \cite{zhou2012adversarial}
+\parencite{adversarialLearning2005}; and, finally,
+{\em gray box}, which are in between the previous ones, as in \parencite{zhou2012adversarial}
 where the adversary, who has no knowledge about the data and the algorithm used
 seeks to push his malicious instances
 as innocent 
@@ -358,7 +358,7 @@ ones, thus assuming that he is able to estimate such instances and has knowledge
 
 Of special importance in the AC field, mainly 
 within the deep learning community, are the so called {\em adversarial 
-examples} \cite{goodfellow2014explaining} which may be formulated in game-theoretic terms as 
+examples} \parencite{goodfellow2014explaining} which may be formulated in game-theoretic terms as 
 optimal attacks to a deployed classifier, requiring, in principle,
 precise knowledge about the model used by the classifier.
 To create such examples, $A$ finds the best attack which 
@@ -371,13 +371,13 @@ $
 $h_{\theta} (x)$, the output of a predictive model with parameters $\theta$;
 and
 $\widehat{c}_A(h_{\theta} (x), y)$ the adversary's cost when instance $x$ of class $y$ is classified as of being of  class $h_\theta (x)$. This cost is usually taken to be $-\widehat{c}_D(h_{\theta} (x), y)$, where $c_D$ is the defender's cost.
-The Fast Gradient Signed Method  (FGSM, \cite{goodfellow2014explaining}) and related attacks in the literature \cite{vorobeichikantar} assume that the attacker
+The Fast Gradient Signed Method  (FGSM, \parencite{goodfellow2014explaining}) and related attacks in the literature \parencite{vorobeichikantar} assume that the attacker
 has precise knowledge of the underlying model and parameters of the involved classifier, 
   debatable in most security settings.
 
-A few methods have been proposed to robustify classification algorithms in adversarial settings. Most of them have focused on application-specific domains, as \cite{Kocz2009FeatureWF} on spam detection. \cite{Vorobeychik:2014:ORC:2615731.2615811} study the impact of randomisation schemes over classifiers against adversarial attacks proposing an optimal randomisation scheme as best defence.
+A few methods have been proposed to robustify classification algorithms in adversarial settings. Most of them have focused on application-specific domains, as \parencite{Kocz2009FeatureWF} on spam detection. \parencite{Vorobeychik:2014:ORC:2615731.2615811} study the impact of randomisation schemes over classifiers against adversarial attacks proposing an optimal randomisation scheme as best defence.
  To date, 
-\emph{adversarial training} (AT) \cite{madry2018towards}
+\emph{adversarial training} (AT) \parencite{madry2018towards}
 is one of the most promising defence techniques:
  it trains the defender model using attacked samples,
 solving the~problem
@@ -391,7 +391,7 @@ AT can be formulated as a zero-sum game. The inner maximisation problem is solve
 $
 x_{t+1} = \Pi_{B(x)} (x_t - \alpha \nabla_x  \widehat{c}_A(h_{\theta} (x_t), y)),
 $
-where $\Pi$ is a projection operator ensuring that the perturbed input falls within an acceptable boundary $B(x)$,  and $\alpha$ is an intensity hyperparameter referring to the attack strength. After $T$ PGD iterations, set $a(x) = x_T$ and optimise with respect to $\theta$.   Other attacks that use gradient information are deepfool \cite{moosavi2016deepfool}, yet \cite{madry2018towards} argue that the PGD attack is the strongest one based only on gradient information from the target model. However, there is evidence that it is not sufficient for full defence in neural models since it is possible to perform attacks using global optimisation routines, such as the \emph{one pixel attack} from \cite{su2019one} or \cite{gowal2018ibp}.% The complexity of the attack depends on the chosen norm.
+where $\Pi$ is a projection operator ensuring that the perturbed input falls within an acceptable boundary $B(x)$,  and $\alpha$ is an intensity hyperparameter referring to the attack strength. After $T$ PGD iterations, set $a(x) = x_T$ and optimise with respect to $\theta$.   Other attacks that use gradient information are deepfool \parencite{moosavi2016deepfool}, yet \parencite{madry2018towards} argue that the PGD attack is the strongest one based only on gradient information from the target model. However, there is evidence that it is not sufficient for full defence in neural models since it is possible to perform attacks using global optimisation routines, such as the \emph{one pixel attack} from \parencite{su2019one} or \parencite{gowal2018ibp}.% The complexity of the attack depends on the chosen norm.
 
 %for instance, if we resort to small perturbations under $\ell_\infty$  norm, the update simplifies to
 %$
@@ -401,10 +401,10 @@ where $\Pi$ is a projection operator ensuring that the perturbed input falls wit
 %$
 %x := x - \epsilon\,\frac{ \nabla_x  \widehat{C}_A(h_{\theta} (x), y)}{\| \nabla_x  \widehat{C}_A(h_{\theta} (x), y) \|_2}.
 %$
-%Second, \emph{adversarial logit pairing} (ALP), \cite{kannan2018adversarial}, another defence strategy that encourages the logits of the model to be the same for both natural and adversarial inputs.
+%Second, \emph{adversarial logit pairing} (ALP), \parencite{kannan2018adversarial}, another defence strategy that encourages the logits of the model to be the same for both natural and adversarial inputs.
 
 
-Other approaches have focused on improving the game theoretic model in \cite{adversarialClassification2004}. However, to our knowledge, none has been able to overcome the above mentioned unrealistic common knowledge assumptions, as may be seen in recent reviews by \cite{BIGGIO2018317} and \cite{doi:10.1002/widm.1259}, who point out the importance of this issue. As an example, \cite{kantarciouglu2011classifier} use a Stackelberg game in which both players know each other's payoff functions. Only \cite{grosshans2013bayesian} have attempted to relax common knowledge assumptions in adversarial regression settings, reformulating the corresponding problem as a Bayesian game. 
+Other approaches have focused on improving the game theoretic model in \parencite{adversarialClassification2004}. However, to our knowledge, none has been able to overcome the above mentioned unrealistic common knowledge assumptions, as may be seen in recent reviews by \parencite{BIGGIO2018317} and \parencite{doi:10.1002/widm.1259}, who point out the importance of this issue. As an example, \parencite{kantarciouglu2011classifier} use a Stackelberg game in which both players know each other's payoff functions. Only \parencite{grosshans2013bayesian} have attempted to relax common knowledge assumptions in adversarial regression settings, reformulating the corresponding problem as a Bayesian game. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -456,7 +456,7 @@ an approach to approximate ${\cal X}'$ would be to consider
 $%\label{valdo}
 {\cal X}'= \{ x : d(x,x')<\rho \}
 $ 
- for a certain threshold $\rho$. We will now survey the approach presented in \cite{naveiro2018adversarial}.
+ for a certain threshold $\rho$. We will now survey the approach presented in \parencite{naveiro2018adversarial}.
 
 %Moreover, as we only consider deterministic integrity violation transformations, we have that $p_C(a|x, -)$ $= I(a = \textit{id})$, where \textit{id} stands for the identity attack leaving $x$ unchanged and $I$ is the indicator function.
 
@@ -524,7 +524,7 @@ that $A$ concedes to $C$ saying that the instance is malicious when she observes
 %
 Since $A$ will have uncertainty about it, let us model its density using $f_A (p | x' = a(x) )$ with expectation $p_{x' = a(x)}^A $. Then, upon observing an instance $x$ of class $y_1$, $A$ would choose the data transformation maximising his expected utility:
 
-%In addition, without loss of generality, we associate utility $0$ with the worst consequence for the attacker and $1$ with the best one, having the other consequences intermediate utilities  \cite{french2000statistical}. In the attacker's problem, his best consequence holds when the classifier accepts a malicious instance as benign (he has opportunities to continue with his operations) while the worst consequence appears when the defender stops a malicious one (he has wasted effort in a lost opportunity). Therefore, we assume  $U_A(y_1, y_1) \sim \delta_{0}$ and $U_A(y_2, y_1) \sim \delta_{1}$.
+%In addition, without loss of generality, we associate utility $0$ with the worst consequence for the attacker and $1$ with the best one, having the other consequences intermediate utilities  \parencite{french2000statistical}. In the attacker's problem, his best consequence holds when the classifier accepts a malicious instance as benign (he has opportunities to continue with his operations) while the worst consequence appears when the defender stops a malicious one (he has wasted effort in a lost opportunity). Therefore, we assume  $U_A(y_1, y_1) \sim \delta_{0}$ and $U_A(y_2, y_1) \sim \delta_{1}$.
 %
 %In addition, without loss of generality, we assume that the attacker perceives positive utility $u_{21}$ when the defender misclassifies a bad instance classified as legitimate, and zero otherwise. 
 %$$
@@ -567,7 +567,7 @@ ingredient in
 problem \eqref{pis}. Observe that it could be the case that $Pr(X'(x,y_1)=x)>0$,
 i.e., the attacker does not modify the~instance.
 
-%Without loss of generality, we associate utility $0$ with the worst consequence and $1$ with the best one, having the other consequences intermediate utilities  \cite{french2000statistical}. In the attacker's problem, his best consequence holds when the classifier accepts a malicious instance as benign (he has opportunities to continue with his operations) while the worst consequence appears when the defender stops a malicious one (he has wasted effort in a lost opportunity). Therefore, we assume $U_A(y_1, y_1) \sim \delta_{0}$ and $U_A(y_2, y_1) \sim \delta_{1}$.
+%Without loss of generality, we associate utility $0$ with the worst consequence and $1$ with the best one, having the other consequences intermediate utilities  \parencite{french2000statistical}. In the attacker's problem, his best consequence holds when the classifier accepts a malicious instance as benign (he has opportunities to continue with his operations) while the worst consequence appears when the defender stops a malicious one (he has wasted effort in a lost opportunity). Therefore, we assume $U_A(y_1, y_1) \sim \delta_{0}$ and $U_A(y_2, y_1) \sim \delta_{1}$.
 %
 %The other consequences related with benign binaries are in between (and actually irrelevant). 
 %    \begin{table}[H]
@@ -599,7 +599,7 @@ X'(x,y_1) \equiv A^*(x, y_1) = \argmax_{z} \bigg[\Big( 0 - 1 \Big) P_{z=a(x)}^A 
 Modelling $P^A _{z=a(x)}$ is more delicate. 
 It entails strategic thinking and 
 %s $C$ needs to understand his opponent's beliefs about what classification she will make when she observes $x'$. This 
-could lead to a hierarchy of decision making problems, described in \cite{araCounter} in a simpler context. 
+could lead to a hierarchy of decision making problems, described in \parencite{araCounter} in a simpler context. 
 A heuristic to assess it %to assess $P^A _{a(x)}$ may be
 is based on using the probability $r=Pr _C (y_c^* (z) = y_1|z)$ that $C$ assigns to the instance received being malicious assuming that she observed $z$, with some uncertainty around it. 
 As it is a probability, $r$ ranges in $[0,1]$ and we could make $P_{z=a(x)}^A \sim \beta e (\delta _1, \delta _2 )$, with mean $\delta _1 / (\delta _1 + \delta _ 2) = r$ and variance $ (\delta _1 \delta _2) / [(\delta _1 + \delta _2 )^2 (\delta _1 + \delta _2 + 1) ]=var $ as perceived. $var$ has to be tuned depending on the amount of knowledge $C$ has about $A$. Details on how to estimate $r$ are problem dependent.
@@ -621,11 +621,11 @@ $ %
 \begin{eqnarray}
 \widehat{p}_C ( x'\,|\,x, y_1) =  \frac {\# \{X'(x, y_1) =  x'\}} {K}. \label{mc_estimate}
 \end{eqnarray}
-It is easy to prove, using arguments in \cite{10.5555/3172929}, that \eqref{mc_estimate} converges almost surely to $p_C (x'|x,y_1)$.
+It is easy to prove, using arguments in \parencite{10.5555/3172929}, that \eqref{mc_estimate} converges almost surely to $p_C (x'|x,y_1)$.
 {In this, and other MC approximations considered, 
 recall that the sample sizes  are essentially dictated by the required
     precision. 
-    Based on the Central Limit Theorem \cite{Chung},
+    Based on the Central Limit Theorem \parencite{Chung},
     MC sums approximate integrals with probabilistic bounds
     of the order $\sqrt{\frac{var}{N}}$ where $N$ is the MC sum size.
     To obtain a variance estimate, we run a few iterations and estimate 
@@ -677,16 +677,16 @@ processing problem.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \paragraph{Attacks to neural-based classifiers.}
 Section \ref{sec:other_AC} discussed adversarial examples.  This kind of attack may harm intensely neural
-network performance, such as that used in image classification tasks \cite{Szegedy14intriguingproperties}. It has been shown that simple one-pixel attacks can seriously affect performance, \cite{su2019one}.
+network performance, such as that used in image classification tasks \parencite{Szegedy14intriguingproperties}. It has been shown that simple one-pixel attacks can seriously affect performance, \parencite{su2019one}.
 As an example, consider 
-a relatively simple deep neural network (a multilayer perceptron model) \cite{10.5555/3086952}, trained to predict the handwritten digits in the MNIST dataset \cite{MNIST}. In particular, we used a 2 layer feed-forward neural network with relu activations and a final softmax layer to compute the predictions over the 10 classes. This requires simple extensions from binary to multi-class classification. This network accurately predicts 99\% of the digits. Figure \ref{fig:10samples} provides ten MNIST original 
+a relatively simple deep neural network (a multilayer perceptron model) \parencite{10.5555/3086952}, trained to predict the handwritten digits in the MNIST dataset \parencite{MNIST}. In particular, we used a 2 layer feed-forward neural network with relu activations and a final softmax layer to compute the predictions over the 10 classes. This requires simple extensions from binary to multi-class classification. This network accurately predicts 99\% of the digits. Figure \ref{fig:10samples} provides ten MNIST original 
 samples (top row) and the corresponding images (bottom row) perturbed through FGSM,
 which are misclassified. For example, the original 0 
 (first column) is classified
 as such; however, the perturbed one
 is not classified as a 0 (more specifically, as an 8) even if it looks as such to the human~eye.%Footnote was move here, please check.
 
-% with a relatively simple deep neural network (a multilayer perceptron model) \cite{10.5555/3086952}, we accurately predict 99\% of the handwritten digits in the MNIST data set \cite{MNIST}.
+% with a relatively simple deep neural network (a multilayer perceptron model) \parencite{10.5555/3086952}, we accurately predict 99\% of the handwritten digits in the MNIST data set \parencite{MNIST}.
 % {\bf In particular, we used a 2 layer feed-forward neural network with relu activations and a final softmax layer to compute the predictions over the 10 classes}.  
 % \footnote{{\bf This requires simple extensions from binary classification to multiple
 % class calssification.}}
@@ -751,10 +751,10 @@ p(y|\beta, x) = \mbox{softmax} (f_\beta (x))[y], & \text{where} & \mbox{softmax}
 This covers a large class of models. For example,
 if $f_\beta$ is linear in inputs, %, $f_\beta (x) = \beta' x$, 
 we recover multinomial regression 
-\cite{mccullagh1989generalized}; if we take $f_\beta$ to be a sequence of linear transformations alternating non-linear activation functions, such as Rectified Linear Units (ReLU), we obtain a feed-forward neural network \cite{10.5555/3086952}. 
-These models have the benefit of being amenable to training using \emph{stochastic gradient descent} (SGD) \cite{bottou2010large},
-or any of its recent variants, such as Adam \cite{kingma2014adam}, 
-allowing for scaling to both wide and tall datasets. Then, from SGD we can obtain the posterior distribution of the model by adding a suitable noise term as in SG-MCMC samplers like stochastic gradient Langevin Dynamics (SGLD) \cite{welling2011bayesian} or accelerated variants \cite{ma2015complete}.
+\parencite{mccullagh1989generalized}; if we take $f_\beta$ to be a sequence of linear transformations alternating non-linear activation functions, such as Rectified Linear Units (ReLU), we obtain a feed-forward neural network \parencite{10.5555/3086952}. 
+These models have the benefit of being amenable to training using \emph{stochastic gradient descent} (SGD) \parencite{bottou2010large},
+or any of its recent variants, such as Adam \parencite{kingma2014adam}, 
+allowing for scaling to both wide and tall datasets. Then, from SGD we can obtain the posterior distribution of the model by adding a suitable noise term as in SG-MCMC samplers like stochastic gradient Langevin Dynamics (SGLD) \parencite{welling2011bayesian} or accelerated variants \parencite{ma2015complete}.
 
  %To avoid the bottleneck of sampling 
  %from $p_C(x|x')$,
@@ -777,8 +777,8 @@ Exact solution of this problem is intractable in high-dimensional data.
 Thus, attacks in the literature resort to approximations using gradient information. One of the most popular ones is FGSM,  
 given by $x' = x -\epsilon\, \mbox{sign} \nabla_x \log p(y|x,\beta)$ where $\epsilon$ is a step size 
  reflecting attack intensity. Other attack examples 
-include the Projected Gradient Descent (PGD) \cite{madry2018towards} or the
-\cite{carlini2017towards} attack. 
+include the Projected Gradient Descent (PGD) \parencite{madry2018towards} or the
+\parencite{carlini2017towards} attack. 
 These assume that the attacker has full knowledge of the target model,
 which is unrealistic in many scenarios. 
 AT using FGSM would correspond to sampling from a Dirac delta distribution centered at the FGSM update, %$\left( x -\epsilon \nabla_x \log p(y|x,\beta)\right)$, 
@@ -810,7 +810,7 @@ attack such as Carlini and Wagner's.
 
 
 
-%In addition, we can consider mixtures of different attacks, for instance by sampling a Bernoulli random variable and then choosing the gradient corresponding to either FGSM or the \cite{carlini2017towards} attack.
+%In addition, we can consider mixtures of different attacks, for instance by sampling a Bernoulli random variable and then choosing the gradient corresponding to either FGSM or the \parencite{carlini2017towards} attack.
 %%%%%%%%%%%%%%%%%%%%
 \paragraph{Attacker uncertainty over the defender model $p_C(y|x,\beta)$.}
 
@@ -886,7 +886,7 @@ $p_C(y|x) = \dfrac{1}{K} \sum_{k=1}^K p_C(y|x, \beta_k)$,
 using the previous predictive probability to robustly classify the
 received instance.
 
-%Section \ref{sec:exp_scalable} performs several experiments applying the previous scalable approaches to the spam detection task from Section \ref{sec:att_class}. To see a similar framework applied to image classification tasks, the reader can check \cite{gallego2020protecting}.
+%Section \ref{sec:exp_scalable} performs several experiments applying the previous scalable approaches to the spam detection task from Section \ref{sec:att_class}. To see a similar framework applied to image classification tasks, the reader can check \parencite{gallego2020protecting}.
 
  
 
@@ -909,8 +909,8 @@ critically affect the performance of spam detection algorithms. The small pertur
 
 For the first batch of experiments, we use the same classifiers as in
  Section \ref{sec:scalable}. As a dataset, we use again the UCI Spam Data Set from that section. Once the models to be defended are trained, we perform attacks
- %as underlying classification algorithms we deploy a two layer neural network, a random forest, a support vector machine and a logistic regression with L1 regularization. \footnote{This last one is equivalent to performing maximum a posteriori estimation in a logistic regression model with a Laplace prior \cite{park2008bayesian}.}
- % Mean and standard deviations of accuracies are estimated via repeated %hold-out validation over ten repetitions \cite{kim2009estimating}.
+ %as underlying classification algorithms we deploy a two layer neural network, a random forest, a support vector machine and a logistic regression with L1 regularization. \footnote{This last one is equivalent to performing maximum a posteriori estimation in a logistic regression model with a Laplace prior \parencite{park2008bayesian}.}
+ % Mean and standard deviations of accuracies are estimated via repeated %hold-out validation over ten repetitions \parencite{kim2009estimating}.
 %The accuracy of this approach on clean test data is $0.68 \pm 0.01$. 
 % Attacker parameters
 %To compare AB-ACRA with the raw classifiers on tampered data,
@@ -1007,7 +1007,7 @@ network architecture is shown in Section \ref{sec:scalable}. It is trained using
 \end{figure}
 \fi
 
-Figure \ref{fig:comparison_mnist} shows the \emph{security evaluation curves} \cite{BIGGIO2018317} for three different defences (none, AT and ARA), using two attacks at test time: FGSM and PGD. Such curves depict the accuracy of the defender model at this task ($y$-axis), under different attack intensities $\alpha$ ($x$-axis). Note how the uncertainties provided by the ARA training method substantially improve the robustness of the neural network under both attacks. From the graphics, we observe that the ARA approach provides a greater degree of robustness as the attack intensities increase. This suggests that the proposed robustification framework can scale well to both tall and wide datasets and that the introduction of uncertainties by the ARA approach is highly beneficial to increase the robustness of the defended models.
+Figure \ref{fig:comparison_mnist} shows the \emph{security evaluation curves} \parencite{BIGGIO2018317} for three different defences (none, AT and ARA), using two attacks at test time: FGSM and PGD. Such curves depict the accuracy of the defender model at this task ($y$-axis), under different attack intensities $\alpha$ ($x$-axis). Note how the uncertainties provided by the ARA training method substantially improve the robustness of the neural network under both attacks. From the graphics, we observe that the ARA approach provides a greater degree of robustness as the attack intensities increase. This suggests that the proposed robustification framework can scale well to both tall and wide datasets and that the introduction of uncertainties by the ARA approach is highly beneficial to increase the robustness of the defended models.
 
 
 

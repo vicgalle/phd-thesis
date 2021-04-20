@@ -125,14 +125,18 @@ group-four-digits
 
 \usepackage[backend=bibtex8, 
             style=authoryear, 
-            citestyle=numeric,
-            bibstyle=numeric,
+            %citestyle=numeric,
+            citestyle=authoryear,
+            %bibstyle=authoryear,
             maxbibnames=15,
             maxcitenames=2, 
             doi=false,
             %url=false,
             giveninits=true,
             hyperref]{biblatex}
+            
+%\usepackage{natbib}
+
 
 \renewcommand*{\nameyeardelim}{\addcomma\space}
 % space between bibliography entries
@@ -284,7 +288,8 @@ TODO
 
 \phantomsection
 \addcontentsline{toc}{chapter}{\bibname}
-\newrefcontext[sorting=nyt]
+\newrefcontext[sorting=nty]
+
 \printbibliography
 
 \end{document}

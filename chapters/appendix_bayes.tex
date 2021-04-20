@@ -3,7 +3,7 @@
 \section{Fokker-Planck Approximation (VIS-FP)}\label{app:fp}
   
   The Fokker--Planck equation is a PDE %Please define if appropriate 
-  that describes the temporal evolution of the density of a random variable under a (stochastic) gradient flow \cite{pavliotis2014stochastic}. For a given SDE %Please define if appropriate
+  that describes the temporal evolution of the density of a random variable under a (stochastic) gradient flow \parencite{pavliotis2014stochastic}. For a given SDE %Please define if appropriate
   
 $$
 dz = \mu(z,t)dt + \sigma(z,t)dB_t,
@@ -115,7 +115,7 @@ G = \begin{bmatrix}
 \end{equation*}
 \\
 
-Further details are in \cite{westharrison}.
+Further details are in \parencite{westharrison}.
 % OLDE...
 \iffalse
 \subsubsection{Model Details} The definition of the HMM and the DLM can be found in Figures \ref{fig:hmm} and \ref{fig:dlm}, respectively.
@@ -141,7 +141,7 @@ Further details are in \cite{westharrison}.
 
 \subsubsection{Model Details}
 
-%The VAE model is implemented with PyTorch \cite{paszke2017automatic}.
+%The VAE model is implemented with PyTorch \parencite{paszke2017automatic}.
 The prior distribution $p(z)$ for the latent variables $z \in \mathbb{R}^{10}$ is a standard factorized Gaussian. The decoder distribution $p_\theta(x|z)$ and the encoder distribution (initial variational approximation) $q_{0,\phi}(z|x)$ are parameterized by two feed-forward neural networks, as 
 detailed in Figure \ref{fig:arch_vae}.
 
@@ -150,7 +150,7 @@ detailed in Figure \ref{fig:arch_vae}.
 \subsubsection{Hyperparameter Settings}
 The optimizer Adam is used in all experiments, with 
 la earning rate of $\lambda=0.001$. We~also set $\eta = 0.001$. We train for 15 epochs (fMNIST) and 20 epochs (MNIST) to achieve a performance 
-similar to the VAE in \cite{pmlr-v89-titsias19a}. For the VIS-5-10 setting, we train only for 10 epochs to allow a fair computational comparison in terms of similar computing times.
+similar to the VAE in \parencite{pmlr-v89-titsias19a}. For the VIS-5-10 setting, we train only for 10 epochs to allow a fair computational comparison in terms of similar computing times.
 
 \subsection{cVAE}
 
@@ -160,7 +160,7 @@ similar to the VAE in \cite{pmlr-v89-titsias19a}. For the VIS-5-10 setting, we t
 
 \subsubsection{Model Details}
 
-%The cVAE model is implemented with PyTorch \cite{paszke2017automatic}.
+%The cVAE model is implemented with PyTorch \parencite{paszke2017automatic}.
 The prior distribution $p(z)$ for the latent variables $z \in \mathbb{R}^{10}$ is a standard factorized Gaussian. The decoder distribution $p_\theta(x|y,z)$ and the encoder distribution (initial variational approximation) $q_{0,\phi}(z|x,y)$ are parameterized by two feed-forward neural networks whose details can be found in Figure \ref{fig:arch}.
 Equation (\ref{eq:mc_cvae}) is approximated with one MC sample from the variational approximation in all experimental settings, {as it allowed fast inference times while offering better results.}
 
@@ -202,7 +202,7 @@ Note this is not worth it in the DLM/HMM case since it goes from 2 params to 3 p
 \begin{tabular}{lcc}
 \cline{1-3}
 \textbf{Method}   & \textbf{MNIST}                             & \textbf{fMNIST}   \\ \cline{1-3}
-\multicolumn{3}{c}{\small Results from \cite{pmlr-v89-titsias19a}}       \\
+\multicolumn{3}{c}{\small Results from \parencite{pmlr-v89-titsias19a}}       \\
     UIVI          & $-94.09$ &  $-110.72$ \\
     SIVI          & $-97.77$ &  $-121.53$ \\
     VAE          & $-98.29$ &  $-126.73$ \\

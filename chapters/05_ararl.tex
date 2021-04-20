@@ -21,41 +21,41 @@ ML algorithms perform extraordinarily well on standard data, but
 have been recently shown to be vulnerable to adversarial examples %, data
 %instances specifically targeted at fooling
 %algorithms 
-\cite{goodfellow2014explaining}. 
+\parencite{goodfellow2014explaining}. 
 %As a
 %fundamental underlying hypothesis, these ML developments rely on the use
 %of independent and identically distributed data for both the training and test
-%phases \cite{CARBONELL19891}. However, security aspects in ML, which form part of the
+%phases \parencite{CARBONELL19891}. However, security aspects in ML, which form part of the
 %field of adversarial machine learning (AML), questions the previous
 %iid data hypothesis given the presence of adaptive adversaries 
 %ready to 
 %modify the data to obtain a benefit; consequently, the
 %training and test distributions phases might differ. 
-%Therefore, as reviewed in \cite{Albrecht2018AutonomousAM}, there is a need to model
+%Therefore, as reviewed in \parencite{Albrecht2018AutonomousAM}, there is a need to model
 %the actions of other agents.
 
 Stemming from the pioneering work in adversarial classification (AC) in
-\cite{dalvi2004adversarial}, 
- game theory \cite{menache2011network}
+\parencite{dalvi2004adversarial}, 
+ game theory \parencite{menache2011network}
  has been the prevailing paradigm to model the confrontation
 between adversaries and learning-based systems, 
 defining the field of adversarial machine learning (AML),
  see reviews in 
-\cite{BIGGIO2018317} and \cite{doi:10.1002/widm.1259}. This entails
+\parencite{BIGGIO2018317} and \parencite{doi:10.1002/widm.1259}. This entails
 well-known common
-knowledge hypothesis, \cite{hargreaves2004game}, which, from
+knowledge hypothesis, \parencite{hargreaves2004game}, which, from
 a fundamental point of view, are  not sustainable in 
 security settings 
 as adversaries tend to %hide and
-conceal information. %A similar problem occurs with the adversarial prediction approaches proposed by \cite{bruckner2011stackelberg, bruckner2012static}. 
-In recent work \cite{naveiro2018adversarial}, we presented a novel 
-framework for AC based on Adversarial Risk Analysis (ARA), \cite{roponen}.
+conceal information. %A similar problem occurs with the adversarial prediction approaches proposed by \parencite{bruckner2011stackelberg, bruckner2012static}. 
+In recent work \parencite{naveiro2018adversarial}, we presented a novel 
+framework for AC based on Adversarial Risk Analysis (ARA), \parencite{roponen}.
 %This paradigm supports agents 
 %who confront adversaries in problems %with random consequences
 %that depend on the actions of all %participants.
 ARA provides one-sided prescriptive
 support to an expected utility maximizing agent
- making operational the Bayesian approach to games in \cite{kadane1982subjective, raiffa1982art}, facilitating a procedure to
+ making operational the Bayesian approach to games in \parencite{kadane1982subjective, raiffa1982art}, facilitating a procedure to
 predict adversarial decisions. 
 %, treating the
 %adversaries' decisions as random variables, to be forecast
@@ -66,20 +66,20 @@ predict adversarial decisions.
 %decisions yielding the required forecasts.
 
 The AML literature has predominantly focused on
-the supervised setting \cite{BIGGIO2018317}.
-Our focus will be in reinforcement learning (RL), \cite{sutton2012reinforcement}.
+the supervised setting \parencite{BIGGIO2018317}.
+Our focus will be in reinforcement learning (RL), \parencite{sutton2012reinforcement}.
 %one of the most promising pillars to build an AI capable of decision
-%making \cite{sutton2012reinforcement}.
+%making \parencite{sutton2012reinforcement}.
 In it, an agent takes actions
 sequentially to maximize a cumulative reward (utility), learning from
-interactions with the environment \cite{kaelbling1996reinforcement}. With the advent of deep learning, deep RL
+interactions with the environment \parencite{kaelbling1996reinforcement}. With the advent of deep learning, deep RL
 has faced an incredible growth
-\cite{mnih2015human,silver2017mastering,chinorros}. 
+\parencite{mnih2015human,silver2017mastering,chinorros}. 
 However, such systems may be also targets of 
-adversarial attacks \cite{huang2017adversarial,lin2017tactics} 
+adversarial attacks \parencite{huang2017adversarial,lin2017tactics} 
 and robust learning methods are thus
 needed. 
-A related field of interest is multi-agent RL \cite{marl_over,leelee};
+A related field of interest is multi-agent RL \parencite{marl_over,leelee};
 in it, multiple 
 agents try to learn to compete or cooperate. Single-agent RL methods fail in
 these settings, since they do not take into account 
@@ -113,7 +113,7 @@ to deep RL settings.
 
 \section{Background for Reinforcement Learning}\label{sec:background}
 
-Our focus is on RL, widely studied as an efficient computational approach to deal with \textit{Markov decision processes} (MDP), \cite{howard:dp}. These model a single agent (the decision maker, DM, she)
+Our focus is on RL, widely studied as an efficient computational approach to deal with \textit{Markov decision processes} (MDP), \parencite{howard:dp}. These model a single agent (the decision maker, DM, she)
 making decisions 
 while interacting within an environment.  
 They consist of a
@@ -131,7 +131,7 @@ $
  \mathbb{E}_{\tau} \left[  \sum_{t=0}^\infty \gamma^t R(a_t, s_t) \right] 
  $ 
 where $\gamma \in (0,1)$ is a discount factor and $\tau = (s_0, a_0, s_1, a_1, \ldots)$ is a trajectory of states and actions.
-  An efficient approach to solve MDPs is $Q$-learning, \cite{sutton2012reinforcement}; with it, the DM maintains a
+  An efficient approach to solve MDPs is $Q$-learning, \parencite{sutton2012reinforcement}; with it, the DM maintains a
  function
 $Q : \mathcal{S} \times \mathcal{A} \rightarrow \mathbb{R}$ that estimates
 her expected cumulative reward. This function is updated according to
@@ -151,12 +151,12 @@ after having chosen action $a$ in state $s$ and received the reward $r(s,a)$.
 
 Our interest is in security settings in which other  agents
 interfere with the DM's reward process. This renders the environment
-non stationary making  $Q$-learning suboptimal \cite{marl_over}. 
+non stationary making  $Q$-learning suboptimal \parencite{marl_over}. 
 %Other learning agents may interfere with the reward distribution, cooperating or competing with the supported DM. 
 Thus, to support the agent,
 we must be able to reason about and forecast the adversaries' behaviour.
 Several opponent modelling principles have been proposed in the  literature,
-as reviewed in \cite{Albrecht2018AutonomousAM}. 
+as reviewed in \parencite{Albrecht2018AutonomousAM}. 
 %These methods vary in
 %their underlying assumptions, the methodology used and their
 %specific goals.
@@ -167,7 +167,7 @@ with this goal encompassing three approaches: policy reconstruction, type-based 
 The first group fully reconstruct the adversary's decision
 making problem, typically assuming a parametric model fitted after 
 after observing the adversary's behaviour. A dominant approach,
-known as fictitious play  (FP), \cite{brown1951iterative}, models 
+known as fictitious play  (FP), \parencite{brown1951iterative}, models 
 the other agents computing their frequencies of choosing various actions.
 Secondly, %as learning full adversarial models is computationally demanding,
 type-based reasoning assume that the modelled agent belongs
@@ -178,22 +178,22 @@ without explicitly including the ability of
 other agents to reason about their opponents' decision making. 
 Finally, explicit representations of the other agents' beliefs about their
 opponents lead to an infinite hierarchy of decision making problems,
-as illustrated in \cite{rios2012adversarial} in a much simpler class of problems. Level-$k$ thinking  \cite{stahl1994experimental} typically stops this potentially infinite regress at a level in which no more information is available, fixing the action prediction process at that depth with a non-informative probability distribution.
+as illustrated in \parencite{rios2012adversarial} in a much simpler class of problems. Level-$k$ thinking  \parencite{stahl1994experimental} typically stops this potentially infinite regress at a level in which no more information is available, fixing the action prediction process at that depth with a non-informative probability distribution.
 
 These modelling tools have been used in analytics 
 research but, to the best
 of our knowledge, their application to $Q$-learning in multi-agent settings remains 
 largely unexplored. Relevant extensions %of $Q$-learning in multi-agent settings
 have rather focused on modelling the whole system 
-through Markov games. The three best-known solutions include minimax-$Q$ learning \cite{littman1994markov}, where at each iteration a minimax 
-problem is solved; Nash-$Q$ learning \cite{hu2003nash}, 
+through Markov games. The three best-known solutions include minimax-$Q$ learning \parencite{littman1994markov}, where at each iteration a minimax 
+problem is solved; Nash-$Q$ learning \parencite{hu2003nash}, 
 which generalizes the previous algorithm to the non-zero sum case;
-and friend-or-foe-$Q$ learning \cite{littman2001friend}, in which the DM knows in advance whether her opponent is an adversary or a collaborator. Within the bandit literature, \cite{auer1995gambling} introduced a non-stationary setting in which the reward process is affected by an adversary. Our approach departs fundamentally from the above
+and friend-or-foe-$Q$ learning \parencite{littman2001friend}, in which the DM knows in advance whether her opponent is an adversary or a collaborator. Within the bandit literature, \parencite{auer1995gambling} introduced a non-stationary setting in which the reward process is affected by an adversary. Our approach departs fundamentally from the above
 work in that we consider the problem from a single DM's point of view and 
 explicitly model the opponent using several strategies.
 
 Our work relates to 
-\cite{lanctot2017unified}. Its authors propose a deep
+\parencite{lanctot2017unified}. Its authors propose a deep
 cognitive hierarchy as an approximation to a response oracle 
 to obtain policies that can exploit their adversaries. Ours
 instead draws on the
@@ -201,38 +201,38 @@ level-$k$ thinking tradition, building opponent models that help the DM predict
 their behaviour. In addition, we provide a solution to 
 the important issue
 of choosing between different opponent cognition levels. 
-\cite{he2016opponent} also addressed opponent modelling 
-in deep RL scenarios. However, the authors rely on using a particular neural network (NN) architecture over the deep $Q$-network model. Instead, we tackle the problem without assuming a NN architecture for the agent policies, though our proposed scheme can be adapted to that setting, Section 3.4. \cite{foerster2018learning}
+\parencite{he2016opponent} also addressed opponent modelling 
+in deep RL scenarios. However, the authors rely on using a particular neural network (NN) architecture over the deep $Q$-network model. Instead, we tackle the problem without assuming a NN architecture for the agent policies, though our proposed scheme can be adapted to that setting, Section 3.4. \parencite{foerster2018learning}
 adopt a similar experimental setting, but their methods apply only
 when both players get to know exactly their opponents' policy parameters or a maximum-likelihood estimator, a form of common knowledge. Our work
 instead builds upon estimating the opponents' $Q$-function, not requiring direct knowledge of the opponent's internal parameters.
 
-There are also links with iPOMDPs as in \cite{gmytrasiewicz2005framework}, though the authors only address the planning problem, % in a (PO)MDP, 
+There are also links with iPOMDPs as in \parencite{gmytrasiewicz2005framework}, though the authors only address the planning problem, % in a (PO)MDP, 
 not addressing the case in which the DM also has to learn from the environment, corresponding to the RL scenario. In addition, we introduce a more simplified algorithmic apparatus (both in terms of implementation and complexity)
 that performs well in examples and cover the case of mixtures of opponent types.
 
- \cite{caballero2021identifying} takes grounding on level-$k$ thinking to compute optimal strategies in normal form games, 
+ \parencite{caballero2021identifying} takes grounding on level-$k$ thinking to compute optimal strategies in normal form games, 
  relying on solving exactly stochastic optimization programs. 
  As our framework also tackles MDPs, their approach would be infeasible in this case due to the large number of states. Therefore, we resort to a modified Q-learning scheme.
 %, thus boosting the applicability of our proposed framework.
 
-\cite{pinto2017robust} proposes a method for deep RL based on policy gradients. However, it only works for zero-sum games. In addition, their experiments focuses on single-agent RL settings, that do not account for an adversary. %Moreover, their dependence on policy gradients methods makes their framework less amenable for theoretical results, since we can provided a few results based on the well-established theory of Q-learning. 
- \cite{wen2019probabilistic} uses level-$k$ thinking in deep RL, yet they only go up to level 2 and their framework 
+\parencite{pinto2017robust} proposes a method for deep RL based on policy gradients. However, it only works for zero-sum games. In addition, their experiments focuses on single-agent RL settings, that do not account for an adversary. %Moreover, their dependence on policy gradients methods makes their framework less amenable for theoretical results, since we can provided a few results based on the well-established theory of Q-learning. 
+ \parencite{wen2019probabilistic} uses level-$k$ thinking in deep RL, yet they only go up to level 2 and their framework 
 do not extend easily to levels, unlike ours which 
 is generic. Even at the same cognitive level, their framework is much more expensive computationally, since they rely on 
 variational inference to estimate several latent variables. 
 
 %Moreover, previous approaches to this problem have focused on modelling the whole multi-agent system as a game. 
 In summary, all of the proposed multi-agent $Q$-learning extensions are inspired by game theory
-with its entailed common knowledge assumptions \cite{hargreaves2004game}, which are not realistic in the
+with its entailed common knowledge assumptions \parencite{hargreaves2004game}, which are not realistic in the
 security domains of interest to us. To mitigate this assumption, we consider the problem of
 prescribing decisions to a single agent versus her opponents,
 augmenting the MDP to account for potential adversaries  conveniently 
 re-defining the $Q$-learning rule. This enables us to apply some of the previously mentioned modelling techniques
 to the $Q$-learning setting, explicitly accounting
 for the possible lack of information about the modelled opponent.
-In particular, we propose to extend $Q$-learning from an ARA \cite{rios2009adversarial} perspective. % through a level-$k$ 
-%scheme \cite{stahl1994experimental,stahl1995players}. 
+In particular, we propose to extend $Q$-learning from an ARA \parencite{rios2009adversarial} perspective. % through a level-$k$ 
+%scheme \parencite{stahl1994experimental,stahl1995players}. 
 %We do this introducing a variant of MDPs, which we call Threatened MDPs (TMDPs).
 
 Our focus is on the case of a DM (agent $A$, she) facing a single opponent ($B$, he), though we provide an extension to a setting with multiple adversaries in Section \ref{sec:mul}.
@@ -241,10 +241,10 @@ Our focus is on the case of a DM (agent $A$, she) facing a single opponent ($B$,
 \section{Threatened Markov Decision Processes}\label{sec:tmdps}
 
 %In similar spirit to other reformulations of MDPs, such as
-%Constrained Markov Decision Processes \cite{altman1999constrained}
+%Constrained Markov Decision Processes \parencite{altman1999constrained}
 %(in which restrictions along state trajectories are considered)
 %or Configurable Markov Decision Processes 
-%\cite{2018arXiv180605415M} (in which the DM is able to modify the
+%\parencite{2018arXiv180605415M} (in which the DM is able to modify the
 %environment dynamics to accelerate learning),
 We propose an augmentation of a MDP
 to account for the presence of adversaries who perform their
@@ -294,7 +294,7 @@ adversary's policy through  $p_A (b | s)$.
  For this, we make the 
  assumption, standard in multi-agent RL, that both agents observe their opponent's actions and rewards
  after they have committed to them, proposing three approaches to forecast the opponent's policy $p_A (b | s)$:  % under such assumption.
-%To handle it, we propose using a level-$k$ scheme \cite{rios2009adversarial}
+%To handle it, we propose using a level-$k$ scheme \parencite{rios2009adversarial}
 % to learn the opponent model. 
 %In general, we consider both the DM and the adversary 
 %as rational agents that aim to maximize their respective expected 
@@ -335,10 +335,10 @@ maximizing $\psi(a_i)$.
 We refer to this variant as
 FP$Q$-learning.\footnote{Observe that although inspired by FP,
 it is not the same scheme, since only one of the players (the DM) uses it to 
-model her opponent, whereas in the standard FP algorithm \cite{brown1951iterative} all players 
+model her opponent, whereas in the standard FP algorithm \parencite{brown1951iterative} all players 
 are assumed to adopt such scheme.}
 
-%As described in \cite{rios1}, adapting ARA to a game setting requires 
+%As described in \parencite{rios1}, adapting ARA to a game setting requires 
 We can re-frame FP$Q$-learning from a Bayesian perspective,
 favouring its convergence if we have available relevant  
 prior information about the adversary. % behavior.
@@ -374,7 +374,7 @@ and the supported DM will choose her action at state $s$ by maximizing
 \[ \psi_s(a_i) = \sum_{b_j \in \mathcal{B}} Q(s, a_i, b_j) p_{A}(b_j|s)
 \propto 
 \sum_{b_j \in \mathcal{B}} Q(s, a_i, b_j) p_{A}(s | b_j) p (b_j ).  \]
-  \cite{tang2017exploration} suggested an efficient method for keeping track of $p(s| b_j)$ using a hash table or bloom filters to maintain a count of the number of times that an agent visits each state, within single-agent RL to support a better exploration of the environment. We propose keeping 
+  \parencite{tang2017exploration} suggested an efficient method for keeping track of $p(s| b_j)$ using a hash table or bloom filters to maintain a count of the number of times that an agent visits each state, within single-agent RL to support a better exploration of the environment. We propose keeping 
   track of $n$ bloom filters, one for each
 distribution $p(s|b_j)$, for tractable computation of the opponent's intentions
 in the TMDP setting. This is transparently integrated
@@ -382,7 +382,7 @@ within the Bayesian paradigm, as we only need to store an additional array with 
 
 As a final comment, if we assume that the opponent has memory of the previous stage actions, we could straightforwardly extend the above scheme. However,
 to mitigate memory requirements we use the concept of
-mixtures of Markov chains \cite{raftery1985model},
+mixtures of Markov chains \parencite{raftery1985model},
 thus avoiding an exponential growth in 
 the number of required parameters and linearly controlling 
 model complexity.
@@ -557,10 +557,10 @@ predicted the observed $b_t$, then we may not perform an
 update (as stated in Algorithm \ref{alg:update_averaging} and done
 in our experiments) or we could increase the count for all possible models.
 
-This model averaging scheme subsumes the framework of cognitive hierarchies \cite{camerer2004cognitive}, though the distribution is placed over the different hierarchy levels. Our scheme is more flexible,
+This model averaging scheme subsumes the framework of cognitive hierarchies \parencite{camerer2004cognitive}, though the distribution is placed over the different hierarchy levels. Our scheme is more flexible,
 though, since more kinds of opponents could be taken into account, 
 say a minimax agent as 
-in \cite{rios1}.
+in \parencite{rios1}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -570,7 +570,7 @@ The tabular $Q$-learning in Algorithm \ref{alg:l2ur} does not scale with the siz
 ${\cal A, B}$.
 %well when the state or action spaces dramatically grow in size.
 To solve this issue, we expand the framework to the case when  $Q$-functions are represented using a function approximator, typically a linear regression or
-a deep learning $Q$-network, \cite{mnih2015human}. 
+a deep learning $Q$-network, \parencite{mnih2015human}. 
 
 Algorithm \ref{alg:l2urdeep} shows the details, where $\phi_A$ and $\phi_B$ designate the parameters of the corresponding functions approximating the $Q$-values. Note that in this setting,
 the framework is compatible with continuous action spaces.
@@ -607,7 +607,7 @@ As outlined in Section 3.2, a level-$k$ $Q$-learner has to estimate the $Q$ func
 of a level-$(k-1)$ $Q$-learner, and so on. Assuming that the original $Q$-learning 
 update rule has time complexity $\mathcal{O}(T(|\mathcal{A}|))$, with $T$ being a factor that depends on the number of actions of the DM, the update rule from 
 Algorithm \ref{alg:l2ur} has time complexity $\mathcal{O}(kT(\max \lbrace |\mathcal{A}|,  |\mathcal{B}|\rbrace))$, i.e.,
-it is linear in the level of the hierarchy. %While this contributes to some computational overhead, the proposed scheme is more efficient than minimax or Nash-$Q$ learning, since it is not required to solve a linear programming problem at each iteration to obtain a Nash equilibrium, which is NP-hard \cite{daskalakis2009complexity}.
+it is linear in the level of the hierarchy. %While this contributes to some computational overhead, the proposed scheme is more efficient than minimax or Nash-$Q$ learning, since it is not required to solve a linear programming problem at each iteration to obtain a Nash equilibrium, which is NP-hard \parencite{daskalakis2009complexity}.
 Regarding space complexity, the overhead is also linear in such level $k$ since the DM only needs to store $k$ $Q$-functions, leading to a memory complexity $\mathcal{O}(kM(|\mathcal{S}|,|\mathcal{A}| \cdot |\mathcal{B}|))$ with $M(|\mathcal{S}|,|\mathcal{A}| \cdot |\mathcal{B}|)$ accounting for the memory needed to store the $Q$-function in tabular form. This quantity depends on the number of states and pairs of actions for the DM and her opponent.
 
 
@@ -618,7 +618,7 @@ Regarding space complexity, the overhead is also linear in such level $k$ since 
 We illustrate key modelling and computational concepts 
 about the TMDP reasoning framework with three
 sets of experiments:
-an adversarial security environment proposed in \cite{leike2017ai}
+an adversarial security environment proposed in \parencite{leike2017ai}
 used to illustrate robustness issues; a Blotto game security resource allocation problem
 used to illustrate handling multiple opponents; and a %slightly complex 
 gridworld game showing that our framework is compatible with $Q$-values estimated with parametric functions, as in deep RL. %The first set of experiments allows us to illustrate several relevant computational properties of our framework, whereas the second one illustrates relevant security games, our area of interest, and the last set illustrate how our framework deals with structured action spaces and multiple adversaries.
@@ -642,7 +642,7 @@ the discount factor $\gamma = 0.96$ for illustration purposes.
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Memoryless Repeated Matrix Games}\label{kk2}
 
-We consider the classical Iterated Prisoner's Dilemma (IPD), \cite{axelrod84}. Table \ref{tab:payoffIPD} shows its reward bimatrix. %$(\mathbf{r^A}, \mathbf{r^B})$
+We consider the classical Iterated Prisoner's Dilemma (IPD), \parencite{axelrod84}. Table \ref{tab:payoffIPD} shows its reward bimatrix. %$(\mathbf{r^A}, \mathbf{r^B})$
  Recall that, in this game, the Nash equilibrium is (D,D).
 
 \begin{table}[h]
@@ -802,7 +802,7 @@ equilibrium (D,C) (Fig. \ref{fig:FPQvsQ_C}).
 {\color{black}
 In addition, we study another kind of opponent to show how our framework
 can adapt to it. We consider an adversary that learns according to the
-WoLF-PHC algorithm \cite{bowling2001rational}, one of the best learning approaches in the multi-agent reinforcement learning literature. Figure \ref{fig:L1vsWoLF_C}
+WoLF-PHC algorithm \parencite{bowling2001rational}, one of the best learning approaches in the multi-agent reinforcement learning literature. Figure \ref{fig:L1vsWoLF_C}
 depicts a FP$Q$-learner (level-$1$) against this adversary, where the latter 
 clearly exploits the former. However, if we go up in the level-$k$ hierarchy and model our
 DM as a level-$2$ $Q$-learner, she outperforms her
@@ -816,7 +816,7 @@ opponent (Fig. \ref{fig:L2vsWoLF_C}).}
 Section \ref{kk2} illustrated the ability of the modelled agents
 to effectively learn Nash equilibrium strategies in several iterated games.
 However, if we let agents have memory of previous movements, other types
-of equilibria may emerge, including those in which agents cooperate. We can easily augment the agents to have memory of the past $T$ joint actions taken. However, \cite{press2012iterated} proved that, in the IPD, agents with a good memory-1 strategy can effectively force the iterated game to be played as memory-1, ignoring longer play histories. Thus, we resort to memory-1 iterated games.
+of equilibria may emerge, including those in which agents cooperate. We can easily augment the agents to have memory of the past $T$ joint actions taken. However, \parencite{press2012iterated} proved that, in the IPD, agents with a good memory-1 strategy can effectively force the iterated game to be played as memory-1, ignoring longer play histories. Thus, we resort to memory-1 iterated games.
 
 We restrict our attention to the IPD. We model the memory-1 IPD as a TMDP in which the state $\mathcal{S}$ adopts the form $s_t = (a_{t-1}, b_{t-1}), \,\,  t > 0$
 describing the previous joint action, plus the initial state $s_0$ in which there
@@ -831,7 +831,7 @@ $\pi(C | CC)$, $\pi(C | CD)$, $\pi(C | DC)$, $\pi(C | DD)$, and  $\pi(C | s_0)$.
 \end{figure}
 
 \noindent We assume a stationary adversary playing Tit-For-Tat (TFT), i.e.\ replicating
-the opponent's previous action \cite{axelrod84}. TFT is a Nash equilibrium in the IPD with memory.
+the opponent's previous action \parencite{axelrod84}. TFT is a Nash equilibrium in the IPD with memory.
 We aim at showing that the supported DM is able to learn the equilibrium strategy. 
 
 In the experiments, the adversary will compete with either an agent playing FP (the same from the stateless environment), or with a memory-1 agent also playing FP. Figure \ref{fig:Mem1} represents the utilities attained by these agents in both duels. As can be seen, a memoryless FPQ player cannot learn an optimal policy and forces the TFT agent to play defect. In contrast, augmenting this agent to have memory of the previous move allows him to learn the optimal policy (TFT), that is, he learns to cooperate, leading to a higher cumulative reward.
@@ -850,9 +850,9 @@ would remain exploitable by another opponent. We argue that the FP$Q$-learner di
 
 % \subsubsection{Potential experiments}
 
-% Maybe test also on some coordination games, such as the repeated variant of Stag Hunt \cite{skyrms2004stag}?
+% Maybe test also on some coordination games, such as the repeated variant of Stag Hunt \parencite{skyrms2004stag}?
 
-% Then, we may compute some social metrics (such as social utility $\frac{R_1 + R_2}{2}$) as introduced by \cite{perolat2017multi} and see if scores are better with a high k-level instead of with just independent $Q$-learning. 
+% Then, we may compute some social metrics (such as social utility $\frac{R_1 + R_2}{2}$) as introduced by \parencite{perolat2017multi} and see if scores are better with a high k-level instead of with just independent $Q$-learning. 
 
 % (i.e., to be a good social individual you have to model opponents)
 
@@ -867,7 +867,7 @@ explicitly modelling the behaviour of adversaries,
 our framework improves upon $Q$-learning methods. 
 %yielding higher rewards to the DM.
 For this, we consider a suite of recent RL safety benchmarks
- introduced in \cite{leike2017ai}.
+ introduced in \parencite{leike2017ai}.
 Our focus is 
 on the safety \emph{friend or foe} environment:
 the supported DM
@@ -880,10 +880,10 @@ the adversary is planning to attack one of two targets; the defender
 will obtain a positive reward if she travels to the chosen target. Otherwise,
 she will miss the attacker and incur in a loss.
 
-As \cite{leike2017ai} shows, a \emph{deep $Q$-network}
+As \parencite{leike2017ai} shows, a \emph{deep $Q$-network}
 (and, similarly, the independent tabular $Q$-learner as we show) fails to
 achieve optimal results since the reward process is controlled by the adversary.
-%\textcolor{red}{An alternative approach to security games in spatial domains was introduced in \cite{klimamarkov}. The authors extend the single-agent $Q$-learning algorithm with an adversarial policy selection inspired by the EXP3 rule from the \emph{adversarial multi-armed bandit} %(AMAB) framework in \cite{auer1995gambling}.  However, their approach does not explicitly model an adversary.}
+%\textcolor{red}{An alternative approach to security games in spatial domains was introduced in \parencite{klimamarkov}. The authors extend the single-agent $Q$-learning algorithm with an adversarial policy selection inspired by the EXP3 rule from the \emph{adversarial multi-armed bandit} %(AMAB) framework in \parencite{auer1995gambling}.  However, their approach does not explicitly model an adversary.}
 
 Figure \ref{fig:friendorfoe} shows the initial set up. 
 Cells 1 and 2 depict the adversary's targets, who decides which 
@@ -894,7 +894,7 @@ hide the positive reward.
    \centering
    \includegraphics[scale=0.5]{figures/friend-or-foeCUT}
     %\fbox{\rule[-.5cm]{0cm}{4cm} \rule[-.5cm]{4cm}{0cm}}
-   \caption{\emph{Friend or foe} environment from the AI Safety Gridworlds benchmark \cite{leike2017ai}.
+   \caption{\emph{Friend or foe} environment from the AI Safety Gridworlds benchmark \parencite{leike2017ai}.
    The blue cell 
 represents the DM's initial state, gray cells represent the walls of the room.   } \label{fig:friendorfoe}
  \end{figure}
@@ -904,7 +904,7 @@ represents the DM's initial state, gray cells represent the walls of the room.  
 \paragraph{Stateless Variant.}\label{sec:statv}
 
 Consider a simplified initial setting with a single state and
-two actions. As in  \cite{leike2017ai}, the adaptive
+two actions. As in  \parencite{leike2017ai}, the adaptive
 opponent estimates the DM's actions using an exponential smoother.
 Let $\bm{p} = (p_1, p_2)$ be the probabilities
 with which the DM will, respectively, choose targets 1 or 2
@@ -1062,11 +1062,11 @@ using type-based reasoning (Section \ref{sec:com}). Figure \ref{fig:L3DirvsL1} d
 actually facing. The DM keeps estimates of the probabilities $P_{L1Q}$ and $P_{L2Q}$ that her opponent is acting as if he was a level-1 or a level-2 $Q$-learner, respectively. Figure \ref{fig:probas} depicts the evolution of $P_{L1Q}$: we observe that it places most of the probability in the correct opponent type. 
 
 
-%Maybe from the safety part cite something from \cite{maliciousAIreport} and/or \cite{amodei2016concrete}?
+%Maybe from the safety part cite something from \parencite{maliciousAIreport} and/or \parencite{amodei2016concrete}?
 
 % \subsection{Markov Security Games}
 
-% An extension of Stackelberg or security games to spatial domains was introduced in \cite{klimamarkov}. They extend the single-agent $Q$-learning algorithm with an adversarial policy selection inspired by the EXP3 rule from the \emph{adversarial multi-armed bandits} (AMAB) framework \cite{auer1995gambling}. Though robust, their approach does not explicitly model an adversary, nor is amenable to function approximation of the $Q$-function, thus scaling poorly as the number of states increases.
+% An extension of Stackelberg or security games to spatial domains was introduced in \parencite{klimamarkov}. They extend the single-agent $Q$-learning algorithm with an adversarial policy selection inspired by the EXP3 rule from the \emph{adversarial multi-armed bandits} (AMAB) framework \parencite{auer1995gambling}. Though robust, their approach does not explicitly model an adversary, nor is amenable to function approximation of the $Q$-function, thus scaling poorly as the number of states increases.
 
 % We test ...
 
@@ -1078,7 +1078,7 @@ actually facing. The DM keeps estimates of the probabilities $P_{L1Q}$ and $P_{L
 
 %\subsection{3D control tasks}
 
-%We could apply to some robot locomotion tasks under adversaries, such as the settings introduced in \cite{bansal2017emergent}.
+%We could apply to some robot locomotion tasks under adversaries, such as the settings introduced in \parencite{bansal2017emergent}.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \paragraph{Spatial Variant.}
@@ -1154,7 +1154,7 @@ $\alpha_2$ &  $\alpha_1$ & $\epsilon_0$ & Mean Reward \\
 \subsection{Facing multiple opponents}
 
 We illustrate the multiple opponent concepts from Section \ref{sec:mul} introducing a novel suite of  resource allocation experiments 
-relevant in security settings. They are based on a modified version of Blotto games \cite{hart2008discrete}: the DM needs to distribute limited
+relevant in security settings. They are based on a modified version of Blotto games \parencite{hart2008discrete}: the DM needs to distribute limited
 resources over several positions susceptible of being attacked. Each of the attackers has to choose different positions
 to deploy their attacks. Associated with each of the attacked positions there is a positive (resp. negative) reward with value 1 (-1). If the DM 
 deploys more resources than the attackers in a particular position, she wins the positive reward and the negative one will be equally split  between
@@ -1193,7 +1193,7 @@ This experiment showcases the suitability of the framework to deal with multiple
 
 %\subsection{TMDPs for Urban Security Resource Allocation}
 
-%We build upon the setting from \cite{ara_urban}. 
+%We build upon the setting from \parencite{ara_urban}. 
 
 %\begin{itemize}
 %    \item FPQ and $Q$ learner against a stationary opponent.
@@ -1248,7 +1248,7 @@ Next, we will move the second application introduced at the beginning of the cha
 
 \subsection{A motivation to data sharing games}
 
-As recently discussed \cite{wolfram}, {\em data, as the intangible asset par excellence in the 21st century, is the most disputed raw material at global scale}. Ours is a data-driven society and economy,
+As recently discussed \parencite{wolfram}, {\em data, as the intangible asset par excellence in the 21st century, is the most disputed raw material at global scale}. Ours is a data-driven society and economy,
 with  data guiding most business actions and decisions. 
 This is becoming even more important as
 many business processes are articulated through a 
@@ -1259,10 +1259,10 @@ As data acquisition grows at sub-second speed, the capability to monetize
 them arises through the ability to derive new synthetic data. 
 Thus, considered as an asset, data create markets and enhance 
 competition. Unfortunately, they are creating bad practices as well.
-See \cite{share} for an early discussion 
+See \parencite{share} for an early discussion 
 as well as the 
 recent European directives and legislative initiatives to 
-promote public-private data partnerships, e.g. \cite{europe1}.
+promote public-private data partnerships, e.g. \parencite{europe1}.
 
 This is the main reason for analyzing {\em data sharing 
 games} with mechanisms that could foster cooperation to guarantee and promote social progress.
@@ -1271,15 +1271,15 @@ games} with mechanisms that could foster cooperation to guarantee and promote so
 %Within the specific domain of 
 Data sharing problems have been the object of several contributions and studied
 from different perspectives. For example,
- \cite{kamhoua2012game} proposes a game theoretic approach to help users determine their optimal policy in terms of sharing data in online social networks,
+ \parencite{kamhoua2012game} proposes a game theoretic approach to help users determine their optimal policy in terms of sharing data in online social networks,
  based on a confrontation between a user (aimed at sharing certain information and hiding the rest) and an attacker (aimed at exposing the user's PI
  or concealing the information the user is willing to share). This
   is modelled through a zero-sum Markov game; a  Markov equilibrium is computed and the corresponding Markov strategies are used to give advice to users.%; note though 
- %that standard common knowledge assumptions \cite{varoufakis} are considered.
- The work of \cite{figueiredo2017data} reviews the impact of data sharing in science and society and presents guidelines to improve the efficiency of 
+ %that standard common knowledge assumptions \parencite{varoufakis} are considered.
+ The work of \parencite{figueiredo2017data} reviews the impact of data sharing in science and society and presents guidelines to improve the efficiency of 
  data sharing processes,
- quoting \cite{pronk}, who provide a game theoretical analysis suggesting 
- that sharing data with the community can be the most profitable and stable strategy. Similarly, \cite{dehez2013data} consider a setting in which 
+ quoting \parencite{pronk}, who provide a game theoretical analysis suggesting 
+ that sharing data with the community can be the most profitable and stable strategy. Similarly, \parencite{dehez2013data} consider a setting in which 
  a group of firms must decide whether to cooperate in 
  a project that requires the combination of data held by several of them; the authors  address the question of how to compensate the firms for the data they
  contribute with,
@@ -1287,8 +1287,8 @@ from different perspectives. For example,
   
 Our approach models interactions between 
 citizens and data owners  
-inspired by the iterated prisoner's dilemma (IPD) \cite{axelrod84}. This is an elegant incarnation of the problem of how to achieve agents` cooperation in competitive settings. Other authors have used similar models in other socio-technical problems as in politics 
-\cite{brams},  security \cite{kunreuther}, and cybersecurity \cite{etesami2019dynamic}, among others. Our approach to model agent's behavior is different and relies on multi-agent reinforcement learning (MARL) arguments \cite{gallego2019opponent,gallego2019reinforcement}. Reinforcement learning (RL) has been successfully applied to games that are repeated over time, thus making it possible for agents to optimize their strategies \cite{lanctot2017unified,chasparis2012distributed}. %The work of \cite{SHAFRAN2012354} also discusses the use of RL in iterated games such as Prisoner's Dilemma, although they do not focus on the issue of incentivizing cooperation between the players. 
+inspired by the iterated prisoner's dilemma (IPD) \parencite{axelrod84}. This is an elegant incarnation of the problem of how to achieve agents` cooperation in competitive settings. Other authors have used similar models in other socio-technical problems as in politics 
+\parencite{brams},  security \parencite{kunreuther}, and cybersecurity \parencite{etesami2019dynamic}, among others. Our approach to model agent's behavior is different and relies on multi-agent reinforcement learning (MARL) arguments \parencite{gallego2019opponent,gallego2019reinforcement}. Reinforcement learning (RL) has been successfully applied to games that are repeated over time, thus making it possible for agents to optimize their strategies \parencite{lanctot2017unified,chasparis2012distributed}. %The work of \parencite{SHAFRAN2012354} also discusses the use of RL in iterated games such as Prisoner's Dilemma, although they do not focus on the issue of incentivizing cooperation between the players. 
 Through RL we are able 
 to identify relevant mechanisms to promote cooperation.
 
@@ -1308,7 +1308,7 @@ from a legal standpoint, there are two main types:
  personal information (PI), as e.g.\ the data preserved in the European
  Union through 
  the General 
- Data Protection Regulation (GDPR) \cite{gdpr} and other citizen defense frameworks
+ Data Protection Regulation (GDPR) \parencite{gdpr} and other citizen defense frameworks
  aimed at guaranteeing civic liberties. PI includes 
  data categories such as 
 %{\em  historical information}; 
@@ -1341,7 +1341,7 @@ blockchain-based platforms are being implemented at the moment within this domai
 
 In any case, in the last decades, modern data analytics techniques and strategies are enabling the generation of new types of data:
 \begin{itemize}
-\item {\em Data that might be estimated/derived.}  Currently available analytics technologies have the ability of estimating efficiently citizen behavior and other characteristics by deeply analyzing Big Data. For instance, platforms such as IBM Personality Insights \cite{ibm} estimate personality traits of a
+\item {\em Data that might be estimated/derived.}  Currently available analytics technologies have the ability of estimating efficiently citizen behavior and other characteristics by deeply analyzing Big Data. For instance, platforms such as IBM Personality Insights \parencite{ibm} estimate personality traits of a
 given individual using his/her tweets, thus facilitating marketing activities.
 As a result, the originating data becomes a new asset for a company
 willing to undertake its analysis.
@@ -1357,7 +1357,7 @@ sharing game: the data providers
 A DDO could be a private
 company, e.g. GAFA (Google, Apple, Facebook, Amazon) or Telefonica,
 or a public institution (Government). 
-Inspired by the classic Johari window \cite{johari},
+Inspired by the classic Johari window \parencite{johari},
 we inter-relate now what a Citizen knows, or does not,
 with what a DDO knows, or does not,
 to obtain these scenarios:
@@ -1378,7 +1378,7 @@ and limitation) so that PI is respected.
 The DDO has unveiled
 citizen’s PI through deep analysis of
 Big Data.\footnote{As in the famous Target pregnant
-teenager case \cite{target}} 
+teenager case \parencite{target}} 
 This analysis may be acceptable if data are dealt just as a target.
 %and not as an individual.
 Data protection frameworks should guarantee civil rights and liberties in such activities.
@@ -1469,8 +1469,8 @@ whereas {\em defect} means that he is not going to pay for the collected data or
 Payoffs satisfy the usual conditions in the IPD, that is $T>R>P>S$ and $2R > T+S$.
 When numerics are necessary,
 we adopt the choice $T= 6 $, $R= 5 $, $ P = 1 $,  and $S= 0 $.
-%\cite{axelrod81}.
-%We have chosen the standard numerical entries for the  problem to illustrate numerics but the same key message  would be conveyed with other payoffs satisfying the usual conditions in the dilemma \cite{axelrod84}.
+%\parencite{axelrod81}.
+%We have chosen the standard numerical entries for the  problem to illustrate numerics but the same key message  would be conveyed with other payoffs satisfying the usual conditions in the dilemma \parencite{axelrod84}.
 
 % Please add the following required packages to your document preamble:
 % \usepackage{multirow}
@@ -1510,12 +1510,12 @@ we adopt the choice $T= 6 $, $R= 5 $, $ P = 1 $,  and $S= 0 $.
 % %
 
 It is well-known that in the one-shot version of the IPD game, the unique Nash equilibrium is $(D,D)$, leading to the social dilemma described above: the selfish rational point of view of both players leads to an inferior societal position. Similarly, if the game is played $N$ times,
-and this is known by the players, these have no incentive to cooperate, as we may reason by backwards induction \cite{axelrod81}. %This is obviously the case in the last move. In the second to last move, neither player will cooperate as whatever they do would not influence the outcome of the last move. Reasoning this way backwards until the first move and conclude that the unique Nash equilibrium (also a subgame perfect equilibrium) in the $N$ times game is to always defect. 
+and this is known by the players, these have no incentive to cooperate, as we may reason by backwards induction \parencite{axelrod81}. %This is obviously the case in the last move. In the second to last move, neither player will cooperate as whatever they do would not influence the outcome of the last move. Reasoning this way backwards until the first move and conclude that the unique Nash equilibrium (also a subgame perfect equilibrium) in the $N$ times game is to always defect. 
 However, in realistic scenarios, players are not sure about 
 whether they will meet 
-again in future and, consequently, they cannot be sure when the last interaction will be taking place \cite{axelrod84}. Thus, it seems reasonable to assume that players will interact an indefinite number of times or that there is a positive probability of meeting again. This possibility that players might interact again is precisely what makes cooperation emerge.
+again in future and, consequently, they cannot be sure when the last interaction will be taking place \parencite{axelrod84}. Thus, it seems reasonable to assume that players will interact an indefinite number of times or that there is a positive probability of meeting again. This possibility that players might interact again is precisely what makes cooperation emerge.
 
-%It is straightforward to show that if $p$ is large enough, then there is a Nash equilibria in which both players cooperate. However, always defecting is a Nash equilibria as well no matter the value of $p$. This raises the question of how cooperation will emerge in a prominent non-cooperative setting. \cite{axelrod84} study mechanisms for cooperation that we adopt to our setting.
+%It is straightforward to show that if $p$ is large enough, then there is a Nash equilibria in which both players cooperate. However, always defecting is a Nash equilibria as well no matter the value of $p$. This raises the question of how cooperation will emerge in a prominent non-cooperative setting. \parencite{axelrod84} study mechanisms for cooperation that we adopt to our setting.
 
 %\paragraph{Forgiving}
 %With certain probability agents may choose to play TfT.
@@ -1527,7 +1527,7 @@ again in future and, consequently, they cannot be sure when the last interaction
 
 The framework that we adopt to deal with this 
 dynamic game is MARL 
-\cite{marl_over}. Each agent $a \in \lbrace C, DDO \rbrace $ maintains its policy $\pi_a(d_a|o_a, \theta_a)$ used to select a decision $d_a$ under some observed state of the game $o_a$ (for example, the previous pair of decisions) and parameterised through 
+\parencite{marl_over}. Each agent $a \in \lbrace C, DDO \rbrace $ maintains its policy $\pi_a(d_a|o_a, \theta_a)$ used to select a decision $d_a$ under some observed state of the game $o_a$ (for example, the previous pair of decisions) and parameterised through 
  $\theta_a$. Each agent learns
 how to make decisions by optimizing his policy under the expected sum of discounted utilities
 $$
@@ -1536,10 +1536,10 @@ $$
 where $\gamma \in (0,1)$ is a discount factor and $r_{a,t}$ is the reward that
 agent $a$ attains at time $t$.
 The previous optimization can be performed through 
-Q-learning or policy gradient methods \cite{sutton2012reinforcement}. 
+Q-learning or policy gradient methods \parencite{sutton2012reinforcement}. 
 The main limitation with this approach in the multi-agent setting is that if the
 agents are unaware of each other, they are shown to fail to cooperate 
-\cite{gallego2019opponent}, leading to defection every time, which is undesirable in the data sharing  game.
+\parencite{gallego2019opponent}, leading to defection every time, which is undesirable in the data sharing  game.
 
 As an alternative,  we propose three approaches, depending on the degree of decentralization and incentivisation sought for when trying 
 to foster collaboration. 
@@ -1564,7 +1564,7 @@ defined as the agents' average utility
 SU_t = \frac{r_{C,t} + r_{DDO,t}}{2}.
 \end{equation}
 This requires adopting a notion of transferable utility,
-serving as a common medium of exchange that can be transferred between agents, see e.g. \cite{aumann1960}.
+serving as a common medium of exchange that can be transferred between agents, see e.g. \parencite{aumann1960}.
 
 %An alternative solution to the problem of encouraging cooperation by introducing a third player, the Regulator (R), with the objective of adapting the behaviour of the other players by transferring utility between them. This will be done by applying incentives to the players.
 
@@ -1581,7 +1581,7 @@ finally assessing social utility.\footnote{Code for all the simulations performe
 Through this, we assess the impact of different 
 DDO strategies over social utility.
 
-We  model the Citizen as a Fictitious Play Q-learner (FPQ) in the spirit of Section \ref{sec:tmdps} \cite{gallego2019opponent}.
+We  model the Citizen as a Fictitious Play Q-learner (FPQ) in the spirit of Section \ref{sec:tmdps} \parencite{gallego2019opponent}.
 She chooses her action $d_a \in \lbrace C, D \rbrace$
 to maximize her expected utility $\psi(d_a)$
 defined through 
@@ -1589,14 +1589,14 @@ defined through
  where $p_{FP} (d_b)$ reflects the Citizen's beliefs about her opponent's
  actions $d_b \in \lbrace C, D \rbrace$
  and 
- $Q(d_a,d_b)$ is the augmented Q-function from the threatened Markov decision processes  \cite{gallego2019opponent}, 
+ $Q(d_a,d_b)$ is the augmented Q-function from the threatened Markov decision processes  \parencite{gallego2019opponent}, 
  an estimate of the expected utility obtained by the Citizen if both
  players were to commit to actions $d_a, d_b$.
  
  We estimate the probabilities $p_{FP} (d_b)$
   using the empirical frequencies of the opponent's past
   plays as in Fictitious Play 
- \cite{brown1951iterative}. To further favor learning, the Citizen could 
+ \parencite{brown1951iterative}. To further favor learning, the Citizen could 
 place a Beta prior over $p_C \sim \mathcal{B}(\alpha, \beta)$,
 the probability of the DDO cooperating, 
 with probability $p_D = 1-p_C$ of defecting.
@@ -1615,7 +1615,7 @@ For this, we
 value of $s$. This FPQ agent with
 memory will be called FPM. 
 Clearly, this approach could be expanded to account for 
-longer memories over the action sequences. However,  \cite{press2012iterated} shows that agents with a 
+longer memories over the action sequences. However,  \parencite{press2012iterated} shows that agents with a 
 good memory-1 strategy can effectively force the iterated 
 game to be played as memory-1, even if the opponent has a
 longer memory.
@@ -1656,8 +1656,8 @@ the social utility achieves its minimum value.
 \subparagraph{A Tit for Tat DDO.}
 We next model the DDO as a player using the Tit for Tat (TfT) strategy
 (it will first cooperate and, then, subsequently replicate the opponent's previous action: if the opponent was previously cooperative, the agent is cooperative; if not, it defects).
-This policy has been widely used in the IPD, because of its simplicity and effectiveness \cite{axelrod84}. A recent experimental study 
-\cite{dal2019strategy}
+This policy has been widely used in the IPD, because of its simplicity and effectiveness \parencite{axelrod84}. A recent experimental study 
+\parencite{dal2019strategy}
  tested real-life people's behaviour in IPD scenarios,
  showing that TfT was one of the most widely strategies.
  Figure \ref{fig:FPMvsTfT} shows that under TfT, the 
@@ -1897,7 +1897,7 @@ Results are shown in Figure \ref{fig:ru}.
 
 
 In order to further stimulate cooperative behavior, we introduce incentives to the players via the Regulator: if both players cooperate at a given turn, they will receive an extra amount $I$ of utility,
- a scalar that adds to their perceived rewards. Appendix  \ref{sec:oneshot_inc} shows that incentives complement well with the tax framework, so that mutual cooperation is possible in the one-shot version of this game. Note that, when $I>T-R$, instead of the Prisoner's Dilemma, we have an instance of the Stag Hunt game \cite{skyrms2004stag}, in which both $(C, C)$ and $(D, D)$ are 
+ a scalar that adds to their perceived rewards. Appendix  \ref{sec:oneshot_inc} shows that incentives complement well with the tax framework, so that mutual cooperation is possible in the one-shot version of this game. Note that, when $I>T-R$, instead of the Prisoner's Dilemma, we have an instance of the Stag Hunt game \parencite{skyrms2004stag}, in which both $(C, C)$ and $(D, D)$ are 
  pure Nash equilibria.\footnote{Achieving mutual cooperation is much simpler in this case.}
 
 As before, we focus the discussion in the iterated version.
