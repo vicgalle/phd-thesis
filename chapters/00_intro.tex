@@ -2,21 +2,21 @@
 \section{A motivation for Bayesian methods}
 
 Statistical decision making \parencite{french2000statistical} is a fundamental block of modern machine learning and statistics research and practice,
-providing fundamental tools for analyzing the vast amount of data that have become available in science, government, industry, and everyday life. Over the last century, many problems have been solved (at least partially) with probabilistic models \parencite{bishop2006pattern}, such as classifying email as spam, identifying patterns in genetic sequences, recommending similar movies or performing automatic translation between two languages. For each of these applications, a statistical model was fitted to the data, and then solve the task at hand. Since the previous applications are incredibly diverse, each model came from a different research community. But there is a common theme shared amongst them: \emph{the need to make a decision using the model}. Thus, statistical decision theory has emerged as a powerful framework to reason between different scientific areas \parencite{french2000statistical}.
+providing fundamental tools for analyzing the vast amount of data that have become available in science, government, industry, and everyday life. Over the last century, many problems have been solved (at least partially) with probabilistic models \parencite{bishop2006pattern}, such as classifying email as spam, identifying patterns in genetic sequences, recommending similar movies or performing automatic translation between two languages. For each of these applications, a statistical model was fitted to the data, typically solving the task at hand. Since the previous applications are incredibly diverse,  models came from  different research communities. But there was a common theme shared amongst them: \emph{the need to support a decision using the model}. Thus, statistical decision theory  emerged as a powerful framework to reason between different scientific areas. 
 
 We believe that building and using probabilistic models is not a single-step task, but rather an iterative process, closely resembling the scientific method \parencite{conant1959understanding}. First, propose a simple model based on the kinds of latent structure that your prior knowledge make you believe exists in the data. Then, given a data set, use an inference
-method to approximate the posterior distribution, the conditional distribution of the hidden parameters
+method to approximate the posterior distribution, the conditional distribution of the  parameters
 given the data. Lastly,
-use that posterior to test the model against new, test data. If not satisfied, we criticise and revise it, and we modify the model, iterating all over again. This is called the Box's loop \parencite{doi:10.1080/00401706.1962.10490015,10.2307/1266125}. It focuses on the scientific method, producing new knowledge nature by iterative experimental design, data collection,
+use that posterior to test the model against new, test data. If not satisfied, we criticise and revise it, and we modify the model, iterating all over again. This is called the Box's loop \parencite{doi:10.1080/00401706.1962.10490015,10.2307/1266125}. It focuses on the scientific method, producing new knowledge  by iterative experimental design, data collection,
 model formulation, and model criticism.
-Amongst all the different paradigms in statistics, the one that is closest to the previous approach to knowledge discovery is Bayesian analysis \parencite{gelman2013bayesian,insua2012bayesian}, and that will be the one adopted in these thesis.
+Amongst all the different paradigms in statistics, the one that is closest to the previous approach to knowledge discovery is Bayesian analysis \parencite{gelman2013bayesian,insua2012bayesian}, and this will be the one adopted in this thesis.
 
 
-Lastly, in the past years we have witnessed the success of neural networks and deep learning, achieving state of the art results in many different tasks. A brief introduction to deep learning will appear in Section \ref{sec:deep_intro}, but let us advance a few things here. Bayesian analysis is specially compelling for this kind of models, mostly because the object of interest  is now the predictive distribution:
+In the past years, we have witnessed the success of neural networks and deep learning, achieving state of the art results in many different tasks \parencite{lecun2015deep}. A brief introduction to deep learning will appear in Section \ref{sec:deep_intro}, but let us advance a few things here. Bayesian analysis is specially compelling for this kind of models, mostly because the object of interest  is now the predictive distribution,
 $$
 p(y|x, \mathcal{D}) = \int p(y|x,\theta) p (\theta| \mathcal{D}) d\theta,
 $$
-with $x$ being a sample to be classified, $y$ the predicted label, $\mathcal{D}$ is the training dataset, and $\theta$ the parameters of a neural network. The previous marginalization equation expresses epistemic uncertainty, that is, uncertainty over which configuration of parameters (hypothesis) is correct, given limited data. If the posterior $p(\theta| \mathcal{D})$ is sharply peaked, it makes no difference using a Bayesian approach versus the standard maximum likelihood or maximum a posteriori estimations, since just a single point mass may be a reasonable approximation to the posterior. However, neural networks are typically very underspecified by the training data available (a state of the art NN might have millions of parameters for just thousands of data points), and will thus have diffuse likelihood distributions $p(\mathcal{D}|\theta)$, leading to flatter posteriors.
+with $x$ being a sample to be classified or regressed, $y$ the predicted target, $\mathcal{D}$ is the training dataset, and $\theta$ the parameters of a neural network. The previous marginalization equation expresses epistemic uncertainty, that is, uncertainty over which configuration of parameters (hypothesis) is correct, given limited data. If the posterior $p(\theta| \mathcal{D})$ is sharply peaked, it makes no difference using a Bayesian approach versus the standard maximum likelihood or maximum a posteriori estimations, since just a single point mass may be a reasonable approximation to the posterior. However, neural networks are typically very underspecified by the training data available (a state of the art NN might have millions of parameters for just thousands of data points), and will thus have diffuse likelihood distributions $p(\mathcal{D}|\theta)$, leading to flatter posteriors.
 
 Indeed, there are large valleys in the loss landscape of
 neural networks \parencite{garipov2018loss}, over which parameters incur very little loss, but give rise to different high performing
@@ -24,14 +24,19 @@ functions which make meaningfully different predictions on the test dataset. The
 also demonstrates the variety of well-performing solutions that can be expressed by a neural network
 posterior, as it is highly flexible. In this cases, we desire to perform a Bayesian model average, since it leads to an ensemble of diverse yet good models, achieving better generalization capabilities and performance stability capabilities than classical training.
 
+In this thesis, we provide several contributions to large scale Bayesian machine learning, motivated by the following case study. On the one hand, serves us to introduce notation and key concepts, and, on the other hand, will motivate the three main problems of interest.
 
-\section{A case study in the retail sector using Bayesian time series models}\label{sec:dlms}
+\section{A case study in retailing}\label{sec:dlms}
 \input{chapters/002_dlm}
 
-\section{Current challenges: deep models and big data}\label{sec:deep_intro}
+\section{State of the art models and big data}\label{sec:deep_intro}
 \input{chapters/003_deep}
 
-\subsection{Large scale Bayesian inference}
+\section{Challenges}
+
+The reflections motivated by the previous case study, using classical Bayesian approaches, have led us to enumerate the following three major challenges, object of study in this thesis.
+
+\subsection{Challenge 1. Large scale Bayesian inference}
 
 %\subsubsection{Bayesian approaches}
 
@@ -57,8 +62,7 @@ distribution as its limit. \parencite{ma2015complete} provide a
 complete framework that encompass many earlier proposals and
 facilitate such discretization, as well as a practical tool for
 devising new samplers and testing the correctness of proposed samplers.
-
-As in Section 2.2, we aim at drawing samples from the
+We aim at drawing samples from the
 posterior $p(\theta |D) \propto \exp(-U(\theta ))$,
 with potential function
 $U(\theta ) = -\sum _{x\in D} \log p(x|\theta ) + \log p(\theta )$. Define also auxiliary variables $r$,
@@ -228,6 +232,7 @@ Inference phase. Based on learnt sampler parameters $\phi^*, \eta^*$:\\
 
 \fi
 %%%%%%%%%%%%%%%%%%%%%%%
+\iffalse
 \paragraph{Ensembles.} \parencite{bdl} showed that deep ensembles \parencite{ensemble} provide an efficient technique for approximate Bayesian marginalization, although it is not a truly Bayesian method.
 
 A regularization technique called dropout can be interpreted as performing ensembling over several models \parencite{dropout}. Motivated by how dropout could be effectively used to quantify uncertainty in deep networks \parencite{pmlr-v48-gal16}, several explorations have been pursued to extend ensembles for similar purposes. Deep ensembles were found to be superior to MC dropout in out-of-distribution-settings \parencite{Ovadia2019CanYT}.
@@ -240,8 +245,9 @@ way, the particles do not collapse into the same mode, and can explore wider are
 studying the interaction between both methods.
 
 Deep learning ensemble applications abound, for example in probabilistic wind power forecasting \parencite{wang2017deep}, speech recognition \parencite{deng2014ensemble}, time series forecasting \parencite{qiu2014ensemble}, and medicine or bioinformatics \parencite{qummar2019deep,xiao2018deep,cao2020ensemble}. However, the vast majority of these applied works only use simple ensembles, by averaging the outputs. Further benefits could be achieved by realizing a full Bayesian treatment of the problem.
+\fi
 
-In Chapter 2 we will further review these approaches and propose two frameworks to further scale up Bayesian inference in challenging settings.
+In Chapter 2 we will further review these approaches and propose two frameworks to further scale up Bayesian inference in challenging settings. The first is based on augmenting an SG-MCMC sampler with multiple, parallel chains, incorporating interactions between particles so they can explore the posterior more efficiently. The second is a novel variational approximation that serves to automatically adapt the hyperparameters of any SG-MCMC sampler.
 %\paragraph{Final remarks}
 %Lastly, note that 
 
@@ -251,7 +257,7 @@ In Chapter 2 we will further review these approaches and propose two frameworks 
 
 
 
-\subsection{Security of machine learning}
+\subsection{Challenge 2. Security of machine learning}
 
 
 As described, over the last decade
@@ -275,7 +281,7 @@ learning, part of the emergent field of
 adversarial machine learning (AML),
 question such hypothesis, given the
 presence of adaptive adversaries ready to  intervene in the problem 
-to modify the data and obtain a benefit. 
+to modify the data and obtain a benefit. In addition, time series models, such as the introduced in Section \ref{sec:dlms} can also be subject to adversarial attacks \parencite{9063523,10.5555/3016100.3016102}, so it is of great interest to develop model-agnostic defences.
 
 As a motivating example, vision algorithms (Section
 \ref{kkvision}) are at the core of many AI 
@@ -284,7 +290,7 @@ The simplest and most notorious attack examples to
 such algorithms  
 consist of modifications of images in such a way that the alteration becomes imperceptible to the human eye, yet drives a model trained on millions of images to misclassify the modified ones,
 with potentially relevant security consequences.
-With a relatively simple CNN model (Section 3.1.1), we are able to accurately predict 99\% of the handwritten digits in the MNIST data set.
+With a relatively simple CNN model, we are able to accurately predict 99\% of the handwritten digits in the MNIST data set.
 However, if we attack those data with the fast gradient sign method \parencite{szegedy2013intriguin},
 accuracy gets reduced to 62\%. Fig.~\ref{fig:digits} provides an example of an original MNIST image and a perturbed one: to our eyes both images look like a 2, but the classifier rightly identifies a 2 in the first case, whereas it suggests a 7 after the perturbation. 
 %
@@ -328,15 +334,25 @@ adopting an ARA perspective \parencite{adversarialRiskAnalysis2009,banks2015adve
 
 
 
-\subsection{Large scale competitive decision making}
+\subsection{Challenge 3. Large scale competitive decision making}
 
-In real life scenarios, decision makers rarely have to take a single action. Instead, multiple decisions must be made, with the former actions making a causal impact on the later ones. For example, in the case study from Section \ref{sec:dlms}, the decision maker might desire to plan ahead for a year the budget allocations of all the advertising channels. Thus, we have to raid into the realm of sequential decision making \parencite{french2000statistical,DIEDERICH200113917}. There are many frameworks to tackle this problem, such as optimal control theory \parencite{kirk2004optimal}. Since this thesis is also focused on Machine Learning, we adopt the framework of Reinforcement Learning (RL) to deal with sequential decisions while making the decision maker able to learn with her experiences \parencite{sutton2012reinforcement,kaelbling1996reinforcement}. RL differs from supervised learning in not needing labelled input/output pairs be presented, and in not needing sub-optimal actions to be explicitly corrected. Instead the focus is on finding a balance between exploration (of uncharted experiences) and exploitation (of current knowledge).
+In real life scenarios, decision makers rarely have to take a single action. Instead, multiple decisions must be made, with the former actions making a causal impact on the later ones. For example, in the case study from Section \ref{sec:dlms}, the decision maker might desire to plan ahead for a year the budget allocations of all the advertising channels. Thus, we have to raid into the realm of sequential decision making \parencite{french2000statistical,DIEDERICH200113917}. There are many frameworks to tackle this problem, such as optimal control theory \parencite{kirk2004optimal}. Since this thesis is also focused on Machine Learning, we adopt the framework of Reinforcement Learning (RL) to deal with sequential decisions while making the decision maker able to learn from her experiences \parencite{sutton2012reinforcement,kaelbling1996reinforcement}. RL differs from supervised learning in not needing labelled input/output pairs be presented, and in not needing sub-optimal actions to be explicitly corrected. Instead the focus is on finding a balance between exploration (of uncharted experiences) and exploitation (of current knowledge). Of course, RL can also benefit from recent developments in deep, neural architectures to further enhance its efficiency in complex and highly dimensional environments \parencite{mnih2015human}.
 
-However, RL typically only deals with one agent (the decision maker), taking actions against her environment, which is assumed to be stationary. Realistic settings have to take into account the presence of other rational agents. These can be potential collaborators to cooperate, but also could be adversaries. For instance, in the case study from Section \ref{sec:dlms} we could have modeled competitors also taking decisions that in a way, also affect the expected sales of the supported franchise. Under this dynamic, non-stationary environment, traditional RL techniques dramatically fail, and it is a necessity to develop novel frameworks that acknowledge the presence of other players. This is the realm of multi-agent Reinforcement Learning (MARL), which usually takes grounding in game-theoretical approaches \parencite{marl_over,lanctot2017unified}. Game Theory has also its own drawbacks, whereas Adversarial Risk Analysis (ARA) offers a more realistic view, leveraging Bayesian ideas \parencite{Banks}.
+However, RL typically only deals with one agent (the decision maker), taking actions against her environment, which is assumed to be stationary. Realistic settings have to take into account the presence of other rational agents. These can be potential collaborators to cooperate, but also could be adversaries. For instance, in the case study from Section \ref{sec:dlms} we could have modeled competitors also taking decisions that in a way, also affect the expected sales of the supported franchise. Under this dynamic, non-stationary environment, traditional RL techniques dramatically fail, and it is a necessity to develop novel frameworks that acknowledge the presence of other players. This is the realm of multi-agent Reinforcement Learning (MARL), which usually takes grounding in game-theoretical approaches \parencite{marl_over,lanctot2017unified}. 
+
+Game Theory has also its own drawbacks, whereas Adversarial Risk Analysis (ARA) offers a more realistic view, leveraging Bayesian ideas \parencite{Banks}.
 Chapter 4 deals with some of these issues.
 
 
 \section{Thesis structure}
 
-Here concludes the first chapter of this thesis, in which we have provided the context of the subsequent work. Chapter 2 describes two novel approaches for large scale Bayesian inference in complex models. Chapter 3 surveys the state of adversarial classification and presents an original approach to robustify classifiers inspired by Adversarial Risk Analysis. Chapter 4 takes a deep dive into reinforcement learning, proposing a framework to support a decision maker against adversaries and then studying a realistic application in data sharing markets.
-Finally, Chapter 5 ends up with several conclusions and avenues for further work.
+The three challenges explained above are the content of the next chapters of this thesis. Chapter 2 describes two novel approaches for large scale Bayesian inference in complex models. Chapter 3 surveys the state of adversarial classification and presents an original approach to robustify classifiers inspired by Adversarial Risk Analysis. Chapter 4 takes a deep dive into reinforcement learning, proposing a framework to support a decision maker against adversaries and then studying a realistic application in data sharing markets.
+
+Finally, Chapter 5 ends up with several conclusions and avenues for further work. Figure \ref{fig:thesis} shows how this thesis is structured.
+
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.8]{figures/thesis_structure.png}
+\caption{The structure of this thesis}\label{fig:thesis}
+\end{figure}

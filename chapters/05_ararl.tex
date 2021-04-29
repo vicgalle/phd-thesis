@@ -449,7 +449,7 @@ Algorithm \ref{alg:l2ur} specifies the approach
 for a level-2 DM. 
 
 \begin{algorithm*}[!ht]
-\begin{algorithmic}
+\begin{algorithmic}[1]
 \Require $Q_2$, $\hat{Q}_1$, $\alpha_2, \alpha_1$ (DM and opponent $Q$-functions
 and learning rates, respectively).
 %\Comment Level-1
@@ -536,7 +536,7 @@ update her belief $p(M_i)$ by increasing the count $n_i$ of model $M_i$ which
 caused that action, as in the standard Dirichlet-Categorical Bayesian
 update rule (Algorithm \ref{alg:update_averaging}). 
 \begin{algorithm*}[!ht]
-\begin{algorithmic}
+\begin{algorithmic}[1]
 \Require $p(M | H)\, \propto\, (n_1, n_2, \ldots, n_m)$ (counts for each model), with 
 $H$ the sequence $(b_0, b_1, \ldots, b_{t-1})$ of past opponent actions.
 %\Comment Level-1,
@@ -576,7 +576,7 @@ Algorithm \ref{alg:l2urdeep} shows the details, where $\phi_A$ and $\phi_B$ desi
 the framework is compatible with continuous action spaces.
 
 \begin{algorithm*}[!ht]
-\begin{algorithmic}
+\begin{algorithmic}[1]
 \Require DM's $Q$-function, $Q_{\phi_A}$ and estimate of the opponent's $Q$-function, $\hat{Q}_{\phi_B}$, $\alpha_2, \alpha_1$ (learning rates).
 %\Comment Level-1
 \State Observe  transition $(s, a, b, r_A, r_B, s')$.
@@ -943,7 +943,7 @@ scheme, based on the the property that the Dirichlet distribution is conjugate o
  we essentially account for just the last $\frac{1}{1 - \lambda}$ 
  opponent actions.  
  \begin{algorithm}
-\begin{algorithmic}
+\begin{algorithmic}[1]
 \State Initialize pseudocounts $ \bm{\alpha^0} = (\alpha^0_1, \ldots, \alpha^0_n)$
 \For{$t = 1, \ldots, T $}
 \State $\bm{\alpha^t} = \lambda \bm{\alpha^{t-1}}$ \Comment Reweight with factor $0 < \lambda < 1$

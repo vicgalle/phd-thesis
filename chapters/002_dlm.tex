@@ -1,13 +1,13 @@
 
 \subsection{Context}
 
-It is widely acknowledged that a firm's expenditure  on advertising has a positive effect on sales \parencite{assmus1984advertising, tellis2007advertising, luo2012does, wiesel2011practice}. However, the exact relationship between them remains a moot point, see \emph{e.g.} \parencite{tellis2009generalizations} for a broad survey. Since Dorfman and Steiner's \parencite{dorfman1954optimal} seminal work\,---one of the first formal theories of optimal monopoly advertising---\,several models have been proposed to pinpoint this relationship, although consensus on the best approach has not been reached yet. Two diverging model-building schools seem to dominate the marketing literature \parencite{little1979aggregate}: \emph{a priori} models that rely heavily on intuition and are derived from general principles, although usually with a practical implementation on mind (\parencite{nerlove1962optimal}, or \parencite{vidale1957operations} and \parencite{little1975brandaid} \emph{inter alia}) and  \emph{statistical} or \emph{econometric} models, which usually start from a specific dataset to be modelled (see \parencite{assmus1984advertising} for a review). In this work we will mostly rely on the first type of models, \emph{viz.} that of Nerlove-Arrow \parencite{nerlove1962optimal}, which extends  Dorfman and Steiner to a dynamic setting \parencite{bagwell2007economic} and adapts seamlessly to the \emph{state-space} or \emph{structural} time series approach.
+It is widely acknowledged that a firm's expenditure  on advertising has a positive effect on sales \parencite{assmus1984advertising, tellis2007advertising, luo2012does, wiesel2011practice}. However, the exact relationship between them remains a moot point, see \parencite{tellis2009generalizations} for a broad survey. Since Dorfman and Steiner's \parencite{dorfman1954optimal} seminal work\, several models have been proposed to pinpoint this relationship, although consensus on the best approach has not been reached yet. Two diverging model-building schools seem to dominate the marketing literature \parencite{little1979aggregate}: \emph{a priori} models rely heavily on intuition and are derived from general principles, although usually with a practical implementation on mind (\parencite{nerlove1962optimal}, or \parencite{vidale1957operations} and \parencite{little1975brandaid} \emph{inter alia}); and  \emph{statistical} or \emph{econometric} models, which usually start from a specific dataset to be modelled (e.g. \parencite{assmus1984advertising}). Here we will mostly rely on the first type of models, \emph{viz.} that of Nerlove-Arrow \parencite{nerlove1962optimal}, which extends  Dorfman and Steiner to a dynamic setting \parencite{bagwell2007economic} and adapts seamlessly to the \emph{state-space} or \emph{structural} time series approach.
 
 
 
-Bayesian structural time series models \parencite{scott2014predicting}, in turn, have positioned themselves in the past few years as very effective tools  not only for analysing marketing time-series, but also to throw light into more uncertain terrains like  causal impacts, incorporating \emph{a priori} information into the model, accommodating multiple sources of variations or supporting variable selection. Although the origins of this formalism can be traced back to the 1950's in engineering problems of filtering, smoothing and forecasting, first with Wiener \parencite{wiener1949extrapolation} and specially with Kalman \parencite{kalman1960new}, these problems can also be understood from the perspective of estimation in which a vector valued time series $\{ X_0, X_1, X_2, \ldots\}$ that we wish to estimate (the \emph{latent} or \emph{hidden} states) is observed through a series of noisy measurements $\{ Y_0, Y_1, Y_2, \ldots\}$. This  means that, in the Bayesian sense, we want to compute the joint posterior distribution of all the states given all the measurements \parencite{sarkka2013bayesian}. The ever-growing computing power and release of several programming libraries  in the last few years like \parencite{petris2010r, scott2016bsts} have in part alleviated the difficulties in the mathematical underpinning and computer implementation  that this formalism suffers, making these methods broadly known and used. This family of models have been used successfully to model financial time series data \parencite{doi:10.1002/asmb.428}, infer causal impact of marketing campaigns \parencite{brodersen2015inferring}, select variables and nowcast consumer sentiment  \parencite{scott2015bayesian}, or for predicting other economic time series models like unemployment \parencite{scott2014predicting}.
+Bayesian structural time series models \parencite{scott2014predicting}, in turn, have positioned themselves in the past few years as very effective tools  not only for analysing marketing time-series, but also to throw light into more uncertain terrains like  causal impacts, incorporating \emph{a priori} information into the model, accommodating multiple sources of variations or supporting variable selection. Although the origins of this formalism can be traced back to the 1950's in engineering problems of filtering, smoothing and forecasting, first with Wiener \parencite{wiener1949extrapolation} and specially with Kalman \parencite{kalman1960new}, these problems can also be understood from the perspective of estimation in which a vector valued time series $\{ X_0, X_1, X_2, \ldots\}$ that we wish to estimate (the \emph{latent} or \emph{hidden} states) is observed through a series of noisy measurements $\{ Y_0, Y_1, Y_2, \ldots\}$. This  means that, in the Bayesian sense, we want to compute the joint posterior distribution of all the states given all the measurements \parencite{sarkka2013bayesian}. The ever-growing computing power and release of several programming libraries  in the last few years like \parencite{petris2010r, scott2016bsts} have in part alleviated the difficulties in the implementation  that this formalism suffers, making these methods broadly known and used. This family of models have been used successfully to, e.g., model financial time series data \parencite{doi:10.1002/asmb.428}, infer causal impact of marketing campaigns \parencite{brodersen2015inferring}, select variables and nowcast consumer sentiment  \parencite{scott2015bayesian}, or for predicting other economic time series models like unemployment \parencite{scott2014predicting}.
 
-In this section we use the formalism of Bayesian structural time-series models to formulate a robust model that links advertising expenditures with weekly sales. Due to the flexibility and modularity of the model, it will be well suited to generalization to various markets or situations. Its Bayesian nature also adapts smoothly to the issue of introducing outside or \emph{a priori} information, which can be updated to the posterior distribution of the estimated parameters. The formulation of the model allows for non-gaussian innovations of the process, which will take care of the heavy-tailedness of the distribution of sales increments. We also discuss how the forecasts produced by this model can help the manager into allocating the advertising budget. The decision space is reduced to a one dimensional curve of Pareto optimal strategies for the two moments of the forecast distribution: expected return and variance.
+We use the formalism of Bayesian structural time-series models to formulate a robust model that links advertising expenditures with weekly sales. Due to the flexibility and modularity of the model, it will be well suited to generalization to various markets or situations. Its Bayesian nature also adapts smoothly to the issue of introducing prior information. The formulation of the model allows for non-gaussian innovations of the process, which will take care of the heavy-tailedness of the distribution of sales increases. We also discuss how the forecasts produced by this model can help the manager into allocating the advertising budget. The decision space is reduced to a one dimensional curve of Pareto optimal strategies for  two moments of the forecast distribution (expected return and variance).
 
 %The paper is organized as follows: after a brief review of the most usual marketing models and the formalism of structural time series in section 2, we define the model to be used to fit the data. The experimental setup will be detailed in section 3. Section 4 provides a discussion in which alternative models will be compared and also possible uses of this model in the industry. A brief summary and ideas for further research are detailed in section 5.
 
@@ -19,32 +19,33 @@ In this section we use the formalism of Bayesian structural time-series models t
 \paragraph{The Nerlove-Arrow model.}
 
 
-Numerous formulations of aggregate advertising response models exist in the marketing literature, e.g. \parencite{little1979aggregate}. The model of Nerlove and Arrow \parencite{nerlove1962optimal} extends the Dorfman-Steiner model to cover the situation in which present advertising expenditures affect future demand for products; it is parsimonious and is considered as a standard in the quantitative marketing community. We use it as our starting point.
+Numerous formulations of aggregate advertising response models exist in the  literature, e.g. \parencite{little1979aggregate}. The model of Nerlove and Arrow \parencite{nerlove1962optimal} extends the Dorfman-Steiner model to cover the situation in which current advertising expenditures affect future product demand; it is parsimonious and is considered as a standard in the quantitative marketing community. We use it as our starting point.
 
 In this model, advertising expenditures are considered similar in many ways to investments in durable plant and equipment, in the sense that they affect the present and future character of output and, hence, the present and future net revenue of the investing firm. The idea is to define an ``advertising stock'' called \emph{goodwill}  $A(t)$ which seemingly summarizes the effects of current and past advertising expenditures over demand. Then, the following dynamics is defined for the goodwill
 
 \begin{equation}\label{eq:NA}
 \frac{dA}{dt} = qu(t) - \delta A(t),
 \end{equation}
-where $u(t)$ is the advertising spending rate (e.g., euros or gross rating points per week), $q$ is a parameter that reflects the advertising quality (an effectiveness coefficient) and $\delta$ is a decay or forgetting rate. The \emph{goodwill} then increases linearly with the advertisement expenditure but decreases also linearly due to forgetting. %Note that the last term breaks the linearity of the model, i.e. it prevents from achieving arbitrary large goodwill by increasing the advertising expenditure.
+where $u(t)$ is the advertising spending rate (e.g., euros or gross rating points per week), $q$ is a parameter that reflects the advertising quality (an effectiveness coefficient) and $\delta$ is a decay or forgetting rate. \emph{Goodwill} then increases linearly with  advertisement expenditure but decreases also linearly due to forgetting. %Note that the last term breaks the linearity of the model, i.e. it prevents from achieving arbitrary large goodwill by increasing the advertising expenditure.
 
-Several extensions and modifications have been proposed to this simple model: it can include a limit for potential costumers \parencite{vidale1957operations}, a non-linear response function to advertise expenditures \parencite{little1975brandaid}, wear-in and wear-out effects of advertising \parencite{naik1998planning},  interactions between different advertising channels \parencite{bass2007wearout}, among other. Still, for most of the tasks, the  Nerlove-Arrow model remains as a simple and solid starting point. 
+Several extensions and modifications have been proposed to this simple model: it can include a limit for potential costumers \parencite{vidale1957operations}, a non-linear response function to advertise expenditures \parencite{little1975brandaid}, wear-in and wear-out effects of advertising \parencite{naik1998planning},  interactions between different advertising channels \parencite{bass2007wearout}, among others. Still, for most  tasks, the  Nerlove-Arrow model remains as a simple and solid starting point. 
 
 \paragraph{Bayesian structural time series models.}
 
 
-\emph{Structural time series models} or \emph{state-space models} provide a general formulation that  allows a unified treatment of virtually any linear time series model through the general algorithms of the Kalman filter and the associated smoother. Several handbooks \parencite{durbin2012time, petris2009dynamic, sarkka2013bayesian, west1998bayesian} discuss this topic in depth, so  we will not develop the corresponding theory. We will however present the most salient features that concern our modelling problem. For further details, the reader may check the aforementioned handbooks. 
+\emph{Structural time series models} or \emph{state-space models} provide a general formulation that  allows a unified treatment of virtually any linear time series model through the Kalman filter and the associated smoother. Several handbooks \parencite{durbin2012time, petris2009dynamic, sarkka2013bayesian, west1998bayesian} discuss this topic in depth. We will  present a few salient features that concern our modelling problem. For further details, the reader may check the aforementioned handbooks. 
 
-The state-space formulation of a time series consists of two different equations: the \emph{state} or \emph{evolution equation} which determines the dynamics of the state of the system as a first-order Markov process ---\,usually parametrized through \emph{state} variables\,--- and an \emph{observation} or \emph{measurement  equation} which links the latent state with the observed state. Both equations are also affected by noise. Denoting by $\mathbf{\theta}_t$ the $m\times1$ \emph{state vector} describing the inner state of the system, by $G_t$ the $m\times m$ matrix that generates the dynamics, by $H_t$ a $m\times g$ matrix and by $ \epsilon_t $ a $g\times 1$ vector of serially uncorrelated disturbances with mean zero and covariance matrix $W_t$, the system would evolve according to the equation
-
+The state-space formulation of a time series consists of two different equations: the \emph{state} or \emph{evolution equation} which determines the dynamics of the state of the system as a first-order Markov process ---\,usually parametrized through \emph{state} variables\,--- and an \emph{observation} or \emph{measurement  equation} which links the latent state with the observed state. Both equations are also affected by noise.
 \begin{equation}\label{eq:st}
-\theta_{t} = G_t \theta_{t-1} + H_t \epsilon_t \qquad \epsilon_t \sim \mathcal{N}(0, W_t).
+\theta_{t} = G_t \theta_{t-1} + \epsilon_t \qquad \epsilon_t \sim \mathcal{N}(0, W_t).
 \end{equation}
 The states ($\theta_t$) are not generally observable, but are linked to the \emph{observation variables} $Y_t$ through the \emph{observation equation}:
 \begin{equation}\label{eq:obs}
-Y_t = F_t \theta_t + \epsilon'_t \qquad \epsilon'_t \sim \mathcal{N}(0, V_t),
+Y_t = F_t \theta_t + \epsilon'_t \qquad \epsilon'_t \sim \mathcal{N}(0, V_t).
 \end{equation}
-where, $Y_t \in \mathbb{R}$ is the observed value at timestep $t$, $F_t$ is the $1\times m$ matrix that links the inner state to the observable, and $V_t \in \mathbb{R}^+$ is the variance of $\epsilon'_t $, the random disturbances of the observations.
+We denote by $\mathbf{\theta}_t$ the $m\times1$ \emph{state vector} describing the inner state of the system, by $G_t$ the $m\times m$ matrix that generates the dynamics, and by $ \epsilon_t $ a $g\times 1$ vector of serially uncorrelated disturbances with mean zero and covariance matrix $W_t$. $F_t$ is the $1\times m$ matrix that links the inner state to the observable, and $V_t \in \mathbb{R}^+$ is the variance of $\epsilon'_t $, the random disturbances of the observations.
+
+
 
 %The dependence structure is depicted in Figure \ref{fig:ss}. Since the state sequence $\{ \theta_t\}$ is a Markov chain,  each observation $Y_t$ is independent on past observations conditioned on  state $\theta_t$. 
 
@@ -72,19 +73,19 @@ The continuous-time Nerlove-Arrow model must be first cast in discrete time so a
 $$
 A_t =  (1-\delta) A_{t-1} + q u_{t-1} + \epsilon_t 
 $$
-where $A_t$ is the \emph{goodwill} stock, $u_t$ is the advertising spending rate, $q$ is the effectiveness coefficient and the random disturbance $\epsilon_t$  captures the net effects of the variables that affect the goodwill  but cannot be modelled explicitly.  This discrete counterpart of Nerlove-Arrow is a distributed-lag structure with geometrically declining weights, i.e., a \emph{Koyck model} \parencite{clarke1976econometric, koyck1954distributed}. Since in our setting the model includes the effect of $k$ different channels in the goodwill, we shall modify the previous equations according to:
+where $A_t$ is the \emph{goodwill} stock, $u_t$ is the advertising spending rate, $q$ is the effectiveness coefficient and the random disturbance $\epsilon_t$  captures the net effects of the variables that affect the goodwill  but cannot be modelled explicitly.  This discrete counterpart of Nerlove-Arrow is a distributed-lag structure with geometrically declining weights, i.e., a \emph{Koyck model} \parencite{clarke1976econometric, koyck1954distributed}. Since in our setting the model includes the effect of $k$ different channels in the goodwill, we modify the previous equations to:
 
 $$
 A_t =  (1-\delta) A_{t-1} + \sum_{i=1}^k q_i u_{i(t-1)} + \epsilon_t 
 $$
 
-Now, following the notation from (\ref{eq:st}) and (\ref{eq:obs}), the discrete-time Nerlove-Arrow model in state-space form will read as follows:
+Now, following  (\ref{eq:st}) and (\ref{eq:obs}), the discrete-time Nerlove-Arrow model in state-space form will read:
 \begin{description}
 
 \item[Evolution equation:]
 
 \begin{equation} \label{eq:NA_st}
-\theta_{t} = G_t \theta_{t-1} + H_t \epsilon_t \qquad \epsilon_t \sim \mathcal{N}(0, W_t),   
+\theta_{t} = G_t \theta_{t-1} +  \epsilon_t \qquad \epsilon_t \sim \mathcal{N}(0, W_t),   
 \end{equation}
 \noindent where
 \begin{equation*} 
@@ -95,9 +96,9 @@ G_t =  \begin{bmatrix}
    0 & 1 &   \ldots & 0 \\
    \vdots  &   \vdots & \ddots & \vdots \\
    0 & 0 &  \ldots & 1 \\
-   \end{bmatrix}
-, \quad
- H_t =    \begin{bmatrix} 1  \\ 0 \\ \vdots \\ 0 \end{bmatrix}
+   \end{bmatrix}.
+%, \quad
+% H_t =    \begin{bmatrix} 1  \\ 0 \\ \vdots \\ 0 \end{bmatrix}
 \end{equation*}
 
 
@@ -117,7 +118,7 @@ Note that the $q_i$ are constant over time and that the matrix $G_t$ depends on 
 
 \paragraph{Modularity and additional structure.}
 
-The above model is very flexible in the sense that it can be defined \emph{modularly},  in as much as the different hidden states evolve independently of the others (\emph{i.e.} the evolution matrix can be cast in block-diagonal form). This greatly simplifies their implementation and allows for simple building-blocks with characteristic behavior. Typical blocks specify trend and seasonal components ---\,which can be helpful to discover additional patterns in the time series--- or explanatory variables that can be added to further reduce the uncertainty in the model and bridge the gap between time series and regression models. Via the \emph{superposition principle} \parencite[Chapter 3]{petris2009dynamic} we could include additional blocks in our model:
+The above model is very flexible in the sense that it can be defined \emph{modularly},  in as much as different hidden states evolve independently of the others (\emph{i.e.} the evolution matrix can be cast in block-diagonal form). This greatly simplifies their implementation and allows for simple building-blocks with characteristic behavior. Typical blocks specify trend and seasonal components ---\,which can be helpful to discover additional patterns in the time series--- or explanatory variables that can be added to further reduce  uncertainty in the model and bridge the gap between time series and regression models. Via the \emph{superposition principle} \parencite[Chapter 3]{petris2009dynamic} we could include additional blocks in our model:
 
 $$
 Y_t = Y_{NA, t} + Y_{R, t} + Y_{T, t} + Y_{S, t}
@@ -126,14 +127,14 @@ where $Y_{NA, t}$ corresponds to the discretized Nerlove-Arrow equation, defined
 
 \paragraph{Regression components. Spike and slab variable selection.}\label{sec:s_s}
 
-To take into account the effects of external explanatory variables, a static regression component can be easily incorporated into the model through
+To take into account the effects of external explanatory variables such as the weather or sport events, a  regression component can be easily incorporated into the model through
 
 $$
 Y_{R,t} = X_t \beta + \epsilon_t,
 $$
 where the state $\beta$ is constant over time to favor parsimony.
 
-A spike and slab prior \parencite{mitchell1988bayesian} is used for the static regression component since it can incorporate \emph{prior information} and also facilitate variable selection. This is specially useful for models with large number of regressors, a typical setting encountered in business scenarios.
+A spike and slab prior \parencite{mitchell1988bayesian} is used for the  regression component, since it can incorporate \emph{prior information} and also facilitate variable selection. This is specially useful for models with a large number of regressors, a typical setting in business scenarios.
 Let $\gamma$ denote a binary vector that indicates whether the regressors are included in the regression. Specifically, $\gamma_i = 1$ if and only if $\beta_i \neq 0$. The subset of $\beta$ for which $\gamma_i = 1$ will be denoted $\beta_{\gamma}$. Let $\sigma^2_{\epsilon}$ be the residual variance from the regression part. The spike and slab prior \parencite{george1997approaches} can be expressed as
 $$
 p(\beta, \gamma, \sigma^2_{\epsilon}) = p(\beta_{\gamma} | \gamma, \sigma^2_{\epsilon})p(\sigma^2_{\epsilon} | \gamma)p(\gamma).
@@ -173,7 +174,7 @@ We can replace the assumption of Gaussian errors with student-$t$ errors in the 
 $$ 
 Y_{t} = F_t \theta_t + \epsilon'_t \qquad \epsilon'_t \sim \mathcal{T}_\nu(0, \tau^2).
 $$
-Typically, in these settings we set $\nu > 1$ to make the variance finite, and this variance parameter can be estimated from data using Empirical Bayes methods, for instance.
+Typically, in these settings we set $\nu > 1$ to make the variance finite, and this variance parameter can be estimated from data using empirical Bayes methods, for instance.
 In this manner, we allow the model to predict occasional larger deviations, which is reasonable in the context of forecasting sales. For instance, a special event not taken into account through the predictor variables may lead to an increase in the sales for that week.
 
 %Using student-$t$ errors makes it impossible to apply Bayes rule in closed form, but it poses no problem since we are using MCMC.
@@ -191,14 +192,14 @@ In this manner, we allow the model to predict occasional larger deviations, whic
 
 
 
-The time series analyzed in this case study contains the total weekly sales of a country-wide franchise of fast food restaurants, Figure \ref{fig:sales}, covering the period January 2011 - June 2015, thus comprising 234 observations. The total weekly sales is in fact the aggregated sum from the individual sales of the whole country network of 426 franchises, also allowing a fine-grained study down to the store level, although we shall not carry it out in this paper. Along with the sales figures, the series includes the investment levels $\{u_{it}\}$  in advertising during this period  for seven different channels \emph{viz.} \texttt{OOH} (Out-of-home, \emph{i.e.} billboards), \texttt{Radio}, \texttt{TV}, \texttt{Online}, \texttt{Search}, \texttt{Press} and \texttt{Cinema}, Figure \ref{fig:canales}, $i=1,\ldots,7$.
+The time series analyzed in this case study contains the total weekly sales of a country-wide franchise of fast food restaurants, Figure \ref{fig:sales}, covering the period January 2011 - June 2015, thus comprising 234 observations. The total weekly sales is in fact the aggregated sum from the individual sales of the whole country network of 426 franchises. Along with the sales figures, the series includes the investment levels $\{u_{it}\}$  in advertising during this period  for seven different channels \emph{viz.} \texttt{OOH} (Out-of-home, \emph{i.e.} billboards), \texttt{Radio}, \texttt{TV}, \texttt{Online}, \texttt{Search}, \texttt{Press} and \texttt{Cinema}, Figure \ref{fig:canales}, $i=1,\ldots,7$.
 
 
 
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.5]{figures/02_canales_b.png}
-\caption{Advertising expenditure. Jan-2011 through Jul-2015. \\ Note the different scales on the y-axis.}\label{fig:canales}
+\caption{Advertising expenditure. Jan-2011-Jul-2015. \\ Note  different scales on  y-axis.}\label{fig:canales}
 \end{figure}
 
 From such graphs we observe that:
@@ -223,16 +224,19 @@ Following the notation in Section \ref{sec:model}, we consider three model varia
 
 \begin{itemize}
 \item \textbf{Baseline model}, which makes use of no external variables $$Y^{\text{B}}_t = Y_{NA,t} + Y_{T, t}.$$
-\item \textbf{Auto regression}: this model  incorporates the external ambient and investment variables, so the equation of the model becomes 
-$$ Y_t^{\text{RA}} = Y_{NA,t} + Y_{T, t} + Y_{R,t}.$$ We select an expected model size of 5 in the spike and slab prior, letting all variables to be treated equally.
-\item \textbf{Regression (forcing)}: the model has same equation as before (we will refer to it as \text{RF}).
+\item \textbf{Auto-regression}: this model  incorporates the external ambient and investment variables, so the equation of the model becomes 
+\begin{equation}\label{eq:autoreg}
+Y_t^{\text{RA}} = Y_{NA,t} + Y_{T, t} + Y_{R,t}.
+\end{equation}
+We select an expected model size\footnote{defined as the average number of selected regression features.} of 5 in the spike and slab prior, letting all variables to be treated equally.
+\item \textbf{Regression (forcing)}: the model has same equation as Eq. (\ref{eq:autoreg}) (we will refer to it as \text{RF}).
 %$$ Y_t^{\text{RF}} = Y_{NA,t} + Y_{T, t} + Y_{R,t}.$$ 
 However, in the prior we force investment variables to be used by setting their corresponding $\pi_i = 1$, and imposing an expected model size of 5 for the rest of the variables.
 \end{itemize}
 In all cases, only the five principal advertising channels (\texttt{TV}, \texttt{OOH}, \texttt{ONLINE}, \texttt{SEARCH} and \texttt{RADIO}) will be used; the remaining two (\texttt{CINEMA} and \texttt{PRESS}) are sensibly lower both in magnitude and frequency than the others so we can safely disregard them in a first approximation. 
 
 
-As customary in a supervised learning setting with time series data, we perform the following split of our dataset: since it comprises four years of sales, we take the first two years of observations as training set, and the rest as holdout, in which we measure several predictive performance criteria. Before fitting the data, we scale the series to have zero mean and unit variance as this increases MCMC stability. Reported sales forecasts are transformed back to the original scale for easy interpretation. The models were implemented in R  using the \texttt{bsts} package \parencite{scott2016bsts}.
+As customary in a supervised learning setting with time series data, we perform the following split of our dataset: since it comprises four years of sales, we take the first two years of observations as training set, and the rest as holdout, in which we assess several predictive performance criteria. Before fitting the data, we scale the series to have zero mean and unit variance as this increases MCMC stability. Reported sales forecasts are transformed back to the original scale for easy interpretation. The models were implemented in R  using the \texttt{bsts} package \parencite{scott2016bsts}.
 % such as root mean squared error (RMSE).
 %pang propone no poner el RMSE, porque no mide la calidad de nuestras predicciones de la varianza, y es mejor no meternos en berenjenales hablando de scoring rules ni las otras alternativas...
 
@@ -243,7 +247,7 @@ As customary in a supervised learning setting with time series data, we perform 
 \subsection{Discussion of results}
 
 It is customary to aim at models achieving good predictive performance. %Otherwise, the proposed framework would be unusable in a real-world scenario such as the one described in the previous Section. 
-For this reason, we test the predictive performance of our three models using two metrics:
+For this reason, we test  our three models using two metrics:
 
 \begin{itemize}
 \item Mean Absolute Percentage Error: $$ \text{MAPE} = \frac{100\%}{T}\sum_{t=1}^T \frac{|y_t - \hat{y}_t|}{y_t},$$
@@ -256,7 +260,8 @@ $$
 where $\mathcal{T}(Y)$ denotes the set of time-steps $t$ contained in year $Y$.
 \end{itemize}
 % In addition, incorporating external information helps unbiasedness, as $\text{MPE}_{\text{RA}}$ and $\text{MPE}_{\text{RF}}$ are closer to zero than the baseline counterpart. 
-These scores are reported in Table \ref{tab:mapes} with sales in million EUR. Note that, unsurprisingly, the models which include external information (RA and RF) achieve better accuracy than the baseline. In addition, we note that predictions are unbiased, since cumulative predictions are extremely close to their observed counterparts. Overall, we found the predictive performance of our models to be successful for a business scenario, as we achieve under 5\% relative absolute error using the variants augmented with external information. This is clearly useful for the decision maker who may forecast their weekly sales one week ahead to within a 5\% error in the estimation.
+These scores are reported in Table \ref{tab:mapes} with sales in million EUR. Note that the models which include external information (RA and RF) achieve better accuracy than the baseline. In addition, 
+predictions are unbiased, since cumulative predictions are extremely close to their observed counterparts. Overall, we found the predictive performance of our models to be successful for a business scenario, as we achieve under 5\% relative absolute error using the variants augmented with external information. This is clearly useful for a decision maker who wants to forecast their weekly sales one week ahead to within a 5\% error in the estimation.
 
 \begin{table}[h]
 \centering
@@ -280,12 +285,12 @@ RF &  4.59\% &  9665 & 9582 \\
 % 968050055 & 961308693\\
 % 966482366 & 958161307\\
 
-Figure \ref{fig:forecasts} displays the predictive ability of model RF over the hold-out period. Note that the model is sufficiently flexible to adapt to fluctuations such as the peaks at Christmas. Predictive intervals also adjust their width with respect to the time to reflect varying uncertainty, yet in the worst cases they are sufficiently narrow. Further information can be tracked in Figure \ref{fig:residuals}, where mean standardized residuals are plotted for each model variant. Notice that the residuals for models RA and RF are roughly comparable, being both sensibly smaller than those of the baseline. This means that the simpler Nerlove-Arrow model benefits from the addition of the ambient variables $X_i$, as suggested in our findings from Table \ref{tab:mapes}.
+Figure \ref{fig:forecasts} displays the predictive ability of model RF over the hold-out period. The model seems sufficiently flexible to adapt to fluctuations such as the peaks at Christmas. Predictive intervals also adjust their width with respect to the time to reflect varying uncertainty, yet in the worst cases they are sufficiently narrow. Further information can be tracked in Figure \ref{fig:residuals}, where mean standardized residuals are plotted for each model variant. Notice that the residuals for models RA and RF are roughly comparable, being both sensibly smaller than those of the baseline. This means that the simpler Nerlove-Arrow model benefits from the addition of the ambient variables $X_i$, as suggested in our findings from Table \ref{tab:mapes}.
 %We continue, a plot of the standardized residuals of each model is depicted in \ref{fig:residuals}.
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.55]{figures/forecasts.png}
-\caption{One-step-ahead forecasts of the RF model versus actual data during hold-out period. 95\% predictive intervals are depicted in light gray.}\label{fig:forecasts}
+\caption{One-step-ahead forecasts of  RF model versus actual data during hold-out period. 95\% predictive intervals depicted in light gray.}\label{fig:forecasts}
 \end{figure}
 
 
@@ -296,7 +301,7 @@ Figure \ref{fig:forecasts} displays the predictive ability of model RF over the 
 \caption{Mean residuals for each model}\label{fig:residuals}
 \end{figure}
 
-Having built good predictive models, we inspect them more closely with the aim of performing valuable inferences for our business setting. The average estimated parameter and expected standard deviations of the $q_i$ coefficients for the different advertising channels are displayed in Table \ref{tab:1}. We also show the weights of the ambient variables $X_i$ for the augmented models RA and RF in Table \ref{tab:11}, as well as the probability of a variable being selected in the MCMC simulation for a given model in Figure \ref{fig:inc_probas}. Convergence diagnostics of the MCMC scheme are reported in Appendix \ref{app:GR}.
+Having built good predictive models, we inspect them more closely with the aim of performing valuable inferences in our business setting. The average estimated parameter and expected standard deviations of the $q_i$ coefficients for the different advertising channels are displayed in Table \ref{tab:1}. We also show the weights of the ambient variables $X_i$ for the augmented models RA and RF in Table \ref{tab:11}, as well as the probability of a variable being selected in the MCMC simulation for a given model in Figure \ref{fig:inc_probas}. Convergence diagnostics of the MCMC scheme are reported in Appendix \ref{app:GR}.
 
 %After we have good models, we perform summarys of coefficients. First, values \ref{tab:1} and then, inclusion probas
 
@@ -317,7 +322,7 @@ Having built good predictive models, we inspect them more closely with the aim o
   \texttt{TV} & -2.85e-04 & 5.12e-03 & -5.53e-05 & 3.71e-03  & -6.14e-02 & 4.21e-02\\
   \texttt{SEARCH} & 1.51e-05  & 2.74e-03  & 8.58e-05 & 2.49e-03  & 1.38e-02 & 3.50e-02 \\
     \hline
-\end{tabular} \caption{Expected value and standard error of coefficients $q_i$. Statistically significant coefficients appear in bold.}\label{tab:1}
+\end{tabular} \caption{Expected value and standard error of  $q_i$. Statistically significant coefficients  in bold.}\label{tab:1}
 \end{table}
 
 \begin{table}[h]
@@ -336,7 +341,7 @@ Having built good predictive models, we inspect them more closely with the aim o
   \texttt{Unemp\_IX} &  6.34e-05 & 3.32e-03 & 2.36e-04 & 7.79e-03  \\
   \texttt{CC\_IX} & 6.27e-07 & 2.94e-03 & 2.85e-04 & 5.50e-03 \\
     \hline
-\end{tabular} \caption{Expected value and standard error of coefficients $\beta_i$. Statistically significant coefficients are in bold.}\label{tab:11}
+\end{tabular} \caption{Expected value and standard error of  $\beta_i$. Statistically significant coefficients in  bold.}\label{tab:11}
 \end{table}
 
 
@@ -345,7 +350,7 @@ Having built good predictive models, we inspect them more closely with the aim o
 \begin{figure}[h]
 \centering
 \includegraphics[scale=0.6]{figures/inc_probas2.png}
-\caption{Selection probabilities in the MCMC simulation for each predictor variable in the three models. The color code shows variables positively (white) or negatively (black) correlated with sales. }\label{fig:inc_probas}
+\caption{Selection probabilities in  MCMC simulation for each predictor variable in the  models. Color code shows variables positively (white) or negatively (black) correlated with sales. }\label{fig:inc_probas}
 \end{figure}
 
 %\begin{figure}[h]
@@ -358,15 +363,15 @@ Looking at the ambient variables, the following comments seem in order:
 \begin{itemize}
 %\item The one-step prediction error for models $2$ and $3$ is roughly equal, being both sensibly lower than that of model $1$. This means that the simpler Nerlove-Arrow model is biased and profits from the addition of the ambient variables $X_i$.
 
-\item From Table \ref{tab:11} we see that the socio-economic indicators (unemployment rate, inflation and consumer confidence) do not seem statistically relevant for the problem at hand. 
+\item From Table \ref{tab:11} we see that the socio-economic indicators (unemployment rate, inflation and consumer confidence) do not seem statistically relevant for this problem. 
 
 \item Looking at the sign of the coefficients of the most significant regressors $X_i$ (\texttt{Hols}, \texttt{Sport\_EV}, \texttt{AVG\_Temp} and \texttt{AVG\_Rain}) we see that they are as we would naturally expect. Moreover, their absolute value is well above the error in both models RA and RF, a strong indicator of their influence in the expected weekly sales (\emph{cf.} Table \ref{tab:11}, Figure \ref{fig:inc_probas}). 
 
 \item We see, for instance, that sporting events are negatively correlated with sales. This can be interpreted as follows: major sporting events in the country where the data have been recorded receive a large media coverage and are followed by a significant fraction of the population. The restaurant chain in this study has no TVs broadcasting in their restaurants, so customers probably choose alternative places to spend their time on a day when \texttt{Sport\_EV} = 1. 
 
-\item The sign of \texttt{Hols} and $\texttt{AVG\_Temp}$ is positive, showing strong evidence for the fact that sales increase in periods of the year where potential customers have more leisure time, like national holidays or the summer vacation. 
+\item The sign of \texttt{Hols} and $\texttt{AVG\_Temp}$ is positive, showing strong evidence for the fact that sales increase in periods of the year where potential customers have more leisure time, like national holidays or  summer vacation. 
 
-\item One would expect \texttt{AVG\_Rain} to be negatively correlated with restaurant sales, but in our study (despite having negative sign) it is not statistically significant. A possible explanation is that \texttt{AVG\_Rain} records average rainfall over a large country. A more fine-grained analysis on a restaurant by restaurant basis incorporating local weather conditions will be performed in a future study, probably revealing a larger influence of this variable on the sales prediction.
+\item One would expect \texttt{AVG\_Rain} to be negatively correlated with restaurant sales, but in our study (despite having negative sign) it is not statistically significant. A possible explanation is that \texttt{AVG\_Rain} records average rainfall over a large country. %A more fine-grained analysis on a restaurant by restaurant basis incorporating local weather conditions will be performed in a future study, probably revealing a larger influence of this variable on the sales prediction.
 
 \end{itemize}
 
@@ -376,7 +381,7 @@ Next, we turn our attention to the investment variables across different adverti
 
 \item The advertising channels $u_i$ are almost never selected in model RA, and their $q_i$ coefficients are not significantly higher than their errors to be considered influential in the model. In model RF, however, there is strong evidence that their effect is more than a random fluctuation (\emph{cf.} Table \ref{tab:1}, Figure \ref{fig:inc_probas}). 
 \item The negative sign in both \texttt{RADIO} and \texttt{TV} in all three models suggests that (at least locally) part of the expenditures in these two channels should be diverted towards other channels with positive sign on their $q_i$ coefficients, specially to the channel with the strongest positive coefficient (\texttt{ONLINE} and \texttt{OOH}).
-\item It is interesting that the trend that shows the year-to-year advertising budget of this firm (\emph{cf.} figure \ref{fig:yearly}) has a significant reduction in \texttt{TV} expenditures and a big increase in \texttt{OOH}. \texttt{RADIO} however is not reduced accordingly but increased, and \texttt{ONLINE} ---\,which our model considers the best local inversion alternative\,--- follows the inverse path. It has to be noted, however, that \texttt{ONLINE} expenditures are typically correlated with discounts, coupons and offers, and this information was not available to us.
+\item It is interesting that the trend that shows the year-to-year advertising budget of this firm (\emph{cf.} figure \ref{fig:yearly}) has a significant reduction in \texttt{TV} expenditures and a big increase in \texttt{OOH}. \texttt{RADIO} however is not reduced accordingly but increased, and \texttt{ONLINE} ---\,which our model considers the best local inversion alternative\,--- follows the inverse path\footnote{It has to be noted, however, that \texttt{ONLINE} expenditures are typically correlated with discounts, coupons and offers, and this information was not available to us.}.
 \item The autoregressive term is close to $0.5$, which means that the immediate effect of advertising is roughly half to the \textit{long run accumulated effects}.
 %\item Despite modelling the noise term with student's $t$ disturbances, the residual plots still show strong fluctuations which influence heavily the model's absolute error.
 \end{itemize}
@@ -399,8 +404,8 @@ Next, we turn our attention to the investment variables across different adverti
 
 \paragraph{Budget allocation. Model-based solutions.}\label{section: budget allocation}
 
-We propose a model which can be used as a decision support system for the manager, helping her in adopting the  investment strategy in advertising. The company is interested in maximizing the expected sales for the next period, subject to a budget constraint for the advertising channels and also a risk constraint, i.e., the variance of the predicted sales must be under a certain threshold.
-This optimization problem based on one-step-ahead forecasts can be formulated as a non linear, but convex, problem that depends on the parameter $\sigma^2$:
+Based on the above, we propose a model which can be used as a decision support system for the manager, helping her in adopting the  investment strategy in advertising. The company is interested in maximizing the expected sales for the next period, subject to a budget constraint for the advertising channels and also a risk constraint, i.e., the variance of the predicted sales must be under a certain threshold.
+This optimization problem based on one-step-ahead forecasts can be formulated as a non linear, but convex, problem that depends on  parameter $\sigma^2$:
 
 \begin{equation*}
 \begin{aligned}
@@ -429,7 +434,9 @@ For normally distributed errors, the predicted sales on the period also follow a
 
 The above optimization problem may not need to be solved by exhaustively searching over the space of possible channel investments. In a typical business setting, the manager would consider a discrete set of $S$ investment strategies that are easy to interpret, so she may perform $S$ simulations of the predictive distribution and use the above strategy to discard the Pareto suboptimal strategies.
 
+\subsection{Discussion}
 
+TODO
 
 \iffalse
 \subsection{Large scale approaches to Bayesian inference in DLMs}

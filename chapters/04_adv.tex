@@ -643,7 +643,7 @@ instance $x'$ is received by the classifier.
 \begin{algorithm}[ht] % 
 \caption{General adversarial risk analysis (ARA) procedure for AC. Generative}  
 \label{alg:uno}
-\begin{algorithmic}
+\begin{algorithmic}[1]
 \State {\bf Input:} Training data $\mathcal{D}$, test instance $x'$.
 \State {\bf Output:} A classification decision $y_c^*(x')$.
 \Train
@@ -843,7 +843,7 @@ with $x \sim \mathcal{D}$. \\
 %\begin{algorithm}[tb] % 
 %\caption{Large scale attack simulation}  
 %\label{alg:large_attack}
-%\begin{algorithmic}
+%\begin{algorithmic}[1]
 %\State {\bf Input:} Defender model $p(y|x,\beta)$, a set of particles $\lbrace \beta_i \rbrace_{i=1}^K$ and attacker model $p(x'|x)$. 
 %\State {\bf Output:} A set of adversarial examples $\{x_i\}_{i=1}^{K}$ from the attacker model. 
 %\Operation
@@ -866,7 +866,7 @@ Algorithm \ref{alg:large_ara} describes how to generate samples incorporating bo
 \begin{algorithm}[!ht] % 
 \caption{Large scale ARA-robust training for AC}  
 \label{alg:large_ara}
-\begin{algorithmic}
+\begin{algorithmic}[1]
 \State {\bf Input:} Defender model $p_C(y|x,\beta)$, attacker model $p_C(x'|x)$. 
 \State {\bf Output:} A set of $k$ particles $\{\beta_i\}_{i=1}^{K}$  approximating the posterior distribution of the defender model learnt using ARA training.  
 %\State Sample initial set of particles from prior: $\mathbf{z}_1^0, \mathbf{z}_2^0, \ldots \mathbf{z}_K^0 \sim \pi(\mathbf{z})$.
