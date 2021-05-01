@@ -2650,6 +2650,27 @@ keywords = "Variational auto-encoder, Gaussian mixture model, Householder flow, 
 abstract = "The variational auto-encoder (VAE) is a powerful and scalable deep generative model. Under the architecture of VAE, the choice of the approximate posterior distribution is one of the crucial issues, and it has a significant impact on tractability and flexibility of the VAE. Generally, latent variables are assumed to be normally distributed with a diagonal covariance matrix, however, it is not flexible enough to match the true complex posterior distribution. We introduce a novel approach to design a flexible and arbitrarily complex approximate posterior distribution. Unlike VAE, firstly, an initial density is constructed by a Gaussian mixture model, and each component has a diagonal covariance matrix. Then this relatively simple distribution is transformed into a more flexible one by applying a sequence of invertible Householder transformations until the desired complexity has been achieved. Additionally, we also give a detailed theoretical and geometric interpretation of Householder transformations. Lastly, due to this change of approximate posterior distribution, the Kullback–Leibler distance between two mixture densities is required to be calculated, but it has no closed form solution. Therefore, we redefine a new variational lower bound by virtue of its upper bound. Compared with other generative models based on similar VAE architecture, our method achieves new state-of-the-art results on benchmark datasets including MNIST, Fashion-MNIST, Omniglot and Histopathology data a more challenging medical images dataset, the experimental results show that our method can improve the flexibility of posterior distribution more effectively."
 }
 
+@article{schulman2017ppo,
+  abstract = {We propose a new family of policy gradient methods for reinforcement learning, which alternate between sampling data through interaction with the environment, and optimizing a "surrogate" objective function using stochastic gradient ascent. Whereas standard policy gradient methods perform one gradient update per data sample, we propose a novel objective function that enables multiple epochs of minibatch updates. The new methods, which we call proximal policy optimization (PPO), have some of the benefits of trust region policy optimization (TRPO), but they are much simpler to implement, more general, and have better sample complexity (empirically). Our experiments test PPO on a collection of benchmark tasks, including simulated robotic locomotion and Atari game playing, and we show that PPO outperforms other online policy gradient methods, and overall strikes a favorable balance between sample complexity, simplicity, and wall-time. },
+  added-at = {2019-12-16T18:31:56.000+0100},
+  author = {Schulman, John and Wolski, Filip and Dhariwal, Prafulla and Radford, Alec and Klimov, Oleg},
+  biburl = {https://www.bibsonomy.org/bibtex/24bbcce6aa1c42ae7f61ef8cf5475aa85/lanteunis},
+  ee = {http://arxiv.org/abs/1707.06347},
+  interhash = {f57ff463a90dbafb77d55a25aea8355c},
+  intrahash = {4bbcce6aa1c42ae7f61ef8cf5475aa85},
+  journal = {CoRR},
+  keywords = {DRLAlgoComparison ppo reinforcement_learning},
+  timestamp = {2019-12-18T21:15:59.000+0100},
+  title = {Proximal Policy Optimization Algorithms.},
+  url = {http://dblp.uni-trier.de/db/journals/corr/corr1707.html#SchulmanWDRK17},
+  volume = {abs/1707.06347},
+  year = 2017
+}
+
+
+
+
+@InProceedings{pmlr-v48-mniha16, title = {Asynchronous Methods for Deep Reinforcement Learning}, author = {Mnih, Volodymyr and Badia, Adria Puigdomenech and Mirza, Mehdi and Graves, Alex and Lillicrap, Timothy and Harley, Tim and Silver, David and Kavukcuoglu, Koray}, booktitle = {Proceedings of The 33rd International Conference on Machine Learning}, pages = {1928--1937}, year = {2016}, editor = {Balcan, Maria Florina and Weinberger, Kilian Q.}, volume = {48}, series = {Proceedings of Machine Learning Research}, address = {New York, New York, USA}, month = {20--22 Jun}, publisher = {PMLR}, pdf = {http://proceedings.mlr.press/v48/mniha16.pdf}, url = { http://proceedings.mlr.press/v48/mniha16.html }, abstract = {We propose a conceptually simple and lightweight framework for deep reinforcement learning that uses asynchronous gradient descent for optimization of deep neural network controllers. We present asynchronous variants of four standard reinforcement learning algorithms and show that parallel actor-learners have a stabilizing effect on training allowing all four methods to successfully train neural network controllers. The best performing method, an asynchronous variant of actor-critic, surpasses the current state-of-the-art on the Atari domain while training for half the time on a single multi-core CPU instead of a GPU. Furthermore, we show that asynchronous actor-critic succeeds on a wide variety of continuous motor control problems as well as on a new task of navigating random 3D mazes using a visual input.} }
 
 @article{banks2020adversarial,
 author = {Banks, David and Gallego, Víctor and Naveiro, Roi and Ríos Insua, David},

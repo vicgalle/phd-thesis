@@ -22,7 +22,6 @@ We use the formalism of Bayesian structural time-series models to formulate a ro
 Numerous formulations of aggregate advertising response models exist in the  literature, e.g. \parencite{little1979aggregate}. The model of Nerlove and Arrow \parencite{nerlove1962optimal} extends the Dorfman-Steiner model to cover the situation in which current advertising expenditures affect future product demand; it is parsimonious and is considered as a standard in the quantitative marketing community. We use it as our starting point.
 
 In this model, advertising expenditures are considered similar in many ways to investments in durable plant and equipment, in the sense that they affect the present and future character of output and, hence, the present and future net revenue of the investing firm. The idea is to define an ``advertising stock'' called \emph{goodwill}  $A(t)$ which seemingly summarizes the effects of current and past advertising expenditures over demand. Then, the following dynamics is defined for the goodwill
-
 \begin{equation}\label{eq:NA}
 \frac{dA}{dt} = qu(t) - \delta A(t),
 \end{equation}
@@ -69,16 +68,13 @@ The Bayesian approach offers several advantages compared to classical methods. F
 
 
 The continuous-time Nerlove-Arrow model must be first cast in discrete time so as to formulate our model in state-space. From equation (\ref{eq:NA}), we get:
-
 $$
 A_t =  (1-\delta) A_{t-1} + q u_{t-1} + \epsilon_t 
 $$
 where $A_t$ is the \emph{goodwill} stock, $u_t$ is the advertising spending rate, $q$ is the effectiveness coefficient and the random disturbance $\epsilon_t$  captures the net effects of the variables that affect the goodwill  but cannot be modelled explicitly.  This discrete counterpart of Nerlove-Arrow is a distributed-lag structure with geometrically declining weights, i.e., a \emph{Koyck model} \parencite{clarke1976econometric, koyck1954distributed}. Since in our setting the model includes the effect of $k$ different channels in the goodwill, we modify the previous equations to:
-
 $$
-A_t =  (1-\delta) A_{t-1} + \sum_{i=1}^k q_i u_{i(t-1)} + \epsilon_t 
+A_t =  (1-\delta) A_{t-1} + \sum_{i=1}^k q_i u_{i(t-1)} + \epsilon_t.
 $$
-
 Now, following  (\ref{eq:st}) and (\ref{eq:obs}), the discrete-time Nerlove-Arrow model in state-space form will read:
 \begin{description}
 
