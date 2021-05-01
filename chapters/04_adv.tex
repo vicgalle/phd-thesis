@@ -17,7 +17,7 @@ change them with synonyms; or they add good words (frequent in legitimate emails
 Consequently, classification algorithms in critical AI-based systems must be robust against adversarial data manipulations. To this end, they have to take into account possible modifications of input data
 due to adversaries.~The subfield of
 classification that seeks for algorithms with robust behaviour against adversarial perturbations is known as adversarial classification (AC)
-and  was pioneered by \parencite{adversarialClassification2004}.
+and  was pioneered by \parencite{dalvi2004adversarial}.
 %should take into account possible modifications on the behaviour of adversaries so as to be robust against adversarial data manipulations. %
 %As a fundamental underlying hypothesis, algorithms rely on the use of independent and identically distributed (iid) data for both the training and test phases. However, security aspects in classification, which form part of the field of adversarial machine learning (AML), questions such iid data hypothesis due to the presence of  adversaries ready to modify the data to obtain a benefit, and, thus, making the training and test distributions differ.
 Stemming from their work, the prevailing paradigm 
@@ -259,7 +259,7 @@ expected utility). % Footnote was move here, please check.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Adversarial Classification. The Pioneering Model.%Reference citations are not allowed in the title. Please move it the main text.
 }
-Dalvi et al. \parencite{adversarialClassification2004} provided a pioneering approach to enhance classification algorithms when an adversary is present, calling it adversarial classification (AC).
+Dalvi et al. \parencite{dalvi2004adversarial} provided a pioneering approach to enhance classification algorithms when an adversary is present, calling it adversarial classification (AC).
  Because of its importance,
 we briefly review it, using our notation. 
 The authors view the problem as a game between a classifier $C$ and an adversary $A$,
@@ -272,7 +272,7 @@ using the following forward myopic proposal.
 %\begin{equation} \label{dalviC}
 %    \argmax_{y_c} \sum_{i=1}^2 u(y_c, y_i) p_C(y_i |x)
 %\end{equation}
-Ref. \parencite{adversarialClassification2004} focuses on  a utility sensitive Naive Bayes algorithm \parencite{elkan2001foundations}.
+Ref. \parencite{dalvi2004adversarial} focuses on  a utility sensitive Naive Bayes algorithm \parencite{elkan2001foundations}.
 \item Then, assuming that \textit{A} has complete information about the classifier's elements (a common knowledge
 assumption)
 and that $C$ is not aware of his presence, the authors 
@@ -328,7 +328,7 @@ where $\mathcal{X}'$ is the set of possible instances leading to the observed on
 \end{enumerate}
 %
 The procedure could continue for more stages.
-However, \parencite{adversarialClassification2004} considers sufficient to use these three.
+However, \parencite{dalvi2004adversarial} considers sufficient to use these three.
 
 
 As presented (and the authors actually stress this
@@ -343,7 +343,7 @@ typical of AC.
 \subsection{Other Adversarial Classification Game-Theoretic Developments}\label{sec:other_AC}
 
 In spite of this, stemming from 
-\parencite{adversarialClassification2004}, AC has been predated by game-theoretic approaches, as reviewed in \parencite{biggio2014security} or \parencite{li2014feature}.
+\parencite{dalvi2004adversarial}, AC has been predated by game-theoretic approaches, as reviewed in \parencite{biggio2014security} or \parencite{li2014feature}.
 Subsequent attempts have focused on analysing attacks over classification algorithms and assessing their robustness against them, %, e.g.\ \parencite{adversarialLearning2005}, \parencite{Barreno2006} or \parencite{zhou2012adversarial}.
 under various assumptions about the adversary. Regarding attacks, these have been classified as {\em white box}, when
 the adversary knows every aspect of the defender's system
@@ -404,7 +404,7 @@ where $\Pi$ is a projection operator ensuring that the perturbed input falls wit
 %Second, \emph{adversarial logit pairing} (ALP), \parencite{kannan2018adversarial}, another defence strategy that encourages the logits of the model to be the same for both natural and adversarial inputs.
 
 
-Other approaches have focused on improving the game theoretic model in \parencite{adversarialClassification2004}. However, to our knowledge, none has been able to overcome the above mentioned unrealistic common knowledge assumptions, as may be seen in recent reviews by \parencite{BIGGIO2018317} and \parencite{doi:10.1002/widm.1259}, who point out the importance of this issue. As an example, \parencite{kantarciouglu2011classifier} use a Stackelberg game in which both players know each other's payoff functions. Only \parencite{grosshans2013bayesian} have attempted to relax common knowledge assumptions in adversarial regression settings, reformulating the corresponding problem as a Bayesian game. 
+Other approaches have focused on improving the game theoretic model in \parencite{dalvi2004adversarial}. However, to our knowledge, none has been able to overcome the above mentioned unrealistic common knowledge assumptions, as may be seen in recent reviews by \parencite{BIGGIO2018317} and \parencite{doi:10.1002/widm.1259}, who point out the importance of this issue. As an example, \parencite{kantarciouglu2011classifier} use a Stackelberg game in which both players know each other's payoff functions. Only \parencite{grosshans2013bayesian} have attempted to relax common knowledge assumptions in adversarial regression settings, reformulating the corresponding problem as a Bayesian game. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -524,7 +524,7 @@ that $A$ concedes to $C$ saying that the instance is malicious when she observes
 %
 Since $A$ will have uncertainty about it, let us model its density using $f_A (p | x' = a(x) )$ with expectation $p_{x' = a(x)}^A $. Then, upon observing an instance $x$ of class $y_1$, $A$ would choose the data transformation maximising his expected utility:
 
-%In addition, without loss of generality, we associate utility $0$ with the worst consequence for the attacker and $1$ with the best one, having the other consequences intermediate utilities  \parencite{french2000statistical}. In the attacker's problem, his best consequence holds when the classifier accepts a malicious instance as benign (he has opportunities to continue with his operations) while the worst consequence appears when the defender stops a malicious one (he has wasted effort in a lost opportunity). Therefore, we assume  $U_A(y_1, y_1) \sim \delta_{0}$ and $U_A(y_2, y_1) \sim \delta_{1}$.
+%In addition, without loss of generality, we associate utility $0$ with the worst consequence for the attacker and $1$ with the best one, having the other consequences intermediate utilities  \parencite{french}. In the attacker's problem, his best consequence holds when the classifier accepts a malicious instance as benign (he has opportunities to continue with his operations) while the worst consequence appears when the defender stops a malicious one (he has wasted effort in a lost opportunity). Therefore, we assume  $U_A(y_1, y_1) \sim \delta_{0}$ and $U_A(y_2, y_1) \sim \delta_{1}$.
 %
 %In addition, without loss of generality, we assume that the attacker perceives positive utility $u_{21}$ when the defender misclassifies a bad instance classified as legitimate, and zero otherwise. 
 %$$
@@ -567,7 +567,7 @@ ingredient in
 problem \eqref{pis}. Observe that it could be the case that $Pr(X'(x,y_1)=x)>0$,
 i.e., the attacker does not modify the~instance.
 
-%Without loss of generality, we associate utility $0$ with the worst consequence and $1$ with the best one, having the other consequences intermediate utilities  \parencite{french2000statistical}. In the attacker's problem, his best consequence holds when the classifier accepts a malicious instance as benign (he has opportunities to continue with his operations) while the worst consequence appears when the defender stops a malicious one (he has wasted effort in a lost opportunity). Therefore, we assume $U_A(y_1, y_1) \sim \delta_{0}$ and $U_A(y_2, y_1) \sim \delta_{1}$.
+%Without loss of generality, we associate utility $0$ with the worst consequence and $1$ with the best one, having the other consequences intermediate utilities  \parencite{french}. In the attacker's problem, his best consequence holds when the classifier accepts a malicious instance as benign (he has opportunities to continue with his operations) while the worst consequence appears when the defender stops a malicious one (he has wasted effort in a lost opportunity). Therefore, we assume $U_A(y_1, y_1) \sim \delta_{0}$ and $U_A(y_2, y_1) \sim \delta_{1}$.
 %
 %The other consequences related with benign binaries are in between (and actually irrelevant). 
 %    \begin{table}[H]
@@ -599,7 +599,7 @@ X'(x,y_1) \equiv A^*(x, y_1) = \argmax_{z} \bigg[\Big( 0 - 1 \Big) P_{z=a(x)}^A 
 Modelling $P^A _{z=a(x)}$ is more delicate. 
 It entails strategic thinking and 
 %s $C$ needs to understand his opponent's beliefs about what classification she will make when she observes $x'$. This 
-could lead to a hierarchy of decision making problems, described in \parencite{araCounter} in a simpler context. 
+could lead to a hierarchy of decision making problems, described in \parencite{rios2012adversarial} in a simpler context. 
 A heuristic to assess it %to assess $P^A _{a(x)}$ may be
 is based on using the probability $r=Pr _C (y_c^* (z) = y_1|z)$ that $C$ assigns to the instance received being malicious assuming that she observed $z$, with some uncertainty around it. 
 As it is a probability, $r$ ranges in $[0,1]$ and we could make $P_{z=a(x)}^A \sim \beta e (\delta _1, \delta _2 )$, with mean $\delta _1 / (\delta _1 + \delta _ 2) = r$ and variance $ (\delta _1 \delta _2) / [(\delta _1 + \delta _2 )^2 (\delta _1 + \delta _2 + 1) ]=var $ as perceived. $var$ has to be tuned depending on the amount of knowledge $C$ has about $A$. Details on how to estimate $r$ are problem dependent.
@@ -677,7 +677,7 @@ processing problem.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \paragraph{Attacks to neural-based classifiers.}
 Section \ref{sec:other_AC} discussed adversarial examples.  This kind of attack may harm intensely neural
-network performance, such as that used in image classification tasks \parencite{Szegedy14intriguingproperties}. It has been shown that simple one-pixel attacks can seriously affect performance, \parencite{su2019one}.
+network performance, such as that used in image classification tasks \parencite{szegedy2013intriguing}. It has been shown that simple one-pixel attacks can seriously affect performance, \parencite{su2019one}.
 As an example, consider 
 a relatively simple deep neural network (a multilayer perceptron model) \parencite{10.5555/3086952}, trained to predict the handwritten digits in the MNIST dataset \parencite{MNIST}. In particular, we used a 2 layer feed-forward neural network with relu activations and a final softmax layer to compute the predictions over the 10 classes. This requires simple extensions from binary to multi-class classification. This network accurately predicts 99\% of the digits. Figure \ref{fig:10samples} provides ten MNIST original 
 samples (top row) and the corresponding images (bottom row) perturbed through FGSM,

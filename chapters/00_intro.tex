@@ -1,7 +1,7 @@
 
 \section{A motivation for Bayesian methods}
 
-Statistical decision making \parencite{french2000statistical} is a fundamental block of modern machine learning and statistics research and practice,
+Statistical decision making \parencite{french} is a fundamental block of modern machine learning and statistics research and practice,
 providing fundamental tools for analyzing the vast amount of data that have become available in science, government, industry, and everyday life. Over the last century, many problems have been solved (at least partially) with probabilistic models \parencite{bishop2006pattern}, such as classifying email as spam, identifying patterns in genetic sequences, recommending similar movies or performing automatic translation between two languages. For each of these applications, a statistical model was fitted to the data, typically solving the task at hand. Since the previous applications are incredibly diverse,  models came from  different research communities. But there was a common theme shared amongst them: \emph{the need to support a decision using the model}. Thus, statistical decision theory  emerged as a powerful framework to reason between different scientific areas. 
 
 We believe that building and using probabilistic models is not a single-step task, but rather an iterative process, closely resembling the scientific method \parencite{conant1959understanding}. First, propose a simple model based on the kinds of latent structure that your prior knowledge make you believe exists in the data. Then, given a data set, use an inference
@@ -305,7 +305,7 @@ accuracy gets reduced to 62\%. Fig.~\ref{fig:digits} provides an example of an o
   \label{fig:digits}
 \end{figure}
 Stemming from the pioneering work in adversarial classification 
-\parencite{adversarialClassification2004}, the prevailing paradigm in AML models
+\parencite{dalvi2004adversarial}, the prevailing paradigm in AML models
 the confrontation between learning-based systems and adversaries through game theory. 
 This entails common knowledge assumptions 
 \parencite{hargreaves2004game} which are 
@@ -327,7 +327,7 @@ knowledge conditions.
 \parencite{AMLARA} propose a
 Bayesian decision theoretic based methodology 
 to solve AML problems, 
-adopting an ARA perspective \parencite{adversarialRiskAnalysis2009,banks2015adversarial} modeling the confrontation between attackers and defenders and mitigating questionable common knowledge assumptions. \parencite{math8111957} applies this ARA-based framework to  adversarial classification. Chapter 3 examines these issues.
+adopting an ARA perspective \parencite{adversarialRiskAnalysis2009,Banks} modeling the confrontation between attackers and defenders and mitigating questionable common knowledge assumptions. \parencite{math8111957} applies this ARA-based framework to  adversarial classification. Chapter 3 examines these issues.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -336,7 +336,7 @@ adopting an ARA perspective \parencite{adversarialRiskAnalysis2009,banks2015adve
 
 \subsection{Challenge 3. Large scale competitive decision making}
 
-In real life scenarios, decision makers rarely have to take a single action. Instead, multiple decisions must be made, with the former actions making a causal impact on the later ones. For example, in the case study from Section \ref{sec:dlms}, the decision maker might desire to plan ahead for a year the budget allocations of all the advertising channels. Thus, we have to raid into the realm of sequential decision making \parencite{french2000statistical,DIEDERICH200113917}. There are many frameworks to tackle this problem, such as optimal control theory \parencite{kirk2004optimal}. Since this thesis is also focused on Machine Learning, we adopt the framework of Reinforcement Learning (RL) to deal with sequential decisions while making the decision maker able to learn from her experiences \parencite{sutton2012reinforcement,kaelbling1996reinforcement}. RL differs from supervised learning in not needing labelled input/output pairs be presented, and in not needing sub-optimal actions to be explicitly corrected. Instead the focus is on finding a balance between exploration (of uncharted experiences) and exploitation (of current knowledge). Of course, RL can also benefit from recent developments in deep, neural architectures to further enhance its efficiency in complex and highly dimensional environments \parencite{mnih2015human}.
+In real life scenarios, decision makers rarely have to take a single action. Instead, multiple decisions must be made, with the former actions making a causal impact on the later ones. For example, in the case study from Section \ref{sec:dlms}, the decision maker might desire to plan ahead for a year the budget allocations of all the advertising channels. Thus, we have to raid into the realm of sequential decision making \parencite{french,DIEDERICH200113917}. There are many frameworks to tackle this problem, such as optimal control theory \parencite{kirk2004optimal}. Since this thesis is also focused on Machine Learning, we adopt the framework of Reinforcement Learning (RL) to deal with sequential decisions while making the decision maker able to learn from her experiences \parencite{sutton2012reinforcement,kaelbling1996reinforcement}. RL differs from supervised learning in not needing labelled input/output pairs be presented, and in not needing sub-optimal actions to be explicitly corrected. Instead the focus is on finding a balance between exploration (of uncharted experiences) and exploitation (of current knowledge). Of course, RL can also benefit from recent developments in deep, neural architectures to further enhance its efficiency in complex and highly dimensional environments \parencite{mnih2015human}.
 
 However, RL typically only deals with one agent (the decision maker), taking actions against her environment, which is assumed to be stationary. Realistic settings have to take into account the presence of other rational agents. These can be potential collaborators to cooperate, but also could be adversaries. For instance, in the case study from Section \ref{sec:dlms} we could have modeled competitors also taking decisions that in a way, also affect the expected sales of the supported franchise. Under this dynamic, non-stationary environment, traditional RL techniques dramatically fail, and it is a necessity to develop novel frameworks that acknowledge the presence of other players. This is the realm of multi-agent Reinforcement Learning (MARL), which usually takes grounding in game-theoretical approaches \parencite{marl_over,lanctot2017unified}. 
 
@@ -356,3 +356,5 @@ Finally, Chapter 5 ends up with several conclusions and avenues for further work
 \includegraphics[scale=0.8]{figures/thesis_structure.png}
 \caption{The structure of this thesis}\label{fig:thesis}
 \end{figure}
+
+The majority of work from this thesis has already been published in several papers. They are \parencite{gallego2019dlms,angulo2018bayesian,gallego2019reinforcement,gallego2019opponent,gallego2021data,gallego2019vis,gallego2018stochastic,AMLARA,math8111957,gallego2020protecting}.

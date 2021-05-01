@@ -13,7 +13,7 @@ We use the formalism of Bayesian structural time-series models to formulate a ro
 
 
 
-\subsection{Theoretical background and model definition}
+\subsection{Theoretical background and model definition}\label{sec:nerlove}
 
 
 \paragraph{The Nerlove-Arrow model.}
@@ -436,7 +436,9 @@ The above optimization problem may not need to be solved by exhaustively searchi
 
 \subsection{Discussion}
 
-TODO
+We have developed a data-driven approach for the management of advertising investments of a firm. First, using the firm's investment levels in advertising, we propose a formulation of the Nerlove-Arrow model via a Bayesian structural time series to predict an economic variable (global sales)  which also incorporates information from the external environment (climate, economical situation and special events). The model thus defined offers low predictive errors while maintaining interpretability and can be built in a modular fashion, which offers great flexibility to adapt it to other business scenarios. The model performs variable selection and allows to incorporate \emph{prior} information via the \emph{spike-and-slab} prior. It can handle non-gaussian deviations and also provides hints to which of the advertising channels are having positive effects upon sales. The model can be used as a basis for a decision support system by the manager of the firm, helping with the task of allocating ad investments.
+
+This model could be expanded in several ways. For instance, in regimes where the data is of high frequency or there are large amounts of it, the Gibbs sampler from Section \ref{sec:nerlove} could be replaced with a more scalable sampler, such as the ones developed in Chapter 2 of this thesis. We could also take into account the presence of competing retailing firms, which could impact the expected sales of the supported franchise. Chapters 4 and 5 are devoted to taking the account the presence of adversaries in ML models, both in classification and reinforcement learning settings.
 
 \iffalse
 \subsection{Large scale approaches to Bayesian inference in DLMs}

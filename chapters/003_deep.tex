@@ -20,7 +20,7 @@ availability of faster computational tools,
 improved algorithms and the emergence of
 large annotated datasets. These produced outstanding 
 applied developments leading, over the last decade, to the current boom 
-surrounding deep NNs \parencite{deeplearningbook}. 
+surrounding deep NNs \parencite{10.5555/3086952}. 
 
 This section overviews  
 recent advances in NNs. 
@@ -43,7 +43,7 @@ to promote simpler NN architectures.
 
 We first recall basic results from (the now-called) 
 shallow NNs.
-Section \ref{sec:dnn} then covers deep NNs, including their most
+Section \ref{sec:dnn_examples} then covers deep NNs, including their most
 relevant 
 variants, as well as classical and Bayesian approaches
 for their analysis. Next, Section \ref{sec:dnn_examples}
@@ -160,7 +160,7 @@ regression \parencite{insuamuller}. Moreover,
 similar models may be used for classification purposes,
 although this 
  requires modifying the likelihood
-\parencite{bishop} to e.g.\
+\\parencite{bishop2006pattern} to e.g.\
 \begin{equation}
     p(y | x, \beta, \gamma) = Mult(n=1, 
     p_1 (x, \beta, \gamma) , \ldots, p_K (x, \beta, \gamma) ),
@@ -428,7 +428,7 @@ Training by backpropagation has been in use
 for many years by now.
 The decade of the 2010's saw major developments
 leading to 
-the boom around deep learning \parencite{deeplearningbook}
+the boom around deep learning \parencite{10.5555/3086952}
 or inference and prediction with deep NNs. 
 Such advances include:
 the availability of fast GPU kernels and routines
@@ -484,7 +484,7 @@ CNNs are typically used
  Stemming from the work by Le Cun and coauthors  
   \parencite{lecun89, lecun98} and their original 
   LeNet5 design, they achieved major
- successes  in  competitions \parencite{krizhevsky2017imagenet}
+ successes  in  competitions \parencite{NIPS2012_c399862d}
  leading to architectures like 
  AlexNet       \parencite{NIPS2012_c399862d}, VGGNet \parencite{simonyan2014very} or
  GoogleNet \parencite{szegedy2015going}, reaching 
@@ -572,7 +572,7 @@ Generative models, as opposed to discriminative ones, take a training set, consi
 $$
 \max_{\theta} \sum_{i=1}^n \log p_{model} (x_i | \theta),
 $$
-or MAP estimation if a prior over the parameters $\theta$ is also placed. Fully visible belief networks \parencite{10.5555/2998828.2998922} are a class of models that can be optimized this way. They are computationally tractable since they decompose the probability of any given $d-$dimensional input as $p(x | \theta) = \prod_{i=1}^d p(x_i | x_1 , \ldots x_{i-1}, \theta)$. Current architectures that fall into this category include WaveNet \parencite{oord2016wavenet} and pixel recurrent neural networks \parencite{pmlr-v48-oord16}. Normalizing flows can also make the distribution more flexible by means of stacking a series of suitably computable transformations \parencite{pmlr-v37-rezende15}.
+or MAP estimation if a prior over the parameters $\theta$ is also placed. Fully visible belief networks \parencite{10.5555/2998828.2998922} are a class of models that can be optimized this way. They are computationally tractable since they decompose the probability of any given $d-$dimensional input as $p(x | \theta) = \prod_{i=1}^d p(x_i | x_1 , \ldots x_{i-1}, \theta)$. Current architectures that fall into this category include WaveNet \parencite{oord2016wavenet} and pixel recurrent neural networks \parencite{pmlr-v48-oord16}. Normalizing flows can also make the distribution more flexible by means of stacking a series of suitably computable transformations \parencite{rezende2015variational}.
 Another important family of models are called autoencoders \parencite{autoencoders,kingma2013auto}. They perform dimensionality reduction 
 using a sequence of non-linear transformations.
 
@@ -675,7 +675,7 @@ several techniques to improve generalization and convergence of neural networks,
 
 \subsection{Examples}\label{sec:nn_examples}
 We illustrate learning with deep NNs with two examples portraying
-different architectures and application domains. Code for the experiments was done using the \texttt{pytorch} library \parencite{torch} and is released at \url{https://github.com/vicgalle/nn-review}.
+different architectures and application domains. Code for the experiments was done using the \texttt{pytorch} library \parencite{paszke2017automatic} and is released at \url{https://github.com/vicgalle/nn-review}.
 
 %%%%%
 \paragraph{CNNs for image recognition.}\label{kkvision}

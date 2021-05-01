@@ -142,12 +142,6 @@ url = {https://www.sciencedirect.com/science/article/pii/B0080430767006367},
 author = {A. Diederich}
 }
 
-@book{french2000statistical,
-  title={{Statistical Decision Theory}},
-  author={French, Simon and Rios Insua, David},
-  year={2000},
-  publisher={Wiley}
-}
 
 @book{friedman2001elements,
   title={{The Elements of Statistical Learning}},
@@ -1161,12 +1155,7 @@ Conference on Email and Anti-Spam (CEAS)},
   year={2014}
 }
 
-@INPROCEEDINGS{Szegedy14intriguingproperties,
-    author = {Christian Szegedy and Google Inc and Wojciech Zaremba and Ilya Sutskever and Google Inc and Joan Bruna and Dumitru Erhan and Google Inc and Ian Goodfellow and Rob Fergus},
-    title = {Intriguing properties of neural networks},
-    booktitle = {In ICLR},
-    year = {2014}
-}
+
 
 @inproceedings{ye2018bayesian,
   title={Bayesian adversarial learning},
@@ -1177,14 +1166,7 @@ Conference on Email and Anti-Spam (CEAS)},
   organization={Curran Associates Inc.}
 }
 
-@article{robbins1951stochastic,
-  title={A stochastic approximation method},
-  author={Robbins, Herbert and Monro, Sutton},
-  journal={The annals of mathematical statistics},
-  pages={400--407},
-  year={1951},
-  publisher={JSTOR}
-}
+
 
 @incollection{ALogicalCalculusOfTheIdeasImmanentInNervousActivity1943,
  author = {McCulloch, W. S. and Pitts, W.},
@@ -2264,7 +2246,6 @@ month={Nov},}
 }
 
 
-@article{10.5555/3122009.3208015, author = {Mandt, Stephan and Hoffman, Matthew D. and Blei, David M.}, title = {Stochastic Gradient Descent as Approximate Bayesian Inference}, year = {2017}, issue_date = {January 2017}, publisher = {JMLR.org}, volume = {18}, number = {1}, issn = {1532-4435}, abstract = {Stochastic Gradient Descent with a constant learning rate (constant SGD) simulates a Markov chain with a stationary distribution. With this perspective, we derive several new results. (1) We show that constant SGD can be used as an approximate Bayesian posterior inference algorithm. Specifically, we show how to adjust the tuning parameters of constant SGD to best match the stationary distribution to a posterior, minimizing the Kullback-Leibler divergence between these two distributions. (2) We demonstrate that constant SGD gives rise to a new variational EM algorithm that optimizes hyperparameters in complex probabilistic models. (3) We also show how to tune SGD with momentum for approximate sampling. (4)We analyze stochastic-gradient MCMC algorithms. For Stochastic-Gradient Langevin Dynamics and Stochastic-Gradient Fisher Scoring, we quantify the approximation errors due to finite learning rates. Finally (5), we use the stochastic process perspective to give a short proof of why Polyak averaging is optimal. Based on this idea, we propose a scalable approximate MCMC algorithm, the Averaged Stochastic Gradient Sampler.}, journal = {J. Mach. Learn. Res.}, month = jan, pages = {4873–4907}, numpages = {35}, keywords = {stochastic gradient MCMC, approximate Bayesian inference, stochastic differential equations, variational inference, stochastic optimization} }
 
 @techreport{guyon2007causalreport,
   author      = {I. Guyon and C. Aliferis and A. Elisseeff},
@@ -2619,16 +2600,40 @@ month={Nov},}
   year={2018}
 }
 
-
-@book{westharrison,
-  title={Bayesian Forecasting and Dynamic Models},
-  author={West, M. and Harrison, J.},
-  isbn={9780387227771},
-  lccn={96038166},
-  series={Springer Series in Statistics},
-  year={2006},
-  publisher={Springer New York}
+@misc{gallego2021data,
+      title={Data sharing games}, 
+      author={Víctor Gallego and Roi Naveiro and David Ríos Insua and Wolfram Rozas},
+      year={2021},
+      eprint={2101.10721},
+      archivePrefix={arXiv},
+      primaryClass={cs.GT}
 }
+
+@incollection{angulo2018bayesian,
+  title={Bayesian Factorization Machines for Risk Management and Robust Decision Making},
+  author={Angulo, Pablo and Gallego, V{\'\i}ctor and G{\'o}mez-Ullate, David and Su{\'a}rez-Garc{\'\i}a, Pablo},
+  booktitle={Mathematical and Statistical Methods for Actuarial Sciences and Finance},
+  pages={51--55},
+  year={2018},
+  publisher={Springer}
+}
+
+@article{gallego2019dlms,
+author = {Gallego, Víctor and Suárez-García, Pablo and Angulo, Pablo and Gómez-Ullate, David},
+title = {Assessing the effect of advertising expenditures upon sales: A Bayesian structural time series model},
+journal = {Applied Stochastic Models in Business and Industry},
+volume = {35},
+number = {3},
+pages = {479-491},
+keywords = {Bayesian structural time series, budget allocation, risk management, sales forecasting},
+doi = {https://doi.org/10.1002/asmb.2460},
+url = {https://onlinelibrary.wiley.com/doi/abs/10.1002/asmb.2460},
+eprint = {https://onlinelibrary.wiley.com/doi/pdf/10.1002/asmb.2460},
+abstract = {Abstract We propose a robust implementation of the Nerlove-Arrow model using a Bayesian structural time series model to explain the relationship between advertising expenditures of a countrywide fast-food franchise network with its weekly sales. Due to the flexibility and modularity of the model, it is well suited to generalization to other markets or situations. Its Bayesian nature facilitates incorporating a priori information reflecting the manager's views, which can be updated with relevant data. This aspect of the model will be used to support the decision of the manager on the budget scheduling of the advertising firm across time and channels.},
+year = {2019}
+}
+
+
 
 
 @article{LIU201943,
@@ -2644,6 +2649,23 @@ author = "GuoJun Liu and Yang Liu and MaoZu Guo and Peng Li and MingYu Li",
 keywords = "Variational auto-encoder, Gaussian mixture model, Householder flow, Variational inference",
 abstract = "The variational auto-encoder (VAE) is a powerful and scalable deep generative model. Under the architecture of VAE, the choice of the approximate posterior distribution is one of the crucial issues, and it has a significant impact on tractability and flexibility of the VAE. Generally, latent variables are assumed to be normally distributed with a diagonal covariance matrix, however, it is not flexible enough to match the true complex posterior distribution. We introduce a novel approach to design a flexible and arbitrarily complex approximate posterior distribution. Unlike VAE, firstly, an initial density is constructed by a Gaussian mixture model, and each component has a diagonal covariance matrix. Then this relatively simple distribution is transformed into a more flexible one by applying a sequence of invertible Householder transformations until the desired complexity has been achieved. Additionally, we also give a detailed theoretical and geometric interpretation of Householder transformations. Lastly, due to this change of approximate posterior distribution, the Kullback–Leibler distance between two mixture densities is required to be calculated, but it has no closed form solution. Therefore, we redefine a new variational lower bound by virtue of its upper bound. Compared with other generative models based on similar VAE architecture, our method achieves new state-of-the-art results on benchmark datasets including MNIST, Fashion-MNIST, Omniglot and Histopathology data a more challenging medical images dataset, the experimental results show that our method can improve the flexibility of posterior distribution more effectively."
 }
+
+
+@article{banks2020adversarial,
+author = {Banks, David and Gallego, Víctor and Naveiro, Roi and Ríos Insua, David},
+title = {Adversarial risk analysis: An overview},
+journal = {WIREs Computational Statistics },
+volume = {n/a},
+number = {n/a},
+pages = {e1530},
+keywords = {auctions, Bayes Nash equilibrium, decision theory, game theory, level-k thinking},
+doi = {https://doi.org/10.1002/wics.1530},
+url = {https://onlinelibrary.wiley.com/doi/abs/10.1002/wics.1530},
+eprint = {https://onlinelibrary.wiley.com/doi/pdf/10.1002/wics.1530},
+abstract = {Abstract Adversarial risk analysis (ARA) is a relatively new area of research that informs decision-making when facing intelligent opponents and uncertain outcomes. It is a decision-theoretic alternative to game theory. ARA enables an analyst to express her Bayesian beliefs about an opponent's utilities, capabilities, probabilities, and the type of strategic calculations that the opponent is using to make his decision. Within that framework, the analyst then solves the problem from the perspective of the opponent. This calculation produces a distribution over the actions of the opponent that permits the analyst to maximize her expected utility. This review covers conceptual, modeling, computational, and applied issues in ARA as well as interesting open research issues. This article is categorized under: Statistical and Graphical Methods of Data Analysis > Bayesian Methods and Theory Applications of Computational Statistics > Defense and National Security}
+}
+
+
 
 @article{SCHMIDHUBER201585,
 title = "Deep learning in neural networks: An overview",
@@ -2741,16 +2763,6 @@ abstract = "In recent years, deep artificial neural networks (including recurren
   year={2014}
 }
 
-@article{krizhevsky2017imagenet,
-  title={Imagenet classification with deep convolutional neural networks},
-  author={Krizhevsky, Alex and Sutskever, Ilya and Hinton, Geoffrey E},
-  journal={Communications of the ACM},
-  volume={60},
-  number={6},
-  pages={84--90},
-  year={2017},
-  publisher={ACM New York, NY, USA}
-}
 
 @inproceedings{ma2015complete,
   title={A complete recipe for stochastic gradient MCMC},
@@ -3730,12 +3742,7 @@ author = {I. Csiszár and P.C. Shields}
   publisher={MIT Press}
 }
 
-@book{deeplearningbook,
-  title={Deep Learning},
-  author={Goodfellow, I. and Bengio, Y. and Courville, A.},
-   year={2016},
-  publisher={MIT Press}
-}
+
 
 @book{chollet,
   title={Deep Learning with Python},
@@ -4141,16 +4148,7 @@ abstract = "This work offers a broad perspective on probabilistic modeling and i
   year={2017}
 }
 
-@incollection{torch,
-title = {PyTorch: An Imperative Style, High-Performance Deep Learning Library},
-author = {Paszke, Adam and Gross, Sam and Massa, Francisco and Lerer, Adam and Bradbury, James and Chanan, Gregory and Killeen, Trevor and Lin, Zeming and Gimelshein, Natalia and Antiga, Luca and Desmaison, Alban and Kopf, Andreas and Yang, Edward and DeVito, Zachary and Raison, Martin and Tejani, Alykhan and Chilamkurthy, Sasank and Steiner, Benoit and Fang, Lu and Bai, Junjie and Chintala, Soumith},
-booktitle = {Advances in Neural Information Processing Systems 32},
-editor = {H. Wallach and H. Larochelle and A. Beygelzimer and F. d\textquotesingle Alch\'{e}-Buc and E. Fox and R. Garnett},
-pages = {8024--8035},
-year = {2019},
-publisher = {Curran Associates, Inc.},
-url = {http://papers.neurips.cc/paper/9015-pytorch-an-imperative-style-high-performance-deep-learning-library.pdf}
-}
+
 
 @article{Muller,
 author = "Muller, Peter and Rios Insua, David",
@@ -4347,12 +4345,6 @@ year = "2018"
   number={},
   pages={5666-5675},}
 
-@inproceedings{48127,
-title	= {Failure Modes of Variational Inference for Decision Making},
-author	= {Carlos Riquelme and Matthew Johnson and Matt Hoffman},
-year	= {2018},
-URL	= {http://reinforcement-learning.ml/papers/pgmrl2018_riquelme.pdf}
-}
 
 @InProceedings{pmlr-v80-yao18a,
   title = 	 {Yes, but Did It Work?: Evaluating Variational Inference},
@@ -5248,15 +5240,7 @@ abstract = {Currently available methods for extracting saliency maps identify pa
   publisher={MIT press}
 }
 
-@book{varoufakis,
-  added-at = {2006-09-13T17:44:28.000+0200},
-  address = {New York},
-  author = {Hargreaves-Heap, Sean and Varoufakis, Yannis},
-  publisher = {Routledge},
-  timestamp = {2006-09-13T17:44:28.000+0200},
-  title = {Game Theory: A Critical Introduction},
-  year = 2004
-}
+
 
 
 @book{ullate,

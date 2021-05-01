@@ -15,7 +15,7 @@ We continue by giving a brief introduction for each of both ingredients. Then, t
 
 Bayesian computation lies at the heart of many machine learning models in both academia and industry \parencite{bishop2006pattern}. Thus, it is of major importance to develop efficient approximation techniques that tackle the intractable integrals that arise in large scale Bayesian inference and prediction problems \parencite{gelman2013bayesian}. 
 
-Recent developments in this area include variational based approaches such as \emph{Automatic Differentiation Variational Inference} (ADVI) \parencite{blei2017variational}, and \emph{Stein Variational Gradient Descent} (SVGD)  \parencite{liu2016stein} or sampling approaches such as \emph{Stochastic Gradient Markov Chain Monte Carlo} (SG-MCMC) \parencite{ma2015complete}. While variational techniques enjoy faster computations, they rely on optimizing a family of posterior approximates that may not contain the actual posterior distribution, potentially leading to severe bias and underestimation of uncertainty, \parencite{pmlr-v80-yao18a} or \parencite{48127}. SG-MCMC methods have been used in a wide range of real-world tasks, such as in computer vision settings \parencite{7780980} or in recommendation systems via matrix factorization \parencite{7952555}.%In addition, though current work focuses on creating richer families of variational posteriors, it is not clear how to choose this variational family. 
+Recent developments in this area include variational based approaches such as \emph{Automatic Differentiation Variational Inference} (ADVI) \parencite{blei2017variational}, and \emph{Stein Variational Gradient Descent} (SVGD)  \parencite{liu2016stein} or sampling approaches such as \emph{Stochastic Gradient Markov Chain Monte Carlo} (SG-MCMC) \parencite{ma2015complete}. While variational techniques enjoy faster computations, they rely on optimizing a family of posterior approximates that may not contain the actual posterior distribution, potentially leading to severe bias and underestimation of uncertainty, \parencite{pmlr-v80-yao18a} or \parencite{riquelme2018failure}. SG-MCMC methods have been used in a wide range of real-world tasks, such as in computer vision settings \parencite{7780980} or in recommendation systems via matrix factorization \parencite{7952555}.%In addition, though current work focuses on creating richer families of variational posteriors, it is not clear how to choose this variational family. 
 
 There has been recent interest in bridging the gap between variational Bayes and MCMC techniques, see e.g. \parencite{zhang2018}, to develop new scalable approaches for Bayesian inference, e.g., \parencite{carbonetto2012}.
 In this chapter, we draw on a similitude between the SG-MCMC and SVGD approaches to propose a novel family of very efficient sampling algorithms. 
@@ -98,7 +98,7 @@ The idea of preconditioning the posterior distribution to speed up the mixing ti
 The work presented in \parencite{rezende2015variational} introduced a general
 framework for constructing more flexible variational distributions, called normalizing flows. These transformations are one of the main techniques used to improve the flexibility of current variational inference (VI) approaches and have recently pervaded the approximate Bayesian inference
 literature with developments such as continuous-time normalizing flows \parencite{chen2018continuoustime} (which extend an initial simple variational posterior with a discretization of Langevin dynamics) or householder flow for mixtures of Gaussian distributions \parencite{LIU201943}. However, they require a generative adversarial network (GAN) \parencite{goodfellow2014generative} to learn the posterior,
-which can be unstable in high-dimensional spaces. We overcome this problem with our novel formulation; moreover, our framework is also compatible with different optimizers, rather than only those derived from Langevin dynamics \parencite{10.5555/3122009.3208015}. Other recent proposals create more flexible variational posteriors based on implicit approaches typically requiring a GAN, as presented in \parencite{huszar2017variational} and including unbiased implicit variational inference (UIVI)
+which can be unstable in high-dimensional spaces. We overcome this problem with our novel formulation; moreover, our framework is also compatible with different optimizers, rather than only those derived from Langevin dynamics \parencite{mandt2017stochastic}. Other recent proposals create more flexible variational posteriors based on implicit approaches typically requiring a GAN, as presented in \parencite{huszar2017variational} and including unbiased implicit variational inference (UIVI)
 \parencite{pmlr-v89-titsias19a} or semi-implicit variational inference (SIVI) \parencite{yin2018semi}. Our variational approximation is also implicit but uses a sampling algorithm to drive the evolution of the density, combined with a Dirac delta approximation to derive an efficient variational approximation, as reported through extensive experiments in Section \ref{sec:exps_vis}.
 
 Closely related to our framework is the work presented in \parencite{hoffman2017learning}, where a variational autoencoder (VAE) is learned using HMC. We~use a similar compound distribution as the variational approximation, yet 
@@ -206,7 +206,7 @@ To obtain a valid SG-MCMC algorithm, we simply have to choose the dimensionality
 Variational inference, \parencite{kucukelbir2017automatic}, tackles the problem of approximating the posterior $p({z} | {x})$ with a tractable parameterized distribution $q_{{\lambda}}({z}|{x})$. The goal is to find parameters ${\lambda}$ so that the variational distribution $q_{{\lambda}}({z}|{x})$ (also referred to as the variational guide or variational approximation) is as close as possible to the actual posterior. Closeness is typically measured through the
 Kullback-Leibler 
 divergence $KL(q || p)$, which is reformulated into the \emph{evidence lower bound} (ELBO) given by
-\begin{equation}\label{eq:elbo}
+\begin{equation}\label{eq:elbo_bayes}
 \mbox{ELBO}(q) = \mathbb{E}_{q_{{\lambda}}({z}|{x})} \left[ \log p({x},{z}) - \log q_{{\lambda}}({z}|{x})\right].
 \end{equation}
 To allow 
@@ -351,7 +351,7 @@ SGLD+R (or its general form, Eq. \eqref{eq:general}) has $\pi({z}) = \prod_{l=1}
 \end{proposition}
 \noindent Having shown that SVGD plus a noise term can be framed as an SG-MCMC method, we now propose a particular form for the ${D_K}$ and ${Q_K}$ matrices. %However, for the rest of the paper we resort to the case ${Q} = {0}$ (i.e., we will just experimentally study SGLD with repulsion between multiple particles).
 
-Algorithm \ref{alg:alg1} shows how to set the sampler up. The step sizes $\epsilon_t$ decrease to $0$ using the Robbins-Monro conditions, \parencite{robbins1951stochastic}, given by $\sum_{t=1}^\infty \epsilon_t = \infty, \sum_{t=1}^\infty \epsilon_t^2 < \infty$. However, in practical situations we can consider a small and constant step size, see Section \ref{sec:experiments_sgmcmc}. 
+Algorithm \ref{alg:alg1} shows how to set the sampler up. The step sizes $\epsilon_t$ decrease to $0$ using the Robbins-Monro conditions, \parencite{robbins}, given by $\sum_{t=1}^\infty \epsilon_t = \infty, \sum_{t=1}^\infty \epsilon_t^2 < \infty$. However, in practical situations we can consider a small and constant step size, see Section \ref{sec:experiments_sgmcmc}. 
 
 \begin{algorithm}[!h] % 
 \caption{Bayesian Inference via SGLD+R}  
@@ -803,13 +803,13 @@ are described in Section 3.1.
  $T$ increases, the approximation will be closer to the exact posterior, assuming that $Q_{\eta, T}$ is a valid MCMC sampler
  in the sense of \parencite{ma2015complete}}.
 
-We next maximize a refined ELBO objective, replacing in Equation \ref{eq:elbo} the 
+We next maximize a refined ELBO objective, replacing in Equation \ref{eq:elbo_bayes} the 
 original $q_{\phi }$ 
 by $q_{\phi, \eta}$:
-\begin{equation}\label{eq:ELBO}
+\begin{equation}\label{eq:elbo_bayes2}
 \mbox{ELBO}(q_{\phi,\eta}) = \mathbb{E}_{q_{\phi, \eta}(z|x)} \left[ \log p(x,z) - \log q_{\phi, \eta}(z|x)\right]
 \end{equation}
-\textls[-5]{This is done to optimize the divergence $KL(q_{\phi,\eta}(z|x) ||  p(z|x))$. {{The first term of Equation (\ref{eq:ELBO})}}
+\textls[-5]{This is done to optimize the divergence $KL(q_{\phi,\eta}(z|x) ||  p(z|x))$. {{The first term of Equation (\ref{eq:elbo_bayes2})}}
 requires only being able to sample from $q_{\phi,\eta}(z|x)$; however, the second
 term, the entropy
 \linebreak $-\mathbb{E}_{q_{\phi,\eta}(z|x)} \left[ \log q_{\phi,\eta}(z | x) \right]$, also requires the evaluation of the evolving, implicit density.
@@ -834,7 +834,7 @@ This is expressed algorithmically as follows.
     \begin{enumerate}
     \item Sample an initial set of particles, $z_0 \sim q_{0,\phi}(z|x)$.
     \item Refine the particles through the sampler, $z_T \sim Q_{\eta, T}(z|z_0)$.
-    \item Compute the ELBO objective from Equation (\ref{eq:ELBO}). %, where the last term may be approximated using any of the methods from Section $\ref{sec:approx}$.
+    \item Compute the ELBO objective from Equation (\ref{eq:elbo_bayes2}). %, where the last term may be approximated using any of the methods from Section $\ref{sec:approx}$.
     \item Perform automatic differentiation on the objective wrt parameters $\phi, \eta$ to update~them.
 \end{enumerate}}}
 
@@ -1106,7 +1106,7 @@ noting that $z = z_0 + \eta \nabla \log p(x,z_0)$ when using SGD for $T=1$ itera
 %\mathbb{E}_{q(z|z_0)q(z_0|x)} \left[ \log p(x, z) - \log q(z|z_0) - \log q(z_0 | x)\right].
 %$$
 %However, using the Dirac Delta approximation for $q(z|z_0)$ and , we arrive at the modified objective:
-This is equivalent to the refined ELBO in (\ref{eq:ELBO}). Since we are perturbing the latent variables in the steepest direction, we show easily that, for a moderate $\eta$, the previous bound is tighter than
+This is equivalent to the refined ELBO in (\ref{eq:elbo_bayes2}). Since we are perturbing the latent variables in the steepest direction, we show easily that, for a moderate $\eta$, the previous bound is tighter than
 $\mathbb{E}_{q(z_0|x)} \left[ \log p(x, z_0  ) - \log q(z_0 | x)\right]$, the one for the original variational guide~$q(z_0 | x)$. This~reformulation of ELBO is also convenient since it provides a clear way of implementing our refined variational inference framework in any probabilistic 
 programming language (PPL) supporting algorithmic differentiation.
 

@@ -231,7 +231,7 @@ augmenting the MDP to account for potential adversaries  conveniently
 re-defining the $Q$-learning rule. This enables us to apply some of the previously mentioned modelling techniques
 to the $Q$-learning setting, explicitly accounting
 for the possible lack of information about the modelled opponent.
-In particular, we propose to extend $Q$-learning from an ARA \parencite{rios2009adversarial} perspective. % through a level-$k$ 
+In particular, we propose to extend $Q$-learning from an ARA \parencite{adversarialRiskAnalysis2009} perspective. % through a level-$k$ 
 %scheme \parencite{stahl1994experimental,stahl1995players}. 
 %We do this introducing a variant of MDPs, which we call Threatened MDPs (TMDPs).
 
@@ -294,7 +294,7 @@ adversary's policy through  $p_A (b | s)$.
  For this, we make the 
  assumption, standard in multi-agent RL, that both agents observe their opponent's actions and rewards
  after they have committed to them, proposing three approaches to forecast the opponent's policy $p_A (b | s)$:  % under such assumption.
-%To handle it, we propose using a level-$k$ scheme \parencite{rios2009adversarial}
+%To handle it, we propose using a level-$k$ scheme \parencite{adversarialRiskAnalysis2009}
 % to learn the opponent model. 
 %In general, we consider both the DM and the adversary 
 %as rational agents that aim to maximize their respective expected 
@@ -564,7 +564,7 @@ in \parencite{rios1}.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Approximate Q-learning with function approximation}\label{sec:approx}
+\subsection{Approximate Q-learning with function approximation}\label{sec:approx_rl}
 
 The tabular $Q$-learning in Algorithm \ref{alg:l2ur} does not scale with the size of the state ${\cal S}$ or action spaces
 ${\cal A, B}$.
@@ -1203,7 +1203,7 @@ This experiment showcases the suitability of the framework to deal with multiple
 \subsection{Experiments with parametric Q-values using function approximation}\label{sec:cg}
 
 We run a battery of experiments to showcase 
-how our framework is actually compatible with variants in which $Q$-values are approximated with a parametric function, in particular a deep learning model, as in Section \ref{sec:approx}.
+how our framework is actually compatible with variants in which $Q$-values are approximated with a parametric function, in particular a deep learning model, as in Section \ref{sec:approx_rl}.
 
 \begin{figure}[h]
 \centering
@@ -1275,7 +1275,7 @@ from different perspectives. For example,
  based on a confrontation between a user (aimed at sharing certain information and hiding the rest) and an attacker (aimed at exposing the user's PI
  or concealing the information the user is willing to share). This
   is modelled through a zero-sum Markov game; a  Markov equilibrium is computed and the corresponding Markov strategies are used to give advice to users.%; note though 
- %that standard common knowledge assumptions \parencite{varoufakis} are considered.
+ %that standard common knowledge assumptions \parencite{gameTheoryACriticalIntroduction2004} are considered.
  The work of \parencite{figueiredo2017data} reviews the impact of data sharing in science and society and presents guidelines to improve the efficiency of 
  data sharing processes,
  quoting \parencite{pronk}, who provide a game theoretical analysis suggesting 
@@ -1469,7 +1469,7 @@ whereas {\em defect} means that he is not going to pay for the collected data or
 Payoffs satisfy the usual conditions in the IPD, that is $T>R>P>S$ and $2R > T+S$.
 When numerics are necessary,
 we adopt the choice $T= 6 $, $R= 5 $, $ P = 1 $,  and $S= 0 $.
-%\parencite{axelrod81}.
+%\parencite{axelrod84}.
 %We have chosen the standard numerical entries for the  problem to illustrate numerics but the same key message  would be conveyed with other payoffs satisfying the usual conditions in the dilemma \parencite{axelrod84}.
 
 % Please add the following required packages to your document preamble:
@@ -1510,7 +1510,7 @@ we adopt the choice $T= 6 $, $R= 5 $, $ P = 1 $,  and $S= 0 $.
 % %
 
 It is well-known that in the one-shot version of the IPD game, the unique Nash equilibrium is $(D,D)$, leading to the social dilemma described above: the selfish rational point of view of both players leads to an inferior societal position. Similarly, if the game is played $N$ times,
-and this is known by the players, these have no incentive to cooperate, as we may reason by backwards induction \parencite{axelrod81}. %This is obviously the case in the last move. In the second to last move, neither player will cooperate as whatever they do would not influence the outcome of the last move. Reasoning this way backwards until the first move and conclude that the unique Nash equilibrium (also a subgame perfect equilibrium) in the $N$ times game is to always defect. 
+and this is known by the players, these have no incentive to cooperate, as we may reason by backwards induction \parencite{axelrod84}. %This is obviously the case in the last move. In the second to last move, neither player will cooperate as whatever they do would not influence the outcome of the last move. Reasoning this way backwards until the first move and conclude that the unique Nash equilibrium (also a subgame perfect equilibrium) in the $N$ times game is to always defect. 
 However, in realistic scenarios, players are not sure about 
 whether they will meet 
 again in future and, consequently, they cannot be sure when the last interaction will be taking place \parencite{axelrod84}. Thus, it seems reasonable to assume that players will interact an indefinite number of times or that there is a positive probability of meeting again. This possibility that players might interact again is precisely what makes cooperation emerge.
