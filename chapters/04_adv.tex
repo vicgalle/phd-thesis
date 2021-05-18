@@ -5,7 +5,7 @@
 
 %Classification is one of the most widely used instances of supervised  learning, with applications in numerous areas such as spam detection \parencite{spam};  credit scoring, \parencite{scoring}; computer vision \parencite{chen2015handbook}; autonomous driving systems \parencite{gal} and genomics \parencite{genom}, to name but a few. In recent years, the field has experienced an enormous growth becoming a major research area in statistics and machine learning \parencite{efron2016computer}.
 
-Classification is a major research area with important applications  in security and cybersecurity, including fraud detection \parencite{bolton2002statistical}: phishing detection \parencite{rakesh}, terrorism \parencite{terror} or cargo screening \parencite{cargo}. An increasing number of processes are being automated through classification algorithms, being essential that these are robust to trust key operations based on their output. State-of-the-art classifiers perform extraordinarily well on standard data, but they have been shown to be vulnerable to adversarial examples, that is, data instances targeted at fooling the underlying algorithms. Ref. \parencite{comiter} provides an excellent introduction from a policy perspective, pointing out the potentially enormous security impacts that such attacks may have over systems for filter content, predictive policing or autonomous driving, to name but a few. 
+Classification is a major research area in machine learning with important applications  in security and cybersecurity, including fraud detection \parencite{bolton2002statistical}: phishing detection \parencite{rakesh}, terrorism \parencite{terror} or cargo screening \parencite{cargo}. An increasing number of processes are being automated through classification algorithms, being essential that these are robust to trust key operations based on their output. State-of-the-art classifiers perform extraordinarily well on standard data, but they have been shown to be vulnerable to adversarial examples, that is, data instances targeted at fooling the underlying algorithms. \cite{comiter} provides an excellent introduction from a policy perspective, pointing out the potentially enormous security impacts that such attacks may have over systems for filter content, predictive policing or autonomous driving, to name but a few. 
 
 Most research in classification has focused on obtaining more accurate algorithms, largely ignoring the eventual presence of adversaries who actively manipulate data to fool the classifier in pursue of a benefit. Consider 
 spam detection: as classification algorithms are incorporated to such task,
@@ -17,26 +17,27 @@ change them with synonyms; or they add good words (frequent in legitimate emails
 Consequently, classification algorithms in critical AI-based systems must be robust against adversarial data manipulations. To this end, they have to take into account possible modifications of input data
 due to adversaries.~The subfield of
 classification that seeks for algorithms with robust behaviour against adversarial perturbations is known as adversarial classification (AC)
-and  was pioneered by \parencite{dalvi2004adversarial}.
+and  was pioneered by \cite{dalvi2004adversarial}.
 %should take into account possible modifications on the behaviour of adversaries so as to be robust against adversarial data manipulations. %
 %As a fundamental underlying hypothesis, algorithms rely on the use of independent and identically distributed (iid) data for both the training and test phases. However, security aspects in classification, which form part of the field of adversarial machine learning (AML), questions such iid data hypothesis due to the presence of  adversaries ready to modify the data to obtain a benefit, and, thus, making the training and test distributions differ.
 Stemming from their work, the prevailing paradigm 
-when modelling the confrontation between classification systems and adversaries has been game theory, see recent reviews by \parencite{BIGGIO2018317} and \parencite{doi:10.1002/widm.1259}. This entails well-known common knowledge hypothesis \parencite{Antos,gameTheoryACriticalIntroduction2004} according to which agents share information about their beliefs and preferences. From a fundamental point of view, this is 
+when modelling the confrontation between classification systems and adversaries has been game theory, see recent reviews by \cite{BIGGIO2018317} and \cite{doi:10.1002/widm.1259}. This entails well-known common knowledge hypothesis \parencite{Antos,gameTheoryACriticalIntroduction2004} according to which agents share information about their beliefs and preferences. From a fundamental point of view, this is 
 not sustainable in  application areas such as security or cybersecurity,
 as participants try to
 hide and conceal information.  
 
-After reviewing key developments in game-theoretic approaches to AC in Sections \ref{sec:ac_acr} and \ref{sec:ac_ac}, we cover novel techniques based on adversarial risk analysis (ARA) in Sections  \ref{sec:ac_acra} and \ref{sec:scalable}  \parencite{adversarialRiskAnalysis2009}. Their key advantage is that they do not assume strong common knowledge hypothesis concerning belief and preference sharing, as with standard game theoretic approaches to AML. In this, we unify, expand
-and improve upon earlier work in \parencite{naveiro2018adversarial} and
-\parencite{gallego2020protecting}.
-Our focus will be on binary classification
- problems in face only of {\em exploratory attacks}, defined to have influence over operational data but not over training ones. In addition, we restrict our attention to attacks affecting only malicious instances, denominated \textit{integrity-violation attacks}, the usual context in most security scenarios. We assume that the attacker will, at least, try to modify every malicious instance before the
+After reviewing key developments in game-theoretic approaches to AC in Sections \ref{sec:ac_acr} and \ref{sec:ac_ac}, we cover novel techniques based on adversarial risk analysis (ARA, \cite{AMLARA}) in Sections  \ref{sec:ac_acra} and \ref{sec:scalable}. Their key advantage is that they do not assume strong common knowledge hypothesis concerning belief and preference sharing, as with standard game theoretic approaches to AML. In this, we unify, expand
+and improve upon earlier work in \cite{naveiro2018adversarial} and
+\cite{gallego2020protecting}.
+Our focus is on binary classification
+ problems in face only of {\em exploratory attacks}, defined to have influence over operational data but not over training ones. In addition, we restrict our attention to attacks affecting only malicious instances, the so-called \textit{integrity-violation attacks}, the usual context in most security scenarios. We assume that the attacker will, at least, try to modify every malicious instance before the
 classifier actually observes it. 
 Moreover, attacks will be assumed to be {\em deterministic},
 in that we can predict for sure the results of their 
 application over a given instance.
-Refs.~\parencite{AdversarialMachineLearning2011} and \parencite{Barreno2006} provide taxonomies of attacks against classifiers. %italics necessary?
+\cite{AdversarialMachineLearning2011} and \cite{Barreno2006} provide taxonomies of attacks against classifiers. %italics necessary?
 %
+
 We first consider approaches in which learning about the adversary is performed in the
 operational phase, studying how to robustify generative classifiers against attacks. In certain applications, these  could be very demanding from a computational perspective; for those cases, we present in Section \ref{sec:scalable} an  
 approach in which adversarial aspects are incorporated in the training phase.
@@ -168,7 +169,7 @@ may incur in gross mistakes if she classifies based on features $x'$, instead of
 %%%%%%%%%%%%%%%%%%%%%%%%%
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\paragraph{Example.} Attacks to spam detection systems let us focus on attacks to standard classifiers used in spam detection. Experiments are carried out with the UCI Spam Data Set \parencite{spambase1999}.
+\paragraph{Example.} Attacks to spam detection systems will be illustrated with experiments carried out with the UCI Spam Data Set \parencite{spambase1999}.
 This set contains data from 4601 emails, out of which $39.4 \%$ are spam. For classification purposes, we represent each email through 54 binary variables indicating the presence (1) or absence (0) of 54 designated words in a dictionary.
 
 Table \ref{tab:cleanVSattack} presents the performance
@@ -259,7 +260,7 @@ expected utility). % Footnote was move here, please check.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Adversarial Classification. The Pioneering Model.%Reference citations are not allowed in the title. Please move it the main text.
 }
-Dalvi et al. \parencite{dalvi2004adversarial} provided a pioneering approach to enhance classification algorithms when an adversary is present, calling it adversarial classification (AC).
+\cite{dalvi2004adversarial} provided a pioneering approach to enhance classification algorithms when an adversary is present, calling it adversarial classification (AC).
  Because of its importance,
 we briefly review it, using our notation. 
 The authors view the problem as a game between a classifier $C$ and an adversary $A$,
@@ -272,7 +273,7 @@ using the following forward myopic proposal.
 %\begin{equation} \label{dalviC}
 %    \argmax_{y_c} \sum_{i=1}^2 u(y_c, y_i) p_C(y_i |x)
 %\end{equation}
-Ref. \parencite{dalvi2004adversarial} focuses on  a utility sensitive Naive Bayes algorithm \parencite{elkan2001foundations}.
+\cite{dalvi2004adversarial} focuses on  a utility sensitive Naive Bayes algorithm \parencite{elkan2001foundations}.
 \item Then, assuming that \textit{A} has complete information about the classifier's elements (a common knowledge
 assumption)
 and that $C$ is not aware of his presence, the authors 
@@ -328,7 +329,7 @@ where $\mathcal{X}'$ is the set of possible instances leading to the observed on
 \end{enumerate}
 %
 The procedure could continue for more stages.
-However, \parencite{dalvi2004adversarial} considers sufficient to use these three.
+However, \cite{dalvi2004adversarial} considers sufficient to use these three.
 
 
 As presented (and the authors actually stress this
@@ -343,14 +344,14 @@ typical of AC.
 \subsection{Other Adversarial Classification Game-Theoretic Developments}\label{sec:other_AC}
 
 In spite of this, stemming from 
-\parencite{dalvi2004adversarial}, AC has been predated by game-theoretic approaches, as reviewed in \parencite{biggio2014security} or \parencite{li2014feature}.
+\cite{dalvi2004adversarial}, AC has been predated by game-theoretic approaches, as reviewed in \cite{biggio2014security} or \cite{li2014feature}.
 Subsequent attempts have focused on analysing attacks over classification algorithms and assessing their robustness against them, %, e.g.\ \parencite{adversarialLearning2005}, \parencite{Barreno2006} or \parencite{zhou2012adversarial}.
 under various assumptions about the adversary. Regarding attacks, these have been classified as {\em white box}, when
 the adversary knows every aspect of the defender's system
 like the data used, the algorithms and the entire feature space; 
 {\em black box}, that assume limited capabilities for the adversary, e.g., he is able to send membership queries to the classification system as in
-\parencite{adversarialLearning2005}; and, finally,
-{\em gray box}, which are in between the previous ones, as in \parencite{zhou2012adversarial}
+\cite{adversarialLearning2005}; and, finally,
+{\em gray box}, which are in between the previous ones, as in \cite{zhou2012adversarial}
 where the adversary, who has no knowledge about the data and the algorithm used
 seeks to push his malicious instances
 as innocent 
@@ -358,7 +359,7 @@ ones, thus assuming that he is able to estimate such instances and has knowledge
 
 Of special importance in the AC field, mainly 
 within the deep learning community, are the so called {\em adversarial 
-examples} \parencite{goodfellow2014explaining} which may be formulated in game-theoretic terms as 
+examples} \cite{goodfellow2014explaining} which may be formulated in game-theoretic terms as 
 optimal attacks to a deployed classifier, requiring, in principle,
 precise knowledge about the model used by the classifier.
 To create such examples, $A$ finds the best attack which 
@@ -375,7 +376,7 @@ The Fast Gradient Signed Method  (FGSM, \parencite{goodfellow2014explaining}) an
 has precise knowledge of the underlying model and parameters of the involved classifier, 
   debatable in most security settings.
 
-A few methods have been proposed to robustify classification algorithms in adversarial settings. Most of them have focused on application-specific domains, as \parencite{Kocz2009FeatureWF} on spam detection. \parencite{Vorobeychik:2014:ORC:2615731.2615811} study the impact of randomisation schemes over classifiers against adversarial attacks proposing an optimal randomisation scheme as best defence.
+A few methods have been proposed to robustify classification algorithms in adversarial settings. Most of them have focused on application-specific domains, as \cite{Kocz2009FeatureWF} on spam detection. \cite{Vorobeychik:2014:ORC:2615731.2615811} study the impact of randomisation schemes over classifiers against adversarial attacks proposing an optimal randomisation scheme as best defence.
  To date, 
 \emph{adversarial training} (AT) \parencite{madry2018towards}
 is one of the most promising defence techniques:
@@ -391,7 +392,7 @@ AT can be formulated as a zero-sum game. The inner maximisation problem is solve
 $
 x_{t+1} = \Pi_{B(x)} (x_t - \alpha \nabla_x  \widehat{c}_A(h_{\theta} (x_t), y)),
 $
-where $\Pi$ is a projection operator ensuring that the perturbed input falls within an acceptable boundary $B(x)$,  and $\alpha$ is an intensity hyperparameter referring to the attack strength. After $T$ PGD iterations, set $a(x) = x_T$ and optimise with respect to $\theta$.   Other attacks that use gradient information are deepfool \parencite{moosavi2016deepfool}, yet \parencite{madry2018towards} argue that the PGD attack is the strongest one based only on gradient information from the target model. However, there is evidence that it is not sufficient for full defence in neural models since it is possible to perform attacks using global optimisation routines, such as the \emph{one pixel attack} from \parencite{su2019one} or \parencite{gowal2018ibp}.% The complexity of the attack depends on the chosen norm.
+where $\Pi$ is a projection operator ensuring that the perturbed input falls within an acceptable boundary $B(x)$,  and $\alpha$ is an intensity hyperparameter referring to the attack strength. After $T$ PGD iterations, set $a(x) = x_T$ and optimise with respect to $\theta$.   Other attacks that use gradient information are deepfool \cite{moosavi2016deepfool}, yet \cite{madry2018towards} argue that the PGD attack is the strongest one based only on gradient information from the target model. However, there is evidence that it is not sufficient for full defence in neural models since it is possible to perform attacks using global optimisation routines, such as the \emph{one pixel attack} from \cite{su2019one} or \cite{gowal2018ibp}.% The complexity of the attack depends on the chosen norm.
 
 %for instance, if we resort to small perturbations under $\ell_\infty$  norm, the update simplifies to
 %$
@@ -404,7 +405,7 @@ where $\Pi$ is a projection operator ensuring that the perturbed input falls wit
 %Second, \emph{adversarial logit pairing} (ALP), \parencite{kannan2018adversarial}, another defence strategy that encourages the logits of the model to be the same for both natural and adversarial inputs.
 
 
-Other approaches have focused on improving the game theoretic model in \parencite{dalvi2004adversarial}. However, to our knowledge, none has been able to overcome the above mentioned unrealistic common knowledge assumptions, as may be seen in recent reviews by \parencite{BIGGIO2018317} and \parencite{doi:10.1002/widm.1259}, who point out the importance of this issue. As an example, \parencite{kantarciouglu2011classifier} use a Stackelberg game in which both players know each other's payoff functions. Only \parencite{grosshans2013bayesian} have attempted to relax common knowledge assumptions in adversarial regression settings, reformulating the corresponding problem as a Bayesian game. 
+Other approaches have focused on improving the game theoretic model in \cite{dalvi2004adversarial}. However, to our knowledge, none has been able to overcome the above mentioned unrealistic common knowledge assumptions, as may be seen in recent reviews by \cite{BIGGIO2018317} and \cite{doi:10.1002/widm.1259}, who point out the importance of this issue. As an example, \cite{kantarciouglu2011classifier} use a Stackelberg game in which both players know each other's payoff functions. Only \cite{grosshans2013bayesian} have attempted to relax common knowledge assumptions in adversarial regression settings, reformulating the corresponding problem as a Bayesian game. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -456,7 +457,7 @@ an approach to approximate ${\cal X}'$ would be to consider
 $%\label{valdo}
 {\cal X}'= \{ x : d(x,x')<\rho \}
 $ 
- for a certain threshold $\rho$. We will now survey the approach presented in \parencite{naveiro2018adversarial}.
+ for a certain threshold $\rho$. We will now survey the approach presented in \cite{naveiro2018adversarial}.
 
 %Moreover, as we only consider deterministic integrity violation transformations, we have that $p_C(a|x, -)$ $= I(a = \textit{id})$, where \textit{id} stands for the identity attack leaving $x$ unchanged and $I$ is the indicator function.
 
@@ -599,7 +600,7 @@ X'(x,y_1) \equiv A^*(x, y_1) = \argmax_{z} \bigg[\Big( 0 - 1 \Big) P_{z=a(x)}^A 
 Modelling $P^A _{z=a(x)}$ is more delicate. 
 It entails strategic thinking and 
 %s $C$ needs to understand his opponent's beliefs about what classification she will make when she observes $x'$. This 
-could lead to a hierarchy of decision making problems, described in \parencite{rios2012adversarial} in a simpler context. 
+could lead to a hierarchy of decision making problems, described in \cite{rios2012adversarial} in a simpler context. 
 A heuristic to assess it %to assess $P^A _{a(x)}$ may be
 is based on using the probability $r=Pr _C (y_c^* (z) = y_1|z)$ that $C$ assigns to the instance received being malicious assuming that she observed $z$, with some uncertainty around it. 
 As it is a probability, $r$ ranges in $[0,1]$ and we could make $P_{z=a(x)}^A \sim \beta e (\delta _1, \delta _2 )$, with mean $\delta _1 / (\delta _1 + \delta _ 2) = r$ and variance $ (\delta _1 \delta _2) / [(\delta _1 + \delta _2 )^2 (\delta _1 + \delta _2 + 1) ]=var $ as perceived. $var$ has to be tuned depending on the amount of knowledge $C$ has about $A$. Details on how to estimate $r$ are problem dependent.
@@ -621,7 +622,7 @@ $ %
 \begin{eqnarray}
 \widehat{p}_C ( x'\,|\,x, y_1) =  \frac {\# \{X'(x, y_1) =  x'\}} {K}. \label{mc_estimate}
 \end{eqnarray}
-It is easy to prove, using arguments in \parencite{10.5555/3172929}, that \eqref{mc_estimate} converges almost surely to $p_C (x'|x,y_1)$.
+It is easy to prove, using arguments in \cite{10.5555/3172929}, that \eqref{mc_estimate} converges almost surely to $p_C (x'|x,y_1)$.
 {In this, and other MC approximations considered, 
 recall that the sample sizes  are essentially dictated by the required
     precision. 
@@ -677,8 +678,8 @@ processing problem.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \paragraph{Attacks to neural-based classifiers.}
 Section \ref{sec:other_AC} discussed adversarial examples.  This kind of attack may harm intensely neural
-network performance, such as that used in image classification tasks \parencite{szegedy2013intriguing}. It has been shown that simple one-pixel attacks can seriously affect performance, \parencite{su2019one}.
-As an example, consider 
+network performance, such as that used in image classification tasks \parencite{szegedy2013intriguing}. It has been shown that simple one-pixel attacks can seriously affect performance \parencite{su2019one}.
+As an example, we continue the discussion started in the introduction of this thesis, in Section \ref{sec:chall2}. Consider 
 a relatively simple deep neural network (a multilayer perceptron model) \parencite{10.5555/3086952}, trained to predict the handwritten digits in the MNIST dataset \parencite{MNIST}. In particular, we used a 2 layer feed-forward neural network with relu activations and a final softmax layer to compute the predictions over the 10 classes. This requires simple extensions from binary to multi-class classification. This network accurately predicts 99\% of the digits. Figure \ref{fig:10samples} provides ten MNIST original 
 samples (top row) and the corresponding images (bottom row) perturbed through FGSM,
 which are misclassified. For example, the original 0 
@@ -754,7 +755,7 @@ we recover multinomial regression
 \parencite{mccullagh1989generalized}; if we take $f_\beta$ to be a sequence of linear transformations alternating non-linear activation functions, such as Rectified Linear Units (ReLU), we obtain a feed-forward neural network \parencite{10.5555/3086952}. 
 These models have the benefit of being amenable to training using \emph{stochastic gradient descent} (SGD) \parencite{bottou2010large},
 or any of its recent variants, such as Adam \parencite{kingma2014adam}, 
-allowing for scaling to both wide and tall datasets. Then, from SGD we can obtain the posterior distribution of the model by adding a suitable noise term as in SG-MCMC samplers like stochastic gradient Langevin Dynamics (SGLD) \parencite{welling2011bayesian} or accelerated variants \parencite{ma2015complete}.
+allowing for scaling to both wide and tall datasets. Then, from SGD we can obtain the posterior distribution of the model by adding a suitable noise term as in SG-MCMC samplers like stochastic gradient Langevin Dynamics (SGLD) \parencite{welling2011bayesian} or accelerated variants such as the ones introduced in chapter 2 of this thesis.
 
  %To avoid the bottleneck of sampling 
  %from $p_C(x|x')$,
@@ -778,7 +779,7 @@ Thus, attacks in the literature resort to approximations using gradient informat
 given by $x' = x -\epsilon\, \mbox{sign} \nabla_x \log p(y|x,\beta)$ where $\epsilon$ is a step size 
  reflecting attack intensity. Other attack examples 
 include the Projected Gradient Descent (PGD) \parencite{madry2018towards} or the
-\parencite{carlini2017towards} attack. 
+\cite{carlini2017towards} attack. 
 These assume that the attacker has full knowledge of the target model,
 which is unrealistic in many scenarios. 
 AT using FGSM would correspond to sampling from a Dirac delta distribution centered at the FGSM update, %$\left( x -\epsilon \nabla_x \log p(y|x,\beta)\right)$, 
@@ -1016,4 +1017,4 @@ Figure \ref{fig:comparison_mnist} shows the \emph{security evaluation curves} \p
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Summary}
 
-In this chapter, we stated the important problem of developing defences that protect ML models against malicious and intentional attacks and increase their robustness. We have surveyed how game theoretical approaches provide both a coherent and sound framework to develop defence mechanism, however they are not realistic since they are pervaded by common knowledge assumptions. We adopted ideas from Adversarial Risk Analysis to model several sources of uncertainty, and proposed an enhanced robustification method. Experiments in spam detection and image classification show the benefits of the introduced framework.
+In this chapter, we studied the important problem of developing defences that protect ML models against malicious and intentional attacks and increase their robustness. We have surveyed how game theoretical approaches provide a framework to develop defence mechanisms, however they are not realistic since they are pervaded by common knowledge assumptions. We adopted ideas from Adversarial Risk Analysis to model several sources of uncertainty that the defender model may face, and proposed an enhanced robustification method. Experiments in spam detection and image classification show the benefits of the introduced framework.
