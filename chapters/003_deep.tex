@@ -4,10 +4,10 @@
 The history of neural network (NN) models have gone 
 through several waves of popularity. The first 
 one starts with the introduction of the perceptron
-by \parencite{rosenblatt1958perceptron} and its training algorithm 
+by \cite{rosenblatt1958perceptron} and its training algorithm 
 for classification in linearly separable problems.
 Limitations brought up by 
-\parencite{minsky} somehow reduced the enthusiasm
+\cite{minsky} somehow reduced the enthusiasm
 about these models by the early 70's.
 The next period of success coincides with the emergence
 of results presenting NNs as universal
@@ -32,7 +32,7 @@ drug design \parencite{hessler}, to name but a few.
 Our emphasis is on statistical
 aspects and, more specifically, on Bayesian approaches
 to NN models for reasons that will become 
-apparent during the presentation but include mainly:
+apparent during this thesis but include mainly:
 the provision of improved uncertainty estimates, which is
 of special relevance in decision support under uncertainty; their 
 increased generalization capabilities; their 
@@ -48,10 +48,7 @@ relevant
 variants, as well as classical and Bayesian approaches
 for their analysis. Next, Section \ref{sec:dnn_examples}
 presents two examples illustrating
-diverse NN architectures. Finally, we present 
-further topics referring to security, explainability and
-interpretability and transfer 
-learning of NNs and end up with a discussion.
+diverse NN architectures.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Shallow neural networks}
@@ -87,9 +84,9 @@ Let us designate with $\beta=(\beta_1,\ldots,\beta_m)$ and $\gamma=(\gamma_1,\ld
 will be considered a hyperparameter. Clearly, the model
 is linear in $\beta$ but non-linear in  
 $\gamma$. Interest in this type of models stems from 
-results such as those of \parencite{cybenko1989approximation}
-who presents them as universal approximators,
-in the sense that any continuous function in the 
+results such as those of \cite{cybenko1989approximation}
+who presents them as universal approximators:
+ any continuous function in the 
 $r$-dimensional unit cube 
 may be approximated by models of type
 $\sum_{j=1}^m \beta_j \psi(x' \gamma_j)$
@@ -177,16 +174,16 @@ $$
 \paragraph{Bayesian approaches.}\label{bayeshallow}
 We discuss now Bayesian approaches to shallow NNs.
 assuming standard priors 
-in Bayesian hierarchical modeling, see e.g.\ \parencite{LavineWest}: 
+in Bayesian hierarchical modeling, see e.g.\ \cite{LavineWest}: 
 $  \beta_i      \sim  N(\mu_\beta,\sigma_\beta^2)$
 and 
   $\gamma_i     \sim  N(\mu_\gamma,S_\gamma^2)$,
   completed with priors over the hyperparameters
 $\mu_\beta \sim N(a_\beta,A_\beta)$,
 $\mu_\gamma \sim N(a_\gamma,A_\gamma)$,
-$\sigma^{-2}_\beta \sim Gamma(c_b/2,c_bC_b/2)$,
+$\sigma^{-2}_\beta \sim Gamma(c_b/2,c_b/2)$,
 $S_\gamma^{-1} \sim Wish(c_\gamma,(c_\gamma C_\gamma)^{-1})$ and
-$\sigma^{-2} \sim Gamma(s/2, sS/2)$.
+$\sigma^{-2} \sim Gamma(s/2, s/2)$.
 In this model, 
 an informative prior probability model
 is meaningful as parameters are interpretable. For example, the $\beta_ j$’s would reflect the
@@ -358,7 +355,7 @@ As a consequence, we perform inference
 about the architecture based on the distribution of 
  $p(m|D)$. 
 
- \parencite{neal2012bayesian} proposes using an 
+ \cite{neal2012bayesian} proposed using an 
 algorithm merging conventional Metropolis-Hastings chains with sampling
 techniques based on dynamic simulation, the currently popular
 Hamiltonian Monte Carlo (HMC) approaches.
@@ -435,8 +432,8 @@ the availability of fast GPU kernels and routines
 facilitating much faster training;
 the access to massive amounts of data (e.g.\ Imagenet), which prevented overfitting to smaller datasets; 
 the creation of new architectures, which prevented  convergence issues, such as the vanishing gradient problem; 
-and, finally, the provision of automatic differentiation libraries such as Keras, Caffe or Theano.
-Figure \ref{figuradkk} displays a description
+and, finally, the provision of automatic differentiation libraries such as Tensorflow, Caffe or Theano.
+Figure \ref{figuradkk} displays an example
 of what are now designated 
 deep NNs, that is NNs with more than one hidden
 layer, four in the portrayed case.
@@ -450,11 +447,11 @@ layer, four in the portrayed case.
 
 A deep NN may be defined through   
 a sequence of functions $\lbrace f_0, f_1, ..., f_{L-1} \rbrace$, each parametrized by some weights $\gamma_l$
-of dimension $m_l$  (the corresponding number of hidden nodes) and the output of each layer being the input of the following one, as in
+of dimension $m_l$  (the corresponding number of hidden nodes) with the output of each layer being the input of the following one, as in
 $$
     z_{l+1} = f_l ( z_l, \gamma_l).
 $$
-Lastly, we compute a prediction from the hidden activations of the last layer, as before:
+Lastly, we compute a prediction from the hidden activations of the last layer, as in Eq. (\ref{kantora})
 \begin{eqnarray}
 y         & = & \sum_{j=1}^{m_L} \beta_j z_{L,j} +
                     \epsilon %_i,~~i=1,\ldots,n
@@ -469,7 +466,7 @@ logistic functions in (\ref{kantora})) and include
 the rectified linear unit (ReLU), the leaky ReLU
 or the exponential LU. In particular, these functions mitigate the vanishing gradient problem \parencite{kolen2001gradient} that 
 plagued earlier attempts with deep architectures using sigmoidal
-activation functions: the derivative of the logistic function is $\psi(z)' = \psi(z)(1 - \psi(z))$, with $\psi(z) = \frac{1}{1 + e^{-z}}$ and since the output of the logistic function is bounded in $\left[ 0, 1 \right]$, a concatenation of layers using this activation function makes the gradient quickly vanish to zero due to the chain rule. Alternative activation functions, such as the ReLU \parencite{glorot2010understanding}, seem to alleviate this problem, in addition to having other benefits such as being faster to compute both the activation and its derivative.
+activation functions. Besides, such activation functions have other benefits likes being faster to compute both the activation and its derivative.
 
 %%%%%%%%%%%%%%%%%%%%%%%%
 %\subsubsection{Variants} 
@@ -505,8 +502,7 @@ CNNs are typically used
  The use of the convolution may be viewed as introducing an inﬁnitely strong prior probability distribution over the parameters of a linear layer, in the sense that the prior places zero probability mass over certain parameters, imposing that the weights for one hidden unit must be identical to the weights of its neighbor, yet shifted in space. In a 
   similar spirit, pooling can be regarded as placing an inﬁnitely strong prior about the function having to be invariant to small translations. If this assumption is also held in the dataset, it can vastly improve the statistical eﬃciency of the network.
  
-Current advances in CNNs pursue model scaling, suggesting that carefully balancing network depth, width, and resolution can lead to improved performance,
-as with ResNets \parencite{he2016deep} or EfficientNets \parencite{tan2019efficientnet}.
+%Current advances in CNNs pursue model scaling, suggesting that carefully balancing network depth, width, and resolution can lead to improved performance, as with ResNets \parencite{he2016deep} or EfficientNets \parencite{tan2019efficientnet}.
 
 
 
@@ -681,22 +677,22 @@ different architectures and application domains. Code for the experiments was do
 \paragraph{CNNs for image recognition.}\label{kkvision}
 
 We describe an image classification task with a standard CNN, VGG-19, showcasing the superior performance when compared to non-convolutional and non-deep approaches in this application domain. As benchmark, we use the CIFAR-10 dataset \parencite{krizhevsky2014cifar},
-which consists of 60000 32x32 colour images in 10 classes. As baselines, we use a linear multinomial regression model, and a three hidden layer MLP with 200 units each with ReLU activations.
+which consists of 60000 32x32 colour images in 10 classes. As baselines, we use a linear multinomial regression model, and a three hidden layer NN (MLP) with 200 units each with ReLU activations.  {As Bayesian features for this experiment, note the use of Gaussian prior over parameters, which benefits performance compared to the vanilla MLE. Notice also that, in CNNs, we are also imposing an implicit prior, which consists in restricting the set of linear layers to be convolutions, a particular case of linear operator.}
 
 All models are trained for 200 epochs\footnote{An epoch is defined as a pass over the full training dataset.} and minibatches of 128 samples, using SGD with learning rate of 0.1 and  momentum of 0.9.
-The learning rate is adapted with the cosine annealing scheme in  \parencite{loshchilov2016sgdr}. We place Gaussian priors over all parameters (thus equivalent to $\ell_2$ regularization) and use SWA on top of the SGD optimizer, to make predictions using an ensemble of several particles, in a Bayesian way.
+The learning rate is adapted with the cosine annealing scheme in  \cite{loshchilov2016sgdr}. We place  {independent} Gaussian priors over all parameters (thus equivalent to $\ell_2$ regularization) and use SWA on top of the SGD optimizer, to make predictions using an ensemble of   {100 posterior samples}, in a Bayesian way.
 
 \begin{figure}[hbt]
 \centering
-  \includegraphics[width=1.\linewidth]{figures/cifar.png}
-  \caption{Ten random samples from the CIFAR-10 dataset and their corresponding predictions and true labels using the VGG architecture.}
+  \includegraphics[width=1.\linewidth]{figures/cifar2.png}
+  \caption{ {Five random samples from the CIFAR-10 dataset and their corresponding predictions and true labels using the VGG architecture. Notice how the convolutional network mistakes an ostrich (bird class) for a cat.}}
   \label{fig:cifar}
 \end{figure}
 
-Figure \ref{fig:cifar} presents ten random images from the test set
-and Table \ref{tab:cnn} displays results. Notice how the linear model performs poorly with just test accuracy of 38\% , whereas increasing the flexibility of the models critically improves 
-accuracy; a MLP performs slightly better.
-However, by imposing strong priors about the dataset, such as translation equivariance thanks to the convolutional layers and pooling, state-of-the-art results are achieved.
+Figure \ref{fig:cifar} presents five random images from the test set
+and Table \ref{tab:cnn} displays results. Notice how the linear model performs poorly with just a test accuracy of 38\%, whereas increasing the flexibility of the models critically improves 
+accuracy. Indeed, the MLP performs slightly better.
+However, by imposing strong priors about the dataset, such as translation equivariance thanks to the convolutional layers and pooling, state-of-the-art results are achieved with VGG-19.
 
 \begin{table}[ht]
 \caption{Results over the CIFAR-10 test set.}
@@ -721,7 +717,6 @@ The recurrent model consists of a LSTM network with two layers, each with hidden
 (16 in the Transformer case) by means of an affine transformation, before applying architecture-specific layers. Both models are trained using the Adam optimizer with a constant learning rate of 0.001.
 %The input sequence is represented as a list of one-hot encoded vectors, representing the presence of a word from a vocabulary of the most common 5000 tokens. This discrete representation is embedded into a space of 100 dimensions (16 dimensions in the Transformer case) by means of an affine transformation, before applying the architecture-specific layers. 
 %Both models are trained using the Adam optimizer with a constant learning rate of 0.001.
-
 We also consider a bigger, transformer-based model consisting of the recent RoBERTa architecture \parencite{liu2019roberta}, 
 initially pretrained on a big corpus of unsupervised raw  English text, and then fine tuned for two epochs on the IMDB training set. %As we 
  %discuss in Section \ref{sec:transfer}, pretraining with data from different tasks or domains can crucially improve the performance of Transformers, since this helps in building better representations of written language.
@@ -731,7 +726,7 @@ Results over the full test set are displayed in Table \ref{tab:nlp}. Notice how 
 
 {\footnotesize
 \begin{table}[ht]
-\caption{Four random review samples and their corresponding predictions and true labels from the RoBERTa model.}
+\caption{Two random review samples and their corresponding predictions and true labels from the RoBERTa model.}
 \centering
 \begin{tabularx}{\textwidth}{Xll}
 Text input & Prediction & True label \\
