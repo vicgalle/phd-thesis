@@ -211,19 +211,57 @@ group-four-digits
 
 
 \chapter*{Abstract}
-TODO
 
+The field of machine learning (ML) has experienced a significant boom in the past years, both in theoretical developments and application areas. However, the rampant adoption of ML methodologies has revealed that models are usually used to make decisions without taking into account the uncertainties in their predictions, or more critically, they can be vulnerable to adversarial examples, strategic manipulations of the data with the goal of fooling those ML systems. For instance, in retailing, a model may predict very high expected sales for the next week, given a certain advertisement budget. However, the predicted variance may also be quite big, thus making the prediction unusable according to the risk tolerance of the business. Or in the case of spam detection, an attacker may insert additional words in a given spam email to evade being classified as spam by making it to appear more legit.
 
-The majority of work from this thesis has already been published in several papers. They are \parencite{gallego2019dlms,angulo2018bayesian,gallego2019reinforcement,gallego2019opponent,gallego2021data,gallego2019vis,gallego2018stochastic,AMLARA,math8111957,gallego2020protecting}.
+Thus, we believe that developing ML systems that take into account predictive uncertainties and are robust against adversarial examples is a must for critical, real-world tasks. This thesis is a step towards achieving this goal. 
+
+In Chapter 1, we start with a case study in retailing. We propose a robust implementation of the Nerlove–Arrow model using a Bayesian structural time series model to explain the relationship between advertising expenditures
+of a country-wide fast-food franchise network with its weekly sales. Its Bayesian nature facilitates incorporating a priori information reflecting the manager’s views, which can be updated with relevant data. However, this case study adopted classical Bayesian techniques, such as the Gibbs sampler. Nowadays, the ML landscape is pervaded with complex models, huge in the number of parameters. This is the realm of neural networks, so in this chapter we also survey current developments in this sub-field. Three challenges constitute the core of this thesis.
+
+Chapter 2 is devoted to the first challenge. In it, we tackle the problem of scaling Bayesian inference to complex models or large data regimes. In the first part, we propose a unifying view of two different Bayesian inference algorithms, Stochastic Gradient Markov Chain Monte Carlo (SG-MCMC) and Stein Variational Gradient Descent (SVGD), leading to improved and efficient novel sampling schemes. In the second part, we develop a framework to boost the efficiency of Bayesian inference in probabilistic models by embedding a Markov chain sampler within a variational posterior approximation. We call this framework “refined variational approximation”. This framework has several benefits, such as its ease of implementation and the automatic tuning of sampler parameters, leading to a faster mixing time through automatic differentiation. Experiments show the superior performance of both developments compared to baselines.
+
+In Chapter 3, we address the challenge of protecting ML classifiers from adversarial examples. So far, most approaches to adversarial classification have followed a classical game-theoretic framework. This requires unrealistic common knowledge conditions untenable in the security settings typical of the adversarial ML realm. After reviewing such approaches, we present an alternative perspective on AC based on adversarial risk analysis, and leveraging the scalable Bayesian approaches from chapter 2.
+
+In Chapter 4, we turn our attention form supervised learning to reinforcement learning (RL), addressing the challenge of supporting an agent in a sequential decision making setting where there can be adversaries, modelled as another players. We introduce Threatened Markov Decision Processes (TMDPs) as an extension of the classical Markov Decision Process framework for RL. We also propose a level-k thinking scheme resulting in a novel learning approach to deal with TMDPs. After introducing our framework and deriving theoretical results, relevant empirical evidence is given via extensive experiments, showing the benefits of accounting for adversaries in RL while the agent learns.
+
+Finally, in chapter 5 we sum up with several conclusions and avenues for further work.
+
+The majority of work from this thesis has already been published in several papers or is pending publication. They are \parencite{gallego2019dlms,angulo2018bayesian,gallego2019reinforcement,gallego2019opponent,gallego2021data,gallego2019vis,gallego2018stochastic,AMLARA,math8111957,gallego2020protecting}.
 
 \chapter*{Resumen}
-TODO
+
+El campo del aprendizaje automático (AA) ha experimentado un boom significativo en los últimos años, tanto en desarrollos teóricos como en áreas de aplicación. Sin embargo, la adopción rampante de las metodologías del AA ha mostrado que los modelos que habitualmente son empleados para toma de decisiones no tienen en cuenta la incertidumbre en sus predicciones, o más crucialmente, pueden ser vulnerables a ejemplos adversarios, datos manipulados estratégicamente con el objetivo de engañar estos sistemas de AA. Por ejemplo, en el sector retail, un modelo puede predecir unas ventas esperadas muy altas para la semana que viene, fijado cierto plan de marketing. Sin embargo, la varianza predicha también puede ser muy grande, haciendo la predicción escasamente usable de acuerdo con el nivel de riesgo que el negocio quiera adoptar. O en el caso de la detección de spam, un atacante puede introducir palabras adicionales en un correo de spam dado para evadir el ser clasificado como tal y aparecer más legítimo.
+
+Por tanto, creemos que desarrollar sistemas de AA que puedan tener en cuenta también las incertidumbres en las predicciones y ser más robustos frente a ejemplos adversarios es una necesidad para tareas críticas en el mundo real. Esta tesis es un paso hacia este objetivo.
+
+En el capítulo 1, empezamos con un caso de estudio en el sector del retail. Proponemos una implementación robusta del modelo de Nerlove-Arrow usando un modelo Bayesiano estructural de series temporales para explicar la relación entre las inversiones en publicidad con las ventas semanales de una cadena nacional de restaurantes de comida rápida. Su naturaleza Bayesiana facilita el incorporar conocimiento a prior que refleje las creencias del manager, y pueden ser actualizados con datos observados. Sin embargo, este caso de estudio emplea técnicas Bayesianas clásicas, como el muestreador de Gibbs. Hoy en día, el panorama del AA está repleto de modelos complejos, enormes en cuanto a número de parámetros. Este es el reino de las redes neuronales, así que en este capítulo también resumimos los avances recientes en este subcampo. Tres desafíos constituyen el cuerpo de esta tesis.
+
+El capítulo 2 va dedicado al primer desafío. En él, atacamos el problema de escalar la inferencia Bayesiana a modelos complejos o regímenes de grandes datos. En la primera parte, proponemos una visión unificadora de dos algoritmos de inferencia Bayesiana, Markov Chain Monte Carlo con Gradientes Estocásticos y Descenso por el Gradiente Variacional Stein, llegando a mejorados y eficientes esquemas de muestreo. En la segunda parte, desarrollamos una metodología para mejorar la eficiencia de la inferencia Bayesiana mediante el empotramiento de un muestreador basado en cadenas de Markov dentro de una aproximación variacional. A esta metodología la llamamos "aproximación variacional refinada". La metodología tiene varios beneficios, como su facilidad de implementación y el ajuste automático de los hiperparámetros del muestreador, logrando tiempos de convergencia más rápidos gracias a la diferenciación automática. Los experimentos muestran el rendimiento superior de ambos desarollos comparados con algunas alternativas.
+
+En el capítulo 3, nos centramos en el desafío de proteger clasificadores de AA de los ejemplos adversarios. Hasta ahora, la mayoría de enfoques a clasificación adversaria han seguido el paradigma clásico de teoría de juegos. Esto requiere condiciones poco realistas de conocimiento común, que no son admisibles en entornos típicos en seguridad. Tras revisar esos enfoques, presentamos una perspectiva alternativa basada en análisis de riesgos adversarios, y aprovechamos las técnicas Bayesianas escalables del capítulo 3.
+
+En el capítulo 4, pasamos nuestra atención desde el aprendizaje supervisado hacia el aprendizaje por refuerzo (AR), incidiendo en el desafío de apoyar un agente en un escenario de toma de decisiones secuenciales en el que puede haber adversarios, modelizados como otros jugadores. Introducimos los Procesos de Decisión de Markov Amenazados como una extensión del paradigma clásico de los procesos de decisión Markovianos para el AR. También proponemos un esquema basado en pensamiento de nivel-k resultando en un algoritmo de aprendizaje novel. Tras introducir la metodología y derivar algunos resultados teóricos, damos evidencia empírica relevante mediante experimentos extensos, mostrando los beneficios de modelizar oponentes en AR mientras el agente aprende.
+
+Finalmente, en el capítulo 5 terminamos con varias conclusiones y caminos para el trabajo futuro.
+
+La mayor parte del trabajo de esta tesis se encuentra publicada en varios artículos o está pendiente de publicación. Los trabajos son  \parencite{gallego2019dlms,angulo2018bayesian,gallego2019reinforcement,gallego2019opponent,gallego2021data,gallego2019vis,gallego2018stochastic,AMLARA,math8111957,gallego2020protecting}.
 
 \addcontentsline{toc}{chapter}{Abstract}
 \addcontentsline{toc}{chapter}{Resumen}
 
 \chapter*{Agradecimientos}
-TODO
+
+Estos cuatro años de tesis se han pasado volando, y aunque se hayan materializado en parte en esta tesis, no puedo olvidarme de todas las personas que, de un modo u otro, han contribuido a este trabajo. \\
+
+En primer lugar, debo agradecer enormemente la labor y apoyo de mis directores de tesis durante este período. A David Ríos, especialmente por su incansable atención y paciencia, sobre todo al leer mis textos y dudas; y a David Gómez-Ullate, por darme la oportunidad de empezar en este mundo de los datos hace ya cinco años. Gracias a los dos por todas las oportunidades. Les considero verdaderos mentores de los que he podido aprender muchísimo en estos años, no solo acerca de los temas de esta tesis, así que espero seguir manteniendo la relación en el futuro. 
+Asimismo, debo agradecer la labor del Prof. David Banks, quien me dio la oportunidad de hacer una estancia de investigación en Duke y SAMSI, resultando en una experiencia muy enriquecedora académica y vitalmente. También agradezco al Ministerio por la beca FPU16-05034, la cátedra AXA-ICMAT y el programa “Severo Ochoa”
+para Centros de Excelencia en I+D, entre otros. \\
+
+También quería mencionar a los compañeros y amigos hechos en el grupo formado en el Datalab del ICMAT y el vecino IFT (y algunos por extensión ya, en Komorebi). Roi, David, Alberto R., Alberto T., Simón, Jorge, Bruno, April, Aitor, Alex, Nadir, Christian... 
+Lamento que por la pandemia apenas nos veamos ya por el campus, pero siempre me acordaré de tantos buenos momentos. También quiero mostrar mi agradecimiento a los investigadores Pablo Suárez y Pablo Angulo, por haber tenido el placer de trabajar con ellos al principio de mi carrera.  \\
+
+Por último, mención especial merecen mis padres, Sotero y María, siempre dándome su apoyo y cuidado incondicional a pesar de todo. E Irene, por acompañarme siempre ahí y quien me hizo ver que todo es posible, con toda su ilusión, ingenio y magia. Gracias, os quiero.
 
 \addcontentsline{toc}{chapter}{Agradecimientos}
 
