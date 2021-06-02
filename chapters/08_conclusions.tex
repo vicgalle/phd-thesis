@@ -7,7 +7,7 @@ based on them. Most work in NNs is based on the MLE tradition.
 We have highlighted and illustrated the benefits of a Bayesian treatment of deep learning. Indeed, as we have described,
 they provide improved uncertainty estimates;
 they have enhanced generalization capabilities; 
-they have more robustness against adversarial attacks.
+they have enhanced robustness against adversarial attacks.
 We also note that, although not studied in this thesis, 
 they have improved capabilities for model calibration;
 and the use of sparsity-inducing priors, could further induce 
@@ -16,37 +16,36 @@ However, efficient Bayesian integration methods in
 deep NN are 
 still to be found, this remaining a major challenge.
 In particular their solution would facilitate the
-development of probabilistic programming \parencite{gordon2014probabilistic,carpenter2017stan,wood2014new}
+development of probabilistic programming languages \parencite{gordon2014probabilistic,carpenter2017stan,wood2014new}
 as the next step for differentiable programming,
-leading to new tools for the 21st century Bayesian 
+leading to new tools for contemporary Bayesian 
 statistics.
 
 
 \subsection{Large Scale Bayesian Inference}\label{sec:conclusion_lsb}
 
-Chapter 2 showed how to generate new SG-MCMC methods, such as SGLD+R and Adam+NR, consisting of multiple chains plus repulsion between the particles. Instead of a naive parallelization, in which a particle from a chain is agnostic to the others, we showed how it is possible to adapt another method from the literature, SVGD, to account for a better exploration of the space, avoiding collapse between particles. We also showed how momentum-accelerated extensions of SGD can be used as SG-MCMC samplers, while also being compatible with the extension to repulsive forces between parallel chains. Our 
+Chapter 2 showed how to generate new SG-MCMC methods, such as SGLD+R and Adam+NR, consisting of multiple chains plus repulsion between  particles. Instead of a naive parallelization, in which a particle from a chain is agnostic to the others, we showed how it is possible to adapt another method from the literature, SVGD, to account for a better exploration of the space, avoiding between particle collapse. We also showed how momentum-accelerated extensions of SGD can be used as SG-MCMC samplers, while also being compatible with the extension to repulsive forces between parallel chains. Our 
 experiments show that the proposed ideas improve efficiency when dealing 
 with large scale inference and prediction problems in presence of many 
 parameters and large data sets.
 
-In the second part, we  proposed a flexible and efficient framework to perform
+In the second part, we  proposed VIS, a flexible and efficient framework to perform
 large-scale Bayesian inference in probabilistic models. The scheme benefits from useful properties and can be 
 employed to efficiently perform inference with a wide class of models such as state-space time series, variational autoencoders {and variants such as the conditioned VAE for classification tasks}, defined through continuous, high-dimensional distributions.
-
 The framework can be seen as a general 
 approach to tuning MCMC sampler parameters, adapting the initial distributions and learning rate. %We believe the proposed scheme can be successfully applied to Adversarial Risk Analysis \parencite{adversarialRiskAnalysis2009}, since MAIDs \parencite{koller2003multi} are considered in that setting and it is customary to account for additional uncertainty over an attacker's influence diagram. Our framework paves the way for flexible inference and decision making under uncertainty in these settings, and we will explore this in future work.
-Key to the success and applicability of the VIS framework are the ELBO approximations based on the introduced refined variational approximation, which are computationally cheap but convenient. We note that the two approaches developed in this Chapter could be combined, leading to highly improved behaviour.
+Key to the success and applicability of  VIS  are the ELBO approximations based on the introduced refined variational approximation, which are computationally cheap but convenient. We note that both approaches developed in this Chapter could be combined, leading to en even better behaviour.
 
 \subsection{Adversarial Classification}
 
-Adversarial classification aims at enhancing classifiers to achieve robustness in presence of adversarial examples, as usually encountered in many security applications. The pioneering work of \parencite{dalvi2004adversarial} framed most later approaches to AC 
+Adversarial classification aims at enhancing classifiers to achieve robustness in presence of adversarial examples, as usually encountered in many security applications. The pioneering work of \cite{dalvi2004adversarial} framed most later approaches to AC 
 within the standard game theoretic paradigm, in spite of the unrealistic common knowledge assumptions about shared beliefs and preferences required, actually even questioned by those authors. After reviewing them, and analysing  their assumptions, we have presented two formal probabilistic approaches for AC based on ARA that mitigate 
 such strong common knowledge assumptions.
 They are general in the sense that application-specific assumptions are kept to a minimum. 
 %
 We have presented the framework in two different forms: in Section \ref{sec:ac_acra}, learning about the adversary is performed in the
-operational phase, for generative classifiers. In Section \ref{sec:scalable}, adversarial aspects are incorporated in the training phase. Depending on the particular application, one of the frameworks could be preferred over the other. The first one allows us to make real time inference about the adversary, as it explicitly models his decision making process in operation time; its adaptability is better as it does not need to be retrained every time we need to modify the adversary model. However, this comes at a high computational cost, and the harsh restriction of being only applicable to generative models. In applications in which there is a computational bottleneck, the second approach may be preferable, with possible changes in the adversary's behaviour incorporated via retraining.
-This tension between the need to robustify algorithms against attacks (training phase, Section  \ref{sec:scalable}) and the fast adaptivity of attackers against defences (operational phase, Section \ref{sec:ac_acra}) is well exemplified in the phishing detection domain as discussed in \parencite{rakesh}.
+operational phase, for generative classifiers. In Section \ref{sec:scalable}, adversarial aspects are incorporated in the training phase. Depending on the particular application, one of the frameworks could be preferred over the other. The first one allows us to make real time inference about the adversary, as it explicitly models his decision making process during operations; its adaptability is better as it does not need to be retrained every time we need to modify the adversary model. However, this comes at a high computational cost, and the harsh restriction of being only applicable to generative models. In applications in which there is a computational bottleneck, the second approach may be preferable, with possible changes in the adversary's behaviour incorporated via retraining.
+This tension between the need to robustify algorithms against attacks (training phase, Section  \ref{sec:scalable}) and the fast adaptivity of attackers against defences (operational phase, Section \ref{sec:ac_acra}) is well exemplified in the phishing detection domain as discussed e.g. in \parencite{rakesh}.
 
 \subsection{Adversarial aspects in Reinforcement Learning}\label{sec:final}
 We have introduced TMDPs, a reformulation of MDPs to 
@@ -57,15 +56,15 @@ competitive marketing, to name but a few.
 TMDPs aim at providing one-sided prescriptive support to a RL agent, maximizing her expected utility, taking into account potential negative actions adopted by an adversary. % Some theoretical results have been provided. In particular, we prove that
   The proposed learning rule is a contraction mapping and we may use RL convergence results, while gaining advantage from 
 %In addition, the proposed framework is suitable for
-  opponent modelling within $Q$-learning. Indeed, we have proposed a scheme to model adversarial behavior based on level-$k$ reasoning
+  opponent modelling within $Q$-learning. Indeed, we proposed a scheme to model adversarial behavior based on level-$k$ reasoning
 and extended it by using type-based reasoning to account for uncertainty about the opponent's level. Finally, we have sketched how the framework could be extended to deep learning settings and to the multiple opponents case. Key features of our proposal are its generality
 (it is model agnostic as it is compatible with tabular $Q$-learning or any function approximator for the $Q$-values) and its robustness, since it also offers 
-protection against adversarial behaviours that are not exactly as described by the DM's opponent model. These significant benefits come at a reasonable cost, since the increase in complexity (both in time and space) is linear compared to unprotected, baseline vanilla $Q$-learners.
+protection against adversarial behaviour that is not exactly as described by the DM's opponent model. These significant benefits come at a reasonable cost, since the increase in complexity (both in time and space) is linear compared to unprotected, baseline vanilla $Q$-learners.
 
-Empirical evidence is provided via extensive experiments, with encouraging results. In security settings, we see that by explicitly modelling a finite set of adversaries via the opponent averaging scheme, a supported DM can take advantage of her actual opponent, even when he is not explicitly modelled through a component from the finite mixture. This highlights the ability of our framework to generalize between different kinds of opponents. As a take home lesson, we find that a level-2 $Q$-learner may effectively deal with a wide class of adversaries. However, maintaining a mixture of different adversaries is necessary if we consider a level-3 DM. As a rule of thumb, the supported DM may start at a low level in the hierarchy, and switch to a level-up temporarily, to check if the obtained rewards are higher. Otherwise, she would  continue on the initial, lower level.  %In addition, the
+Empirical evidence is provided via extensive experiments, with encouraging results. In security settings, we see that by explicitly modelling a finite set of adversaries via the opponent averaging scheme, a supported DM can take advantage of her actual opponent, even when he is not explicitly modelled through a component from the finite mixture. This highlights the ability of our framework to generalize between different kinds of opponents. As take home lesson, we find that a level-2 $Q$-learner may effectively deal with a wide class of adversaries. However, maintaining a mixture of different adversaries is necessary if we consider a level-3 DM. As a rule of thumb, the supported DM may start at a low level in the hierarchy, and switch to a level-up temporarily, to check if the obtained rewards are higher. Otherwise, she would  continue on the initial, lower level.  %In addition, the
 %proposed Algorithm \ref{alg:l2ur} can be generalized to account for the use of function approximators instead of tabular $Q$-learning, as done in the experiments in Section \ref{sec:cg}. We have also shown details of the modified algorithm in this last batch of experiments. 
 Indeed, the proposed scheme is
-model agnostic, so we expect it to be usable in both shallow and deep multi-agent RL settings, such as the ones pioneered by \parencite{mnih2015human}. This is a desirable key property of our framework, which implies that it can be adopted in a wide array of relevant settings and configurations.
+model agnostic, so we expect it to be usable in both shallow and deep multi-agent RL settings, such as the ones pioneered by \parencite{mnih2015human}. This is a desirable key property of our framework implying that it can be adopted in a wide array of relevant settings and configurations.
 
 
 
@@ -79,7 +78,7 @@ model agnostic, so we expect it to be usable in both shallow and deep multi-agen
 
 % \subsection{A discussion for data sharing games}
 
-Regarding the data sharing games, it can be useful to recall that a defining trend in modern society is the abundance 
+Regarding  data sharing games, it can be useful to recall that a defining trend in modern society is the abundance 
 of data which opens up new opportunities, challenges
 and threats. In the upcoming years, social progress will be essentially conditioned by the capacity of society to gather, analyze and understand data, as this will 
 facilitate better and more informed decisions. 
@@ -99,27 +98,30 @@ We have studied the problem of data sharing
 from a dynamic game theoretic perspective with two agents.
 %. Two agents intervene in the data sharing game: the dominant data owner and the data providers (citizens). Each agent can either cooperate or defect. In the DDO's case, cooperation entails purchasing just the citizen's data that might be purchased and respecting her personal information; while defection entails not paying for the citizen's data. On the  other hand, the citizen will cooperate if she sells data and demands protection, and she will defect when selling wrong/noisy data. 
 Within our setting,  mutual cooperation emerges as the strategy 
-leading to the best social outcome, and it must be promoted somehow. We
+leading to the best social outcome, and it must be somehow promoted. We
 have proposed modelling the confrontation between dominant data owners and citizens using two versions of the iterated prisoner dilemma via  
 multi agent reinforcement learning: the decentralized case, in which both agents interact freely, and the centralized case, in which the interaction is regulated by an external agent/institution. In the first case, we have shown that there are strategies with which mutual cooperation is possible, and that a forgiving policy by the DDO can be beneficial in terms of social utility. In the centralized case, regulating the interaction between citizens and DDOs via an external agent could foster mutual cooperation through taxes and incentives.
 
 
 \section{Further work}
+Several avenues are open for further work. Here we discuss only several promising ones, following our three core chapters.
+
 
 \subsection{Large Scale Bayesian Inference}
-Several avenues are open for further work. Here we discuss only several promising ones. First, with a very large particle regime ($L >> 100$) there is room to use approximating algorithms such as Barnes-Hutt to keep the computational cost tractable.
+ First, with a very large particle regime (more than 100 particles) there is room to use approximating algorithms such as Barnes-Hutt to keep the computational cost tractable.
 Secondly, we used the RBF kernel in all our experiments, but a natural 
-issue to address would be to define a parameterized kernel $k_{\theta} (z_i, z_j)$ and learn the parameters $\theta$ on the go to optimize the ESS/s rate, using meta-learning approaches such as the one proposed in \parencite{gallego2019vis} for the SGLD case.
+issue to address would be to define a parameterized kernel $k_{\theta} (z_i, z_j)$ and learn the parameters $\theta$ on the go to optimize the ESS/s rate, using meta-learning approaches such as the one proposed in \cite{gallego2019vis} for the SGLD case.
+
 When dealing with shallow networks in comparatively small scale problems
 \parencite{muller1998issues} dealing with acceptance Metropolis steps was crucial, for example,
 when focusing on architecture selection; incorporating such steps
 to the proposed approaches could be beneficial. 
-If many more particles are  used, one could approximate the expectation in (\ref{eq:svgd_mat}) using subsampling at each iteration, as proposed by the authors of SVGD, or by using more sophisticated approaches from the molecular dynamics literature, such as the Barnes-Hutt algorithm, \parencite{barnes1986hierarchical}, to arrive at an efficient $\mathcal{O}(L \log L)$ computational burden at a negligible approximation error.
+If many more particles are  used, one could approximate the expectation in Eq.  (\ref{eq:svgd_mat}) using subsampling at each iteration, as proposed by the authors of SVGD, or by using more sophisticated approaches from the molecular dynamics literature, such as the \cite{barnes1986hierarchical} algorithm, to arrive at an efficient $\mathcal{O}(L \log L)$ computational burden at a negligible approximation error.
 
-Better estimates of the refined density and its gradient may be a fruitful line of research, such as the spectral estimator used in \parencite{shi2018spectral}. Another alternative is to use a deterministic flow (such as SGD or SVGD), keeping
-track of the change in entropy at each iteration using the change of the variable formula, as in \parencite{duvenaud2016early}. However, this requires a costly Jacobian computation, making it unfeasible to combine with our approach of back-propagation through the sampler (Section \ref{sec:tuning}) for moderately complex problems. We leave this for future exploration. {Another interesting and useful line of further research would be to tackle the case in which the latent variables $z$ are discrete. This would entail adapting the automatic differentiation techniques to be able to back-propagate the gradients through the sequences of acceptance steps necessary in Metropolis--Hastings samplers.}
+Better estimates of the refined density and its gradient may be a fruitful line of research, such as the spectral estimator used in \cite{shi2018spectral}. Another alternative is to use a deterministic flow (such as SGD or SVGD), keeping
+track of the change in entropy at each iteration using the change of the variable formula, as in \cite{duvenaud2016early}. However, this requires a costly Jacobian computation, making it unfeasible to combine with our  back-propagation through the sampler approach (Section \ref{sec:tuning}) for moderately complex problems. We leave this for future exploration. {Another interesting and useful line of further research would be to tackle the case in VIS in which the latent variables $z$ are discrete. This would entail adapting the automatic differentiation techniques to be able to back-propagate the gradients through the sequences of acceptance steps necessary in Metropolis--Hastings samplers.}
 
-In order to deal with the implicit variational density, it may be worthwhile to consider optimizing the Fenchel dual of the KL divergence, as
+In order to deal with the implicit variational density in the VIS framework, it may be worthwhile to consider optimizing the Fenchel dual of the KL divergence, as
  in \parencite{fang2019implicit}. However, this requires the use of an auxiliary neural network, which may entail a large computational price compared with our simpler particle approximation.
 
 Lastly, probabilistic programming offers powerful tools for Bayesian modeling.
@@ -127,7 +129,7 @@ A~PPL can be viewed as a programming language extended with random sampling and 
 include WinBUGS~\parencite{lunn2000winbugs}, Stan \parencite{carpenter2017stan} or the recent Edward \parencite{tran2018simple} and Pyro \parencite{bingham2018pyro} languages. We plan to adapt VIS into several PPLs to facilitate the adoption of the framework.
 
 \subsection{Adversarial Classification}
-Our framework may be extended in several ways. First, we could adapt the proposed approach to situations in which there is repeated play of the AC game, introducing the possibility of learning the adversarial utilities and probabilities in a Bayesian way. Learning over opponent types has been explored with success in reinforcement learning scenarios, see chapter 4. This could be extended to the classification setting. Besides exploratory ones, attacks over the training data \parencite{biggio2012poisoning} may be relevant in certain contexts. 
+Our AC framework may be extended in several ways. First, we could adapt the proposed approach to situations in which there is repeated play of the AC game, introducing the possibility of learning the adversarial utilities and probabilities in a Bayesian way. Learning over opponent types has been explored with success in reinforcement learning scenarios, see Chapter 4. This could be extended to the classification setting. Besides exploratory ones, attacks over the training data \parencite{biggio2012poisoning} may be relevant in certain contexts. 
 %In addition, we have just considered the case in which the attacker performs intentional attacks. % In some problems, there could be also random attacks. The proposed framework could be easily adapted to take those into account as well as to the case in which there are several attackers. 
 In addition, the extension to the case of attacks to innocent instances (not just integrity violation ones) seems feasible using the scalable framework. % but requires some work in our original one.
 We have restricted our attention to deterministic attacks, that is, $a^*(x,y_1)$ will always lead to $x'$; extending our framework to deal with stochastic attacks would entail modelling $p(x' \vert a^*, x, y_1)$. 
@@ -146,14 +148,12 @@ Additional work should be undertaken concerning the
 algorithmic aspects.  In our approach  we go through a simulation stage to forecast attacks and an optimisation stage to determine optimal classification. The whole process might be performed through a single stage, possibly based on augmented probability simulation \parencite{ekin2019augmented}.
 
 We have also shown how the robustification procedure from Section \ref{sec:scalable} can be an efficient way to protect large-scale models, such as those trained using first-order methods. It is well-known that Bayesian marginalisation improves generalisation capabilities of flexible models since the ensemble helps in better exploring the posterior parameter space \parencite{wilson2020bayesian}. Our experiments suggest 
-that this holds also in the domain of adversarial robustness. Thus, bridging the gap between large scale Bayesian methods and Game Theory, as  done in the ARA framework, suggests a powerful way to develop principled defences. To this end, strategies to more efficiently explore the highly complex, multimodal posterior distributions of neural models constitute another line of further work.
+that this holds also in the domain of adversarial robustness. Thus, bridging the gap between large scale Bayesian methods and Game Theory, as  done in the ARA framework, suggests a powerful way to develop principled defences. To this end, strategies to more efficiently explore the highly complex, multimodal posterior distributions of neural models, such as the ones developed in Chapter 2, can be adopted.
 
 Lastly, several application areas could benefit highly from
 protecting their underlying ML models. Spam detectors were
-the running example in this chapter. Malware and phishing detection are two
-crucial cybersecurity problems in which the data distribution of computer programs is constantly changing, driven by attacker's interests in evading detectors. Finally, the machine learning algorithms underlying 
-autonomous driving systems need to be robustified from perturbations to their visual processing models and this could be performed through our 
-approaches.
+the running example in Chapter 3. Malware and phishing detection are two
+crucial cybersecurity problems in which the data distribution of computer programs is constantly changing, driven by attacker's interests in evading detectors. %Finally, the machine learning algorithms underlying  autonomous driving systems need to be robustified from perturbations to their visual processing models and this could be performed through our  approaches.
 
 
 
@@ -166,8 +166,7 @@ though the extension to higher order adversaries is relevant. %In recent years $
 %systems that play Go \parencite{silver2017mastering}. Integrating these advances into
 %the TMDP setting is another possible research path.as presented here. 
 In addition, rather than trying to learn opponent $Q$-values, we could
-use policy gradient methods \parencite{baxter2000direct} to expand our proposal. In the recent years, there has been a great deal of literature focusing on deep policy gradient methods, see e.g.  \parencite{pmlr-v48-mniha16,schulman2017ppo}, so it is natural to adapt our opponent modeling framework to account for these kinds of learning agents.
-
+use policy gradient methods \parencite{baxter2000direct} to expand our proposal. In the recent years, there has been a great deal of literature focusing on deep policy gradient methods, see e.g.  \cite{pmlr-v48-mniha16,schulman2017ppo}, so it is natural to adapt our opponent modeling framework to account for these kinds of learning agents.
 It also might be interesting to explore similar expansions to semi-MDPs, 
 in order to perform hierarchical RL or allow for time-dependent rewards 
 and transitions between states.

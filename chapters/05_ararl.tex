@@ -67,7 +67,7 @@ predict adversarial decisions.
 
 The AML literature has predominantly focused on
 the supervised setting \parencite{BIGGIO2018317}.
-Our focus will be in reinforcement learning (RL), \parencite{sutton2012reinforcement}.
+Our focus will be in reinforcement learning (RL) \parencite{sutton2012reinforcement}.
 %one of the most promising pillars to build an AI capable of decision
 %making \parencite{sutton2012reinforcement}.
 In it, an agent takes actions
@@ -84,7 +84,7 @@ in it, multiple
 agents try to learn to compete or cooperate. Single-agent RL methods fail in
 these settings, since they do not take into account 
 the non-stationarity 
-stemming due to the actions of the other agents. %Thus, opponent modelling is a
+stemming from the actions of the other agents. %Thus, opponent modelling is a
 %recent research trend in RL, see Section \ref{sec:background} for a review.
 
 The major contribution of this chapter is
@@ -111,9 +111,9 @@ to deep RL settings.
 
 
 
-\section{Background for Reinforcement Learning}\label{sec:background}
+\section{Background in Reinforcement Learning}\label{sec:background}
 
-Our focus is on RL, widely studied as an efficient computational approach to deal with \textit{Markov decision processes} (MDP), \parencite{howard:dp}. These model a single agent (the decision maker, DM, she)
+Our focus in this chapter is on RL, widely studied as an efficient computational approach to deal with \textit{Markov decision processes} (MDP), \parencite{howard:dp}. These model a single agent (the decision maker, DM, she)
 making decisions 
 while interacting within an environment.  
 They consist of a
@@ -131,7 +131,7 @@ $
  \mathbb{E}_{\tau} \left[  \sum_{t=0}^\infty \gamma^t R(a_t, s_t) \right] 
  $ 
 where $\gamma \in (0,1)$ is a discount factor and $\tau = (s_0, a_0, s_1, a_1, \ldots)$ is a trajectory of states and actions.
-  An efficient approach to solve MDPs is $Q$-learning, \parencite{sutton2012reinforcement}; with it, the DM maintains a
+  An efficient approach to solving MDPs is $Q$-learning, \parencite{sutton2012reinforcement}; with it, the DM maintains a
  function
 $Q : \mathcal{S} \times \mathcal{A} \rightarrow \mathbb{R}$ that estimates
 her expected cumulative reward. This function is updated according to
@@ -156,7 +156,7 @@ non stationary making  $Q$-learning suboptimal \parencite{marl_over}.
 Thus, to support the agent,
 we must be able to reason about and forecast the adversaries' behaviour.
 Several opponent modelling principles have been proposed in the  literature,
-as reviewed in \parencite{Albrecht2018AutonomousAM}. 
+as reviewed in \cite{Albrecht2018AutonomousAM}. 
 %These methods vary in
 %their underlying assumptions, the methodology used and their
 %specific goals.
@@ -164,7 +164,7 @@ Since our concern is on the ability of our agent to predict
 her adversary's actions, we focus on methods
 with this goal encompassing three approaches: policy reconstruction, type-based reasoning and recursive learning.
 
-The first group fully reconstruct the adversary's decision
+The first group of methods fully reconstruct the adversary's decision
 making problem, typically assuming a parametric model fitted after 
 after observing the adversary's behaviour. A dominant approach,
 known as fictitious play  (FP), \parencite{brown1951iterative}, models 
@@ -444,9 +444,12 @@ $
 $ and so on, until the induction basis (level-1) is reached 
 in which the opponent may be modelled using the FP$Q$-learning approach 
 in Section \ref{sec:non}.
-
 Algorithm \ref{alg:l2ur} specifies the approach 
 for a level-2 DM. 
+The algorithm thus accounts for $Q_2$,  her $Q$-function,  and $\hat{Q}_1$,
+that of her
+opponent (who will be level-1). Figure
+\ref{fig:lev2_scheme} provides a schematic view of the dependencies.
 
 \begin{algorithm*}[!ht]
 \begin{algorithmic}[1]
@@ -463,12 +466,6 @@ and learning rates, respectively).
 \caption{Level-2 thinking update rule}
 \label{alg:l2ur}
 \end{algorithm*}
-\noindent 
-%Therefore, %Because she is a level-2 DM,
-The algorithm thus accounts for $Q_2$,  her $Q$-function,  and $\hat{Q}_1$,
-that of her
-opponent (who will be level-1). Figure
-\ref{fig:lev2_scheme} provides a schematic view of the dependencies.
 
 \begin{figure}[!ht]
 \centering
@@ -570,7 +567,7 @@ The tabular $Q$-learning in Algorithm \ref{alg:l2ur} does not scale with the siz
 ${\cal A, B}$.
 %well when the state or action spaces dramatically grow in size.
 To solve this issue, we expand the framework to the case when  $Q$-functions are represented using a function approximator, typically a linear regression or
-a deep learning $Q$-network, \parencite{mnih2015human}. 
+a deep learning $Q$-network \parencite{mnih2015human}. 
 
 Algorithm \ref{alg:l2urdeep} shows the details, where $\phi_A$ and $\phi_B$ designate the parameters of the corresponding functions approximating the $Q$-values. Note that in this setting,
 the framework is compatible with continuous action spaces.
@@ -603,7 +600,7 @@ multiplicatively.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Computational complexity}\label{sec:cc}
 
-As outlined in Section 3.2, a level-$k$ $Q$-learner has to estimate the $Q$ function
+As outlined in Section \ref{sec:k}, a level-$k$ $Q$-learner has to estimate the $Q$ function
 of a level-$(k-1)$ $Q$-learner, and so on. Assuming that the original $Q$-learning 
 update rule has time complexity $\mathcal{O}(T(|\mathcal{A}|))$, with $T$ being a factor that depends on the number of actions of the DM, the update rule from 
 Algorithm \ref{alg:l2ur} has time complexity $\mathcal{O}(kT(\max \lbrace |\mathcal{A}|,  |\mathcal{B}|\rbrace))$, i.e.,
@@ -1169,7 +1166,7 @@ exponential smoothing to estimate the probability of the DM placing a resource a
 this probability is the smallest (obviously both opponents perform exactly the same attacks).
 
 Consider
-a problem of defending three different positions; the DM needs to allocate two resources among such positions. For both the $Q$-learning and the FP$Q$-learning agents the discount factor will be $\gamma = 0.96$, $\epsilon = 0.1$ and the learning rate  $0.1$.%There are two non cooperative attackers and each of them must decide the position where his attack will be executed. 
+a problem of defending three different positions; the DM needs to allocate two resources among such positions. For both the $Q$-learning and the FP$Q$-learning agents the discount factor will be $\gamma = 0.96$, $\epsilon = 0.1$ and the learning rate $\alpha = 0.1$. %There are two non cooperative attackers and each of them must decide the position where his attack will be executed. 
 %
 As Fig. \ref{fig:2expsmoothers} shows, FP$Q$-learning is able to learn the opponents strategies and thus is less exploitable than standard $Q$-learning.
 This experiment showcases the suitability of the framework to deal with multiple, independent adversaries, by straightforwardly extending the level-$k$ thinking scheme as discussed (Section \ref{sec:mul}).
