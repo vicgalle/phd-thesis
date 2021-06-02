@@ -12,7 +12,6 @@ the corresponding Fokker--Planck equation is
 $$
 \frac{\partial}{\partial t} q_t(z) = -\frac{\partial}{\partial z}\left[ \mu(z,t)q_t(z)\right] + \frac{\partial^2}{\partial z^2} \left[ \frac{\sigma^2(z,t)}{2} q_t(z) \right].
 $$
-
 We are interested in converting the SGLD dynamics to a deterministic gradient flow. %(that is, we want to convert a SDE into an ODE such that both gradient flows have the same Fokker-Planck equation). 
 
 \begin{Proposition}
@@ -30,20 +29,16 @@ Let us write the Fokker--Planck equation for the respective flows. For the Lange
 $$
 \frac{\partial}{\partial t} q_t(z) = - \frac{\partial}{\partial z} \bigg[ \nabla \log p(z) q_t(z) \bigg] + \frac{\partial^2}{\partial z^2} \bigg[ q_t(z) \bigg].
 $$
-
 On the other hand, the Fokker--Planck equation for the deterministic gradient flow is given by
 $$
 \frac{\partial}{\partial t} q_t(z) = - \frac{\partial}{\partial z} \bigg[ \nabla \log p(z) q_t(z)\bigg] + \frac{\partial}{\partial z} \bigg[ \nabla \log q_t(z) q_t(z)\bigg].
 $$
-
-The result immediately follows since $ \frac{\partial}{\partial z} \left[ \nabla \log q_t(z) q_t(z)\right] = \frac{\partial^2}{\partial z^2} \left[ q_t(z) \right]$.
+The result immediately follows, since $ \frac{\partial}{\partial z} \left[ \nabla \log q_t(z) q_t(z)\right] = \frac{\partial^2}{\partial z^2} \left[ q_t(z) \right]$.
 \end{proof}
-
 Given that both flows are equivalent, we restrict our attention to the deterministic flow. Its discretization leads to iterations of the form
 \begin{equation}\label{eq:deterministic_flow}
 z_{t} = z_{t-1} + \eta (\nabla \log p(z_{t-1}) - \nabla \log q_{t-1} (z_{t-1})).
 \end{equation}
-
 In order to tackle the last term, we make the following particle approximation. Using a variational formulation, we have 
 \begin{align*}
     - \nabla \log q(z) = \nabla \left( - \frac{\delta}{\delta q} \mathbb{E}_q \left[ \log q\right] \right).
@@ -63,7 +58,7 @@ $$
 - \nabla \log q(z) \approx - \frac{\sum_k \nabla_{z_m} K(z_m, z_n)}{\sum_n K(z_m, z_n)}
 - \sum_l \frac{\nabla_{z_m} K(z_m, z_l)}{\sum_n K(z_n, z_l)},
 $$
-which can be inserted into Equation (\ref{eq:deterministic_flow}). Finally, note that
+which can be inserted into Equation (\ref{eq:fppp}). Finally, note that
 it is possible to back-propagate through this equation; i.e., the gradients of $K$ can be explicitly computed.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -72,7 +67,7 @@ it is possible to back-propagate through this equation; i.e., the gradients of $
 
 \subsection{State-Space Models}\label{app:ss}
 
-\subsubsection{Initial Experiments}\label{app:hmm}
+\paragraph{Initial experiments.}\label{app:hmm}
 For the HMM, both the observation and transition probabilities are categorical distributions, taking values in the domain $\lbrace 0, 1, 2, 3, 4 \rbrace$.
 
 The equations of the DLM are 
@@ -84,7 +79,7 @@ with $z_0  = 0.0$.
 
 %\subsubsection{Prediction Task in a Hmm}
 
-\subsubsection{Prediction Task in a DLM}
+\paragraph{Prediction task in a DLM.}
 The DLM model comprises a linear trend component plus a seasonal block with a period of 12. The trend is specified as
 \begin{align*}
 x_t &= z_{level,t} + \epsilon_t \qquad \epsilon_t \sim \mathcal{N}(0, \sigma_{obs}) \\
@@ -115,7 +110,7 @@ G = \begin{bmatrix}
 \end{equation*}
 \\
 
-Further details are in \parencite{west1998bayesian}.
+Further details are in \cite{west1998bayesian}.
 % OLDE...
 \iffalse
 \subsubsection{Model Details} The definition of the HMM and the DLM can be found in Figures \ref{fig:hmm} and \ref{fig:dlm}, respectively.
@@ -139,7 +134,7 @@ Further details are in \parencite{west1998bayesian}.
 
 \subsection{VAE}
 
-\subsubsection{Model Details}
+\paragraph{Model details.}
 
 %The VAE model is implemented with PyTorch \parencite{paszke2017automatic}.
 The prior distribution $p(z)$ for the latent variables $z \in \mathbb{R}^{10}$ is a standard factorized Gaussian. The decoder distribution $p_\theta(x|z)$ and the encoder distribution (initial variational approximation) $q_{0,\phi}(z|x)$ are parameterized by two feed-forward neural networks, as 
@@ -147,7 +142,7 @@ detailed in Figure \ref{fig:arch_vae}.
 
 
 
-\subsubsection{Hyperparameter Settings}
+\paragraph{Hyperparameter settings.}
 The optimizer Adam is used in all experiments, with 
 la earning rate of $\lambda=0.001$. We~also set $\eta = 0.001$. We train for 15 epochs (fMNIST) and 20 epochs (MNIST) to achieve a performance 
 similar to the VAE in \parencite{pmlr-v89-titsias19a}. For the VIS-5-10 setting, we train only for 10 epochs to allow a fair computational comparison in terms of similar computing times.
@@ -158,7 +153,7 @@ similar to the VAE in \parencite{pmlr-v89-titsias19a}. For the VIS-5-10 setting,
 
 
 
-\subsubsection{Model Details}
+\paragraph{Model details.}
 
 %The cVAE model is implemented with PyTorch \parencite{paszke2017automatic}.
 The prior distribution $p(z)$ for the latent variables $z \in \mathbb{R}^{10}$ is a standard factorized Gaussian. The decoder distribution $p_\theta(x|y,z)$ and the encoder distribution (initial variational approximation) $q_{0,\phi}(z|x,y)$ are parameterized by two feed-forward neural networks whose details can be found in Figure \ref{fig:arch}.
@@ -181,7 +176,7 @@ Equation (\ref{eq:mc_cvae}) is approximated with one MC sample from the variatio
 \end{figure}
 
 
-\subsubsection{Hyperparameter Settings}
+\paragraph{Hyperparameter settings.}
 The optimizer Adam was used in all experiments, with a learning rate of $\lambda=0.01$. We set the initial $\eta = 5 \times 10^{-5}$.
 
 
