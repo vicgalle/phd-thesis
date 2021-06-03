@@ -38,7 +38,7 @@ Key to the success and applicability of  VIS  are the ELBO approximations based 
 
 \subsection{Adversarial Classification}
 
-Adversarial classification aims at enhancing classifiers to achieve robustness in presence of adversarial examples, as usually encountered in many security applications. The pioneering work of \cite{dalvi2004adversarial} framed most later approaches to AC 
+Adversarial classification aims at enhancing classifiers to achieve robustness in presence of adversarial examples, as usually encountered in many security applications. The pioneering work of \textcite{dalvi2004adversarial} framed most later approaches to AC 
 within the standard game theoretic paradigm, in spite of the unrealistic common knowledge assumptions about shared beliefs and preferences required, actually even questioned by those authors. After reviewing them, and analysing  their assumptions, we have presented two formal probabilistic approaches for AC based on ARA that mitigate 
 such strong common knowledge assumptions.
 They are general in the sense that application-specific assumptions are kept to a minimum. 
@@ -110,16 +110,16 @@ Several avenues are open for further work. Here we discuss only several promisin
 \subsection{Large Scale Bayesian Inference}
  First, with a very large particle regime (more than 100 particles) there is room to use approximating algorithms such as Barnes-Hutt to keep the computational cost tractable.
 Secondly, we used the RBF kernel in all our experiments, but a natural 
-issue to address would be to define a parameterized kernel $k_{\theta} (z_i, z_j)$ and learn the parameters $\theta$ on the go to optimize the ESS/s rate, using meta-learning approaches such as the one proposed in \cite{gallego2019vis} for the SGLD case.
+issue to address would be to define a parameterized kernel $k_{\theta} (z_i, z_j)$ and learn the parameters $\theta$ on the go to optimize the ESS/s rate, using meta-learning approaches such as the one proposed in \textcite{gallego2019vis} for the SGLD case.
 
 When dealing with shallow networks in comparatively small scale problems
 \parencite{muller1998issues} dealing with acceptance Metropolis steps was crucial, for example,
 when focusing on architecture selection; incorporating such steps
 to the proposed approaches could be beneficial. 
-If many more particles are  used, one could approximate the expectation in Eq.  (\ref{eq:svgd_mat}) using subsampling at each iteration, as proposed by the authors of SVGD, or by using more sophisticated approaches from the molecular dynamics literature, such as the \cite{barnes1986hierarchical} algorithm, to arrive at an efficient $\mathcal{O}(L \log L)$ computational burden at a negligible approximation error.
+If many more particles are  used, one could approximate the expectation in Eq.  (\ref{eq:svgd_mat}) using subsampling at each iteration, as proposed by the authors of SVGD, or by using more sophisticated approaches from the molecular dynamics literature, such as the \textcite{barnes1986hierarchical} algorithm, to arrive at an efficient $\mathcal{O}(L \log L)$ computational burden at a negligible approximation error.
 
-Better estimates of the refined density and its gradient may be a fruitful line of research, such as the spectral estimator used in \cite{shi2018spectral}. Another alternative is to use a deterministic flow (such as SGD or SVGD), keeping
-track of the change in entropy at each iteration using the change of the variable formula, as in \cite{duvenaud2016early}. However, this requires a costly Jacobian computation, making it unfeasible to combine with our  back-propagation through the sampler approach (Section \ref{sec:tuning}) for moderately complex problems. We leave this for future exploration. {Another interesting and useful line of further research would be to tackle the case in VIS in which the latent variables $z$ are discrete. This would entail adapting the automatic differentiation techniques to be able to back-propagate the gradients through the sequences of acceptance steps necessary in Metropolis--Hastings samplers.}
+Better estimates of the refined density and its gradient may be a fruitful line of research, such as the spectral estimator used in \textcite{shi2018spectral}. Another alternative is to use a deterministic flow (such as SGD or SVGD), keeping
+track of the change in entropy at each iteration using the change of the variable formula, as in \textcite{duvenaud2016early}. However, this requires a costly Jacobian computation, making it unfeasible to combine with our  back-propagation through the sampler approach (Section \ref{sec:tuning}) for moderately complex problems. We leave this for future exploration. {Another interesting and useful line of further research would be to tackle the case in VIS in which the latent variables $z$ are discrete. This would entail adapting the automatic differentiation techniques to be able to back-propagate the gradients through the sequences of acceptance steps necessary in Metropolis--Hastings samplers.}
 
 In order to deal with the implicit variational density in the VIS framework, it may be worthwhile to consider optimizing the Fenchel dual of the KL divergence, as
  in \parencite{fang2019implicit}. However, this requires the use of an auxiliary neural network, which may entail a large computational price compared with our simpler particle approximation.
@@ -166,7 +166,7 @@ though the extension to higher order adversaries is relevant. %In recent years $
 %systems that play Go \parencite{silver2017mastering}. Integrating these advances into
 %the TMDP setting is another possible research path.as presented here. 
 In addition, rather than trying to learn opponent $Q$-values, we could
-use policy gradient methods \parencite{baxter2000direct} to expand our proposal. In the recent years, there has been a great deal of literature focusing on deep policy gradient methods, see e.g.  \cite{pmlr-v48-mniha16,schulman2017ppo}, so it is natural to adapt our opponent modeling framework to account for these kinds of learning agents.
+use policy gradient methods \parencite{baxter2000direct} to expand our proposal. In the recent years, there has been a great deal of literature focusing on deep policy gradient methods, see e.g.  \textcite{pmlr-v48-mniha16,schulman2017ppo}, so it is natural to adapt our opponent modeling framework to account for these kinds of learning agents.
 It also might be interesting to explore similar expansions to semi-MDPs, 
 in order to perform hierarchical RL or allow for time-dependent rewards 
 and transitions between states.

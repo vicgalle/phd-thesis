@@ -10,18 +10,14 @@ The second part formalizes the interactions between data producers and consumers
 
 
 \subsection{A motivation for adversarial RL}
-Over the last decade,
+%Over the last decade,
 %the growth in computational capacity and advances in data
 %acquisition, processing and storage have provided unprecedented ways to understand,
 %model and forecast many processes in business, policy and industry areas.
-an increasing number of processes are being automated through 
-machine learning (ML) algorithms, being essential that these are robust and 
-reliable to trust operations based on their output. State-of-the-art
-ML algorithms perform extraordinarily well on standard data, but  
-have been recently shown to be vulnerable to adversarial examples %, data
+%an increasing number of processes are being automated through machine learning (ML) algorithms, being essential that these are robust and  reliable to trust operations based on their output. State-of-the-art ML algorithms perform extraordinarily well on standard data, but  have been recently shown to be vulnerable to adversarial examples %, data
 %instances specifically targeted at fooling
 %algorithms 
-\parencite{goodfellow2014explaining}. 
+%\parencite{goodfellow2014explaining}. 
 %As a
 %fundamental underlying hypothesis, these ML developments rely on the use
 %of independent and identically distributed data for both the training and test
@@ -34,29 +30,16 @@ have been recently shown to be vulnerable to adversarial examples %, data
 %Therefore, as reviewed in \parencite{Albrecht2018AutonomousAM}, there is a need to model
 %the actions of other agents.
 
-Stemming from the pioneering work in adversarial classification (AC) in
-\parencite{dalvi2004adversarial}, 
- game theory \parencite{menache2011network}
- has been the prevailing paradigm to model the confrontation
-between adversaries and learning-based systems, 
-defining the field of adversarial machine learning (AML),
- see reviews in 
-\parencite{BIGGIO2018317} and \parencite{doi:10.1002/widm.1259}. This entails
-well-known common
-knowledge hypothesis, \parencite{hargreaves2004game}, which, from
-a fundamental point of view, are  not sustainable in 
-security settings 
-as adversaries tend to %hide and
-conceal information. %A similar problem occurs with the adversarial prediction approaches proposed by \parencite{bruckner2011stackelberg, bruckner2012static}. 
-The recent work of \cite{naveiro2018adversarial} presented a novel 
-framework for AC based on Adversarial Risk Analysis (ARA) \parencite{roponen}.
+%Stemming from the pioneering work in adversarial classification (AC) in
+%\parencite{dalvi2004adversarial}, 
+% game theory \parencite{menache2011network}
+% has been the prevailing paradigm to model the confrontation
+%between adversaries and learning-based systems, defining the field of adversarial machine learning (AML), see reviews in \parencite{BIGGIO2018317} and \parencite{doi:10.1002/widm.1259}. This entails well-known common knowledge hypothesis, \parencite{hargreaves2004game}, which, from a fundamental point of view, are  not sustainable in  security settings as adversaries tend to %hide andconceal information. %A similar problem occurs with the adversarial prediction approaches proposed by \parencite{bruckner2011stackelberg, bruckner2012static}. 
+%The recent work of \textcite{naveiro2018adversarial} presented a novel framework for AC based on Adversarial Risk Analysis (ARA) \parencite{roponen}.
 %This paradigm supports agents 
 %who confront adversaries in problems %with random consequences
 %that depend on the actions of all %participants.
-ARA provides one-sided prescriptive
-support to an expected utility maximizing agent
- making operational the Bayesian approach to games in \parencite{kadane1982subjective, raiffa1982art}, facilitating a procedure to
-predict adversarial decisions. 
+%ARA provides one-sided prescriptive support to an expected utility maximizing agent making operational the Bayesian approach to games in \parencite{kadane1982subjective, raiffa1982art}, facilitating a procedure to predict adversarial decisions. 
 %, treating the
 %adversaries' decisions as random variables, to be forecast
 %taking into account the game theoretic structure; this.
@@ -113,7 +96,7 @@ to deep RL settings.
 
 \section{Background in Reinforcement Learning}\label{sec:background}
 
-Our focus in this chapter is on RL, widely studied as an efficient computational approach to deal with \textit{Markov decision processes} (MDP), \parencite{howard:dp}. These model a single agent (the decision maker, DM, she)
+Our focus in this chapter is on RL, widely studied as an efficient computational approach to deal with \textit{Markov decision processes} (MDP) \parencite{howard:dp}. These model a single agent (the decision maker, DM, she)
 making decisions 
 while interacting within an environment.  
 They consist of a
@@ -131,7 +114,7 @@ $
  \mathbb{E}_{\tau} \left[  \sum_{t=0}^\infty \gamma^t R(a_t, s_t) \right] 
  $ 
 where $\gamma \in (0,1)$ is a discount factor and $\tau = (s_0, a_0, s_1, a_1, \ldots)$ is a trajectory of states and actions.
-  An efficient approach to solving MDPs is $Q$-learning, \parencite{sutton2012reinforcement}; with it, the DM maintains a
+  An efficient approach to solving MDPs is $Q$-learning \parencite{sutton2012reinforcement}; with it, the DM maintains a
  function
 $Q : \mathcal{S} \times \mathcal{A} \rightarrow \mathbb{R}$ that estimates
 her expected cumulative reward. This function is updated according to
@@ -156,7 +139,7 @@ non stationary making  $Q$-learning suboptimal \parencite{marl_over}.
 Thus, to support the agent,
 we must be able to reason about and forecast the adversaries' behaviour.
 Several opponent modelling principles have been proposed in the  literature,
-as reviewed in \cite{Albrecht2018AutonomousAM}. 
+as reviewed in \textcite{Albrecht2018AutonomousAM}. 
 %These methods vary in
 %their underlying assumptions, the methodology used and their
 %specific goals.
@@ -167,7 +150,7 @@ with this goal encompassing three approaches: policy reconstruction, type-based 
 The first group of methods fully reconstruct the adversary's decision
 making problem, typically assuming a parametric model fitted after 
 after observing the adversary's behaviour. A dominant approach,
-known as fictitious play  (FP), \parencite{brown1951iterative}, models 
+known as fictitious play  (FP) \parencite{brown1951iterative} models 
 the other agents computing their frequencies of choosing various actions.
 Secondly, %as learning full adversarial models is computationally demanding,
 type-based reasoning assume that the modelled agent belongs
@@ -178,7 +161,7 @@ without explicitly including the ability of
 other agents to reason about their opponents' decision making. 
 Finally, explicit representations of the other agents' beliefs about their
 opponents lead to an infinite hierarchy of decision making problems,
-as illustrated in \cite{rios2012adversarial} in a  simpler class of problems. Level-$k$ thinking  \parencite{stahl1994experimental} typically stops this potentially infinite regress at a level in which no more information is available, fixing the action prediction process at that depth with a non-informative probability distribution.
+as illustrated in \textcite{rios2012adversarial} in a  simpler class of problems. Level-$k$ thinking  \parencite{stahl1994experimental} typically stops this potentially infinite regress at a level in which no more information is available, fixing the action prediction process at that depth with a non-informative probability distribution.
 
 These modelling tools have been used in analytics 
 research but, to the best
@@ -188,12 +171,12 @@ have rather focused on modelling the whole system
 through Markov games. The three best-known solutions include minimax-$Q$ learning \parencite{littman1994markov}, where at each iteration a minimax 
 problem is solved; Nash-$Q$ learning \parencite{hu2003nash}, 
 which generalizes the previous algorithm to the non-zero sum case;
-and friend-or-foe-$Q$ learning \parencite{littman2001friend}, in which the DM knows in advance whether her opponent is an adversary or a collaborator. Within the bandit literature, \parencite{auer1995gambling} introduced a non-stationary setting in which the reward process is affected by an adversary. Our approach departs fundamentally from the above
+and friend-or-foe-$Q$ learning \parencite{littman2001friend}, in which the DM knows in advance whether her opponent is an adversary or a collaborator. Within the bandit literature, \textcite{auer1995gambling} introduced a non-stationary setting in which the reward process is affected by an adversary. Our approach departs fundamentally from the above
 work in that we consider the problem from a single DM's point of view and 
 explicitly model the opponent using several strategies.
 
 Our work relates to 
-\cite{lanctot2017unified}. Its authors propose a deep
+\textcite{lanctot2017unified}. Its authors propose a deep
 cognitive hierarchy as an approximation to a response oracle 
 to obtain policies that can exploit their adversaries. Ours
 instead draws on the
@@ -201,13 +184,13 @@ level-$k$ thinking tradition, building opponent models that help the DM predict
 their behaviour. In addition, we provide a solution to 
 the important issue
 of choosing between different opponent cognition levels. 
-\cite{he2016opponent} also addressed opponent modelling 
-in deep RL scenarios. However, the authors rely on using a particular neural network (NN) architecture over the deep $Q$-network model. Instead, we tackle the problem without assuming a NN architecture for the agent policies, though our proposed scheme can be adapted to that setting, Section 3.4. \cite{foerster2018learning}
+\textcite{he2016opponent} also addressed opponent modelling 
+in deep RL scenarios. However, the authors rely on using a particular neural network (NN) architecture over the deep $Q$-network model. Instead, we tackle the problem without assuming a NN architecture for the agent policies, though our proposed scheme can be adapted to that setting, Section 3.4. \textcite{foerster2018learning}
 adopt a similar experimental setting, but their methods apply only
 when both players get to know exactly their opponents' policy parameters or a maximum-likelihood estimator, a form of common knowledge. Our work
 instead builds upon estimating the opponents' $Q$-function, not requiring direct knowledge of the opponent's internal parameters.
 
-There are also links with iPOMDPs as in \cite{gmytrasiewicz2005framework}, though the authors only address the planning problem, % in a (PO)MDP, 
+There are also links with iPOMDPs as in \textcite{gmytrasiewicz2005framework}, though the authors only address the planning problem, % in a (PO)MDP, 
 not addressing the case in which the DM also has to learn from the environment, corresponding to the RL scenario. In addition, we introduce a more simplified algorithmic apparatus (both in terms of implementation and complexity)
 that performs well in examples and cover the case of mixtures of opponent types.
 
@@ -216,8 +199,8 @@ that performs well in examples and cover the case of mixtures of opponent types.
  As our framework also tackles MDPs, their approach would be infeasible in this case due to the large number of states. Therefore, we resort to a modified Q-learning scheme.
 %, thus boosting the applicability of our proposed framework.
 
-\cite{pinto2017robust} proposes a method for deep RL based on policy gradients. However, it only works for zero-sum games. In addition, their experiments focuses on single-agent RL settings, that do not account for an adversary. %Moreover, their dependence on policy gradients methods makes their framework less amenable for theoretical results, since we can provided a few results based on the well-established theory of Q-learning. 
- \cite{wen2019probabilistic} uses level-$k$ thinking in deep RL, yet they only go up to level 2 and their framework 
+\textcite{pinto2017robust} proposes a method for deep RL based on policy gradients. However, it only works for zero-sum games. In addition, their experiments focuses on single-agent RL settings, that do not account for an adversary. %Moreover, their dependence on policy gradients methods makes their framework less amenable for theoretical results, since we can provided a few results based on the well-established theory of Q-learning. 
+ \textcite{wen2019probabilistic} uses level-$k$ thinking in deep RL, yet they only go up to level 2 and their framework 
 do not extend easily to levels, unlike ours which 
 is generic. Even at the same cognitive level, their framework is much more expensive computationally, since they rely on 
 variational inference to estimate several latent variables. 
@@ -638,7 +621,7 @@ the discount factor $\gamma = 0.96$ for illustration purposes.
 %%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsubsection{Memoryless Repeated Matrix Games}\label{kk2}
 
-We consider the classical Iterated Prisoner's Dilemma (IPD), \parencite{axelrod84}. Table \ref{tab:payoffIPD} shows its reward bimatrix. %$(\mathbf{r^A}, \mathbf{r^B})$
+We consider the classical Iterated Prisoner's Dilemma (IPD) \parencite{axelrod84}. Table \ref{tab:payoffIPD} shows its reward bimatrix. %$(\mathbf{r^A}, \mathbf{r^B})$
  Recall that, in this game, the Nash equilibrium is (D,D).
 
 \begin{table}[h]
@@ -812,7 +795,7 @@ opponent (Fig. \ref{fig:L2vsWoLF_C}).}
 Section \ref{kk2} illustrated the ability of the modelled agents
 to effectively learn Nash equilibrium strategies in several iterated games.
 However, if we let agents have memory of previous movements, other types
-of equilibria may emerge, including those in which agents cooperate. We can easily augment the agents to have memory of the past $T$ joint actions taken. However, \parencite{press2012iterated} proved that, in the IPD, agents with a good memory-1 strategy can effectively force the iterated game to be played as memory-1, ignoring longer play histories. Thus, we resort to memory-1 iterated games.
+of equilibria may emerge, including those in which agents cooperate. We can easily augment the agents to have memory of the past $T$ joint actions taken. However, \textcite{press2012iterated} proved that, in the IPD, agents with a good memory-1 strategy can effectively force the iterated game to be played as memory-1, ignoring longer play histories. Thus, we resort to memory-1 iterated games.
 
 We restrict our attention to the IPD. We model the memory-1 IPD as a TMDP in which the state $\mathcal{S}$ adopts the form $s_t = (a_{t-1}, b_{t-1}), \,\,  t > 0$
 describing the previous joint action, plus the initial state $s_0$ in which there
