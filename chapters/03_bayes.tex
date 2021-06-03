@@ -820,29 +820,26 @@ First, in a refinement phase, the sampler parameters are learned in an optimizat
 focused on inference, starts.
 We allow the tuned sampler to run for
 sufficient iterations, as in SG-MCMC samplers.
-This is expressed algorithmically as follows.
+This is expressed algorithmically in Algorithm \ref{alg:vis}.
 
+\begin{algorithm}[!ht]
+\begin{algorithmic}[1]
+\State \textbf{Refinement phase}:
+\hspace{0.5cm}\While{not convergence}
+  \State Sample an initial set of particles, $z_0 \sim q_{0,\phi}(z|x)$.
+\State Refine the particles through the sampler, $z_T \sim Q_{\eta, T}(z|z_0)$.
+\State  Compute the ELBO objective from Equation (\ref{eq:elbo_bayes2}).
+\State   Perform automatic differentiation on the objective wrt parameters $\phi, \eta$ to update~them.
+ \EndWhile
+ \State 
+ \State \textbf{Inference phase}:
+ \State \hspace{0.cm}Once good sampler parameters $\phi^*, \eta^*$ are learned:
+ \State \hspace{0.6cm} Sample an initial set of particles, $z_0 \sim q_{0,\phi^*}(z|x)$.
+ \State \hspace{0.6cm} Use the MCMC sampler $z_T \sim Q_{\eta^*, T}(z|z_0)$ as $T \rightarrow \infty$.
+\end{algorithmic}
+ \caption{Variationally inferred sampler}\label{alg:vis}
+\end{algorithm}
 
-\paragraph{Refinement phase.}\mbox{}\\
-
-{\texttt{
-\noindent\hspace{-1cm} Repeat the following until convergence:
-    \begin{enumerate}
-    \item Sample an initial set of particles, $z_0 \sim q_{0,\phi}(z|x)$.
-    \item Refine the particles through the sampler, $z_T \sim Q_{\eta, T}(z|z_0)$.
-    \item Compute the ELBO objective from Equation (\ref{eq:elbo_bayes2}). %, where the last term may be approximated using any of the methods from Section $\ref{sec:approx}$.
-    \item Perform automatic differentiation on the objective wrt parameters $\phi, \eta$ to update~them.
-\end{enumerate}}}
-
-
-\paragraph{Inference phase.}\mbox{}\\
-
-{\texttt{
-\noindent\hspace{-1cm} Once good sampler parameters $\phi^*, \eta^*$ are learned,
-    \begin{enumerate}
-    \item Sample an initial set of particles, $z_0 \sim q_{0,\phi^*}(z|x)$.
-    \item Use the MCMC sampler $z_T \sim Q_{\eta^*, T}(z|z_0)$ as $T \rightarrow \infty$.
-    \end{enumerate}}}
 
 \noindent Since the sampler can be run for a different number of steps depending on the phase, we use the following notation when necessary: VIS-$X$-$Y$ denotes $T = X$ iterations during the refining phase and $T=Y$ iterations during the inference phase.
 
