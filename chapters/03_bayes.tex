@@ -1377,7 +1377,7 @@ and~the HMC variant from~\parencite{hoffman2017learning}, showing that our frame
 The VAE defines a conditional distribution $p_{\theta}(x | z)$, generating an observation $x$ from a latent variable $z$ using {parameters $\theta$}. For this task, our interest 
 was in modeling the $28 \times 28$ image distributions 
 underlying the MNIST %Please define if appropriate 
-\parencite{lecun-mnisthandwrittendigit-2010} and the fashion-MNIST \parencite{xiao2017/online} datasets. To perform inference (i.e., to learn
+\parencite{MNIST} and the fashion-MNIST \parencite{xiao2017/online} datasets. To perform inference (i.e., to learn
 the parameters $\theta$) the VAE introduces a variational approximation $q_{\phi}(z | x)$. In the standard setting, this distribution is Gaussian; we instead used the refined variational approximation comparing various values of $T$. We used the VIS-MC approximation (although we achieved similar results
 with VIS-G) with the Full AD variant given in Section \ref{sec:AD}.
 
